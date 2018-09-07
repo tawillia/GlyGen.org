@@ -1,0 +1,397 @@
+<!--
+   @author: Rupali Mahadik.
+   @description: UO1 Version-1.1.
+   @Date:19th Feb 2018 - detail mustach.js works
+   @Date:20th March 2018 - different side navigation update
+   @Update: 17 April 2018 - new web services
+   @Update: 21 June 2018 - Gaurav Agarwal - sidebar issue resolved and proper object placements for different screen size.
+   @Update: 27 June 2018 -  web services major changes
+   -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123338976-1"></script>
+    <script async src="js/ga.js" type="text/javascript"></script>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <title>Details - glygen</title>
+
+
+    <!-- Please do not change Sequence-->
+    <!-- CSS reset -->
+    <link rel="stylesheet" href="css/reset.css">
+    <!-- boots style -->
+    <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-table.min.css">
+    <!-- CSS common-->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS for sidenavgation-->
+    <link rel="stylesheet" href="css/faq_style.css">
+    <!--detail style -->
+    <link rel="stylesheet" type="text/css" href="css/detail.css">
+    <!-- Modernizr -->
+    <script src="js/modernizr.js"></script>
+    <!-- CSS for alertify -->
+    <link rel="stylesheet" type="text/css" href="css/alertify.css">
+
+</head>
+
+<body>
+    <div id="loading_image">
+        <img src="images/page_loading.gif" />
+    </div>
+    <script type="text/javascript" src="libraries/w3.js"></script>
+
+    <div w3-include-html="header.html"></div>
+    <script>
+        w3.includeHTML();
+    </script>
+
+    <section class="cd-faq">
+        <ul class="cd-faq-categories">
+            <li>
+                <a class="selected" href="#basics">General</a>
+            </li>
+            <li>
+                <a href="#mobile">Species</a>
+            </li>
+            <li>
+                <a href="#account">Motif</a>
+            </li>
+            <li>
+                <a href="#payments">Found Glycoproteins</a>
+            </li>
+            <li>
+                <a href="#privacy">Cross References</a>
+            </li>
+            <li>
+                <a href="#delivery">Biosynthetic Enzyme</a>
+            </li>
+            <li>
+                <a href="#delivery1">Digital Sequence</a>
+            </li>
+        </ul>
+        <!-- cd-faq-categories -->
+        <!-- main content for page -->
+        <div class="cd-faq-items" id="content">
+            <!-- added new class -->
+            <!-- <div id="content" class="container" "> -->
+            <script id="item_template" type="text/template">
+            <!-- Glycan ID starts here for page -->
+
+            <ul id="basics" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <div class="panel panel-default ">
+
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4>{{glytoucan_ac}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        <div class="row">
+                            <!--always try to use double quotes for HTML attributes. -->
+                            <div class="col-md-6 col-xs-12">
+                                <div class='img-wrapper1'>
+                                    <img class='img-cartoon1' src="{{imagePath}}" alt='Cartoon' width='90%'/>
+                                    <Br/>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xs-6">
+                                {{#glytoucan_ac}}
+                                <li class="list-group"><strong>GlyTouCan Accession:</strong>   <a class="panelcontent"
+                                href="https://glytoucan.org/Structures/Glycans/{{glytoucan_ac}}"
+                                                            target="_blank">  {{glytoucan_ac}} </a>{{/glytoucan_ac}}</li>
+
+
+                                {{#mass}}
+                                <li class="list-group"><strong>Monoisotopic Mass:</strong> {{mass}} Da {{/mass}}</li>
+                                 {{#classification}}
+
+                                <li class="list-group"><strong>Classification:</strong>
+
+                                    {{type.name}}
+                                    {{subtype.name}}
+                                </li>
+
+                                {{/classification}} {{^classification}}  {{/classification}}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+            <!-- cd-faq-group -->
+
+            <ul id="mobile" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <div class="panel panel-default">
+
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4>Species</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        <div class="row">
+                            {{#species}}
+                            <div class='col-md-12 col-xs-12'>
+                                <div class="panelmaincontent">
+                                    <button class="open-close-button">+</button>
+                                    {{name}} (NCBI taxonomy ID:
+                                    <a class="panelcontent"
+                                       href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id={{taxid}}"
+                                       target="_blank">{{taxid}}</a>)
+                                </div>
+                                <ul style="display:none;">
+                                    {{#evidence}}
+                                    <li class="list-group-indent">{{database}} :
+                                        <a href="{{{url}}}" target="_blank">{{id}}</a>
+                                    </li>
+                                    {{/evidence}}
+                                </ul>
+                            </div>
+                            {{/species}}
+                        </div>
+                        {{^species}} No data available. {{/species}}
+                    </div>
+                </div>
+                </div>
+
+            </ul>
+            <!-- cd-faq-group -->
+
+            <ul id="account" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <!-- Glycan MOTIF starts here for page -->
+                <div class="panel panel-default">
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4>Motif</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        {{#hasMotifs}} {{#motifs}}
+                        <div class="col-md-6 col-xs-6">
+                            <div class='img-wrapper2'>
+
+
+                                <img class='img-cartoon2' src="{{imagePath}}" alt='Cartoon' width='90%'/>
+                                <Br/>
+                            </div>
+                            <span id="glycanname">
+                                <a class="panelcontent"
+                                   href="https://glytoucan.org/Structures/Glycans/{{id}}"
+                                   target="_blank">{{id}}-{{name}} </a>
+
+                                <!--<a class="panelcontent" href="{{id}}" target="_blank">{{name}}</a>-->
+
+                        </span>
+                        </div>
+                        {{/motifs}} {{/hasMotifs}} {{^hasMotifs}} No data available. {{/hasMotifs}}
+                    </div>
+                </div>
+            </ul>
+            <!-- cd-faq-group -->
+
+            <ul id="payments" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <div class="panel panel-default">
+
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4> Found Glycoproteins</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        <div class="row">
+                            {{#glycoprotein}}
+                            <div class='col-md-12 col-xs-12'>
+                                <div class="panelmaincontent">
+                                    <button class="open-close-button">+</button>
+                                    {{protein_name}}
+
+                                    <strong>Uniprot Accession:</strong>
+                                    <a class="panelcontent" href='protein_detail.html?uniprot_canonical_ac={{uniprot_canonical_ac}}'>{{uniprot_canonical_ac}}</a>
+                                    <!--<a href="protein_detail.html?uniprot_canonical_ac={{uniprot_canonical_ac}}"></a>-->
+                                    <br>
+                                    {{#position}}
+                                    Position: {{position}} {{/position}}
+                                </div>
+                                
+                                <ul style="display:none; margin-bottom: 10px;">
+                                    {{#evidence}}
+                                    <li class="list-group-indent" id="panelmaincontent">{{database}}:
+                                        <a class="panelcontent" href="{{{url}}}" target="_blank">{{id}}</a>
+                                    </li>
+                                    {{/evidence}}
+                                </ul>
+                                <div class="plus-button-margin-bottom"></div>
+                            </div>
+                            </li>
+                            {{/glycoprotein}}
+                        </div>
+                        {{^glycoprotein}} No data available {{/glycoprotein}}
+                    </div>
+                </div>
+                </div>
+            </ul>
+            <!-- cd-faq-group -->
+
+            <ul id="privacy" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <!-- Glycan Cross Referance panel starts here for page -->
+                <div class="panel panel-default">
+
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4>Cross References</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        {{#crossref}}
+
+                        <li class="list-group" id="panelmaincontent1"><Strong>{{database}}:</Strong>
+                            <a class="panelcontent" href="{{url}}" target="_blank">{{id}}</a>
+                        </li>
+
+                        {{/crossref}} {{^crossref}} No data available. {{/crossref}}
+                    </div>
+                </div>
+            </ul>
+            <!-- cd-faq-group -->
+
+            <!--<ul id="delivery" class="cd-faq-group">-->
+                <!--<li class="cd-faq-title"/>-->
+                <!--&lt;!&ndash; added new class &ndash;&gt;-->
+                <!--&lt;!&ndash; Glycan Enzymes starts here for page &ndash;&gt;-->
+                <!--<div class="panel panel-default">-->
+
+                    <!--<div class="gg-panel-heading">-->
+                        <!--<h4>Biosynthetic Enzyme</h4>-->
+
+                    <!--</div>-->
+                    <!--<div class="panel-body">-->
+                        <!--&lt;!&ndash; added new class &ndash;&gt;-->
+                        <!--{{#enzyme}}-->
+                        <!--<li class="list-group"><strong>Protein name:</strong>{{protein_name}}<br>-->
+                      <!--<strong>Protein Id:</strong>(Uniprot ID:-->
+                            <!--<a class="panelcontent" href='protein_detail.html?uniprot_canonical_ac={{uniprot_canonical_ac}}'></a>-->
+                            <!--<br><strong>Gene name:</strong>-->
+                            <!--<a class="panelcontent" href="{{gene_link}}" target="_blank">{{gene}}</a>-->
+                        <!--</li>-->
+
+                        <!--{{/enzyme}} {{^enzyme}} No data available. {{/enzyme}}-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</ul>-->
+
+             <!--cd-faq-group -->
+
+            <ul id="delivery" class="cd-faq-group">
+            <li class="cd-faq-title"/>
+            <!-- added new class -->
+            <!-- Glycan Enzymes starts here for page -->
+            <div class="panel panel-default">
+
+            <div class="gg-panel-heading">
+            <h4>Biosynthetic Enzyme</h4>
+
+            </div>
+            <div class="panel-body">
+            <!-- added new class -->
+            {{#enzyme}}
+                <table id="glycosylation-table">
+                </table>
+            {{/enzyme}} {{^enzyme}} No data available. {{/enzyme}}
+            </div>
+            </div>
+            </ul>
+
+
+
+            <!-- cd-faq-group -->
+            <ul id="delivery1" class="cd-faq-group">
+                <li class="cd-faq-title"/>
+                <!-- added new class -->
+                <div class="panel panel-default">
+
+                    <div class="gg-panel-heading">
+                        <!-- added new class -->
+                        <h4>Digital Sequence</h4>
+
+                    </div>
+                    <div class="panel-body">
+                        <!-- added new class -->
+                        {{ #glycoct}}
+                        <strong>GLYCOCT</strong>
+                        <pre id="break">{{{ glycoct}}}</pre>
+                        {{ /glycoct}}
+
+                        {{ #wurcs}}
+                        <strong>WURCS</strong>
+                        <pre>{{{ wurcs}}}</pre>
+                        {{/wurcs}}
+
+                        {{ #iupac }}
+                        <strong>IUPAC</strong>
+                     <pre>{{{iupac }}}</pre>{{/iupac }}
+                    </div>
+                </div>
+            </ul>
+
+
+            <a href="#0" class="cd-close-panel">Close</a>
+        </script>
+        </div>
+    </section>
+    <div w3-include-html="footer.html"></div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
+    <!-- script for detail page -->
+    <script type="text/javascript" src="js/glycan-detail.js"></script>
+    <!-- script for template engine -->
+    <script type="text/javascript" src="libraries/mustache.js"></script>
+    <!-- script for webservice -->
+    <script type="text/javascript" src="js/ws_url.js"></script>
+    <!-- script for navigation -->
+    <script src="js/navbar.js"></script>
+    <!-- script for side navigation -->
+    <script src="js/faq_main.js"></script>
+    <!-- script for user activity tracking and error logging -->
+    <script src="js/activity_tracker.js"></script>
+    <!-- script for error handling alerts -->
+    <script type="text/javascript" src="libraries/alertify.js"></script>
+
+    <script type="text/javascript">
+        $(document).ajaxStop(function () {
+            // calls the sidebar function only when all ajax calls are completed
+            faqMain();
+        });
+    </script>
+
+    <!-- script for error-message/header-footer js -->
+    <script src="js/utility.js"></script>
+</body>
+
+</html>

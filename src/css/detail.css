@@ -1,0 +1,257 @@
+.img-cartoon1 {
+    display: block;
+    max-width: 500px;
+    max-height: 160px;
+    width: auto;
+    height: auto;
+    -webkit-transform: scale(1.0);
+    transform: scale(0.8);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    box-shadow: 10px 10px 5px #ddd;
+    z-index: 99999;
+}
+.img-wrapper1{
+    overflow:hidden;
+    z-index: -9999;
+    padding: 0.5em;
+    width:100%;
+    overflow:hidden;
+    margin-top:20px;
+    margin-bottom:0px;
+    width:500px;
+
+}
+.img-cartoon1:hover {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.0);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    z-index: 99999;
+}
+/* motif images */
+.img-cartoon2 {
+    display: block;
+    max-width: 500px;
+    max-height: 160px;
+    width: auto;
+    height: auto;
+    -webkit-transform: scale(1.0);
+    transform: scale(0.8);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    box-shadow: 10px 10px 5px #ddd;
+    z-index: 99999; 
+}
+.img-wrapper2{
+    overflow:hidden;
+    z-index: -9999;
+    padding: 0.5em;
+    width:100%;
+    margin-top:20px;
+    margin-bottom:0px;
+    width:500px;
+}
+.img-cartoon2:hover {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.0);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    z-index: 99999;
+}
+.panel-default > .gg-panel-heading { /* renamed class in both files */
+    background-image: none;
+    background-color: #D8D8D8; /* made changes here */
+    color: #555; /* made changes here */
+    padding: 3px 15px; /* made changes here */
+}
+
+/* .breadcrumb {
+
+   background-color: transparent; 
+    font-size: 18px;
+    margin-top: -30px; 
+} */ 
+
+#panelmaincontent{
+    font-size: 16px;
+    overflow-wrap: break-word;
+}
+#activepage{
+    color:#555;
+}
+/* <!-- style to class for detail page --> */
+.footer{
+    margin-bottom: 0px;
+    margin-top: 470px;
+} 
+
+pre { 
+    background-color:#e6e6e6; 
+}
+
+.panel-heading{
+    padding: 2px 2px;
+/*
+    z-index: -9999 !important;
+    position: relative;
+*/
+}
+/*
+.panel.panel-default {
+    z-index: -9999 !important;
+    position: relative;
+}
+*/
+.cd-faq-items {
+    margin-top: 75px;
+}
+
+.panelmaincontent {
+    font-size: 16px;
+/*    margin-left: 10px;*/
+/*    list-style-type: circle;*/
+/*    overflow-wrap: break-word;*/
+}
+.panelmaincontent2 {
+    margin-right:20px;
+    padding-right:10px;
+}
+.panelcontent {
+    font-size: 15px; 
+}
+.list-group {
+    font-size: 16px;
+    list-style-type: square;
+    margin: 0 0 0 20px !important;
+}
+
+.list-group2 {
+    font-size: 16px;
+    list-style-type: square;
+    margin: 0 0 0 35px;
+}
+.list-group-indent {
+    font-size: 15px;
+    margin-left: 50px;
+/*    margin-bottom: 5px;*/
+    list-style-type: square; 
+}
+.plus-button-margin-bottom {
+    margin-bottom: 15px;
+}
+
+thead {
+    background: #659BC9;
+    color: #fff;
+}
+
+.cd-close-panel {
+    padding-right:70px;
+    top:20px;
+}
+#gene {
+    padding-left: 45px;
+}
+.cd-faq-categories{
+    /* margin-top: 100px; */
+    width:auto;
+    /* padding-left: 0px;
+    margin-left:0px; */
+}
+/** Overriding the code of faq_style.css for Detail page.
+  * @author Gaurav Agarwal
+  * @date 21 June 2018
+  */
+.cd-faq-items {
+    overflow-x: hidden !important; 
+}
+
+@media only screen and (min-width: 1024px) {
+    .cd-faq-categories{
+        width: 290px;
+    }
+    .pull-left {
+        width: 50%;
+    }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1300px) {
+    .cd-faq-items {
+        padding-left: 300px;
+    }
+    .pull-left {
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .cd-faq-items {
+        width: 62%;
+    }
+    .pull-left {
+        width: 100%;
+    }
+}
+/* section{
+  padding-left: 20px;
+  
+} */
+
+/* .cd-faq{
+  padding-left: 10px;
+  margin-top: 2px;
+  padding-right:50px; 
+  margin-bottom:30px;
+} */
+h4 {
+    overflow: auto;
+}
+
+.fasta {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+{
+    white-space: pre;
+}
+
+#glycosylation-table {
+    border-bottom: 1px solid #ccc !important;
+}
+
+#glycosylation-table1 {
+    border-bottom: 1px solid #ccc !important;
+}
+.fixed-table-footer {
+    display: block;
+}
+
+.fixed-table-footer{
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 100%;
+    border-bottom: 1px solid silver;
+}
+
+.non-selection{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
