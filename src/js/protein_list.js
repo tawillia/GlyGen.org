@@ -20,7 +20,7 @@ String.prototype.trunc = String.prototype.trunc ||
 //var id = '';
 var page = 1;
 var sort = 'protein_name_long';
-var dir = $('.dir-select').val();
+var dir = 'desc'
 var url = getWsUrl('protein_list');
 var limit = 25;
 
@@ -158,7 +158,7 @@ function updateSearch() {
             //     activityTracker("error", id, "update search: no result found");
             // }
         },
-        error: ajaxFailure
+        error: ajaxListFailure
     });
 }
 

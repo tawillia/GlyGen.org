@@ -1,3 +1,14 @@
+<!--
+//@author: Rupali Mahadik
+// @description: UO1 Version-1.1.
+//@Date:20th June 2018.
+//@refactored:June-27-2017
+  
+// @author: Tatiana Williamson
+// @description: UO1 Version-1.1.0
+// @Date: May 14, 2018
+   -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +57,7 @@
     <h3 class="page-heading" style="text-align: center"> Glycan Search </h3>
     <div class="container gg-container">
         <div class="row"> 
-            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search For Glycan" onclick="submitvalues()" style="float: right; margin: 20px 15px 10px 0;">
+            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 20px 15px 10px 0;">
         </div>
         
         <!-- GlyTouCan Accession -->
@@ -60,7 +71,7 @@
 
             <div class="col-sm-8 gg-form-group">
                 <input type="text" name="glycan_id" class="form-control glycan" id="glycan_id" placeholder="Enter complete or partial GlyTouCan Accession" onkeyup="validateGlycanAcc(this)">
-                <div class="gg-text-example textExample">Example: <a2 href="">G88495BI</a></div>
+                <div class="gg-text-example textExample">Example: <a2 href="">G17689DH</a></div>
                 <h6 id='glycanAccMsg' class="validation-message"></h6>
             </div>
         </div>
@@ -178,7 +189,7 @@
 
             <div class="col-sm-8">
                 <input type="text" name="ProteinID" class="form-control protein textExampleInput" id="protein" placeholder="Enter the UniProt Accession of a glycoprotein" onkeyup="validateProteinAcc(this)">
-                <div class="gg-text-example textExample2">Example: <a2 href="">P14210-1</a> (Human Erythropoietin) </div>
+                <div class="gg-text-example textExample2">Example: <a2 href="">P14210-1</a> (Hepatocyte growth factor ) </div>
                 <h6 id='proteinAccMsg' class="validation-message"></h6>
             </div>
         </div>
@@ -218,7 +229,7 @@
             </div>
         </div>
         <div class="row"> 
-            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search For Glycan" onclick="submitvalues()" style="float: right; margin: 0 15px 20px;">
+            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 0 15px 20px;">
         </div>
     </div>
 

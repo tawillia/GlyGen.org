@@ -52,20 +52,20 @@ function buildSummary(queryInfo) {
 
 }
 
-/**
- * Redirect to Page index page or search back
- */
-function redirectPage1() {
-    window.location.replace("http://glycomics.ccrc.uga.edu/ggtest/gui/index.html");
-}
-
-function redirectPage2() {
-    window.location.href = "http://glycomics.ccrc.uga.edu/ggtest/gui/glycan_search.html";
-}
-
-//      $(document).ready(function(){
-//      // $("demosearch").tooltip();
-// });
+// /**
+//  * Redirect to Page index page or search back
+//  */
+// function redirectPage1() {
+//     window.location.replace("index.html");
+// }
+//
+// function redirectPage2() {
+//     window.location.href = "glycan_search.html";
+// }
+//
+// //      $(document).ready(function(){
+// //      // $("demosearch").tooltip();
+// // });
 
 
 
@@ -79,11 +79,11 @@ function totalNoSearch(total_length) {
  * Redirect to  searchPage with id after clicking editSearch
  */
 
-function editSearch() {
-    {
-        window.location.replace("http://glycomics.ccrc.uga.edu/ggtest/gui/glycan_search.html?id=" + id);
-    }
-}
+// function editSearch() {
+//     {
+//         window.location.replace("http://glycomics.ccrc.uga.edu/ggtest/gui/glycan_search.html?id=" + id);
+//     }
+// }
 
 /**
 
@@ -182,7 +182,7 @@ function updateSearch() {
                 activityTracker("error", id, "update search: no result found");
             }
         },
-        error: ajaxFailure
+        error: ajaxListFailure
     });
 }
 

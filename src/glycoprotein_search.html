@@ -1,10 +1,13 @@
 <!--
-  //@author: Rupali Mahadik
+//@author: Rupali Mahadik
 // @description: UO1 Version-1.1.
 //@Date:20th June 2018.
 //@refactored:June-27-2017
+  
+// @author: Tatiana Williamson
+// @description: UO1 Version-1.1.0
+// @Date: May 14, 2018
    -->
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +62,7 @@
     <h3 class="page-heading" style="text-align: center">Glycoprotein Search </h3>
     <div class="container gg-container">
        <div class="row"> 
-           <input type="button" class="btn-lg btn-primary" value="Search For Glycoprotein" onclick="ajaxProteinSearchSuccess()"
+           <input type="button" class="btn-lg btn-primary" value="Search Glycoprotein" onclick="ajaxProteinSearchSuccess()"
             style="float: right; margin: 20px 15px 10px 0;">
        </div>
         <!-- UniProt Accession -->
@@ -90,7 +93,7 @@
 
             <div class="col-sm-8 gg-form-group">
                 <input type="text" name="ProteinID" class="form-control protein" id="refseq" placeholder="Enter the RefSeq Accession of your protein" onkeyup="validateRefAcc(this)">
-                <div class="gg-text-example">Example: XP_016867587.1</div>
+                <div class="gg-text-example">Example: NP_000592.3 </div>
                 <h6 id='refAccMsg' class="validation-message"></h6>
             </div>
         </div>
@@ -298,7 +301,7 @@
             </div>
         </div>
         <div class="row"> 
-            <input type="button" class="btn-lg btn-primary" value="Search For Glycoprotein" onclick="ajaxProteinSearchSuccess()"
+            <input type="button" class="btn-lg btn-primary" value="Search Glycoprotein" onclick="ajaxProteinSearchSuccess()"
             style="float: right; margin: 10px 15px 20px;">
         </div>
     </div>
@@ -327,10 +330,6 @@
     <script type="text/javascript" src="js/ws_url.js"></script>
     <!-- script for error-message/header-footer js -->
     <script src="js/utility.js"></script>
-
-
-
-
     <!-- script for editing users search  -->
     <script src="js/editsearch.js"></script>
     <script type="text/javascript" src="libraries/alertify.js"></script>

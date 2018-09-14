@@ -138,7 +138,7 @@ $(document).ready(function(){
         // event.stopPropagation();
         sort = field;
         dir = order;
-        LoadDataList();
+        // LoadDataList();
         activityTracker("user", id, "sort: " + sort);
         return false;
     });

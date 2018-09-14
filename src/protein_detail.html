@@ -148,7 +148,6 @@
                                 </li>
                                 {{/full}}
                                 {{/recommendedname}}
-
                                 {{#refseq}}
                                 {{#refseq.ac}} <li class="list-group"><strong>RefSeq Accession:</strong>
                                     <a class="panelcontent" href="{{{refseq.url}}}" target="_blank">{{refseq.ac}}</a>
@@ -156,8 +155,6 @@
                                 <li class="list-group"><strong>RefSeq Name:</strong> {{refseq.name}}</li>
                                 {{/refseq.ac}}
                                 {{/refseq}}
-
-
                                 {{#mass.monoisotopic_mass}}
                                 <li class="list-group"><strong>Monoisotopic Mass:</strong> {{mass.monoisotopic_mass}} Da</li>
                                 {{/mass.monoisotopic_mass}}
@@ -577,6 +574,8 @@
                                 {{/expression_tissue}} {{^expression_tissue}} No data available. {{/expression_tissue}}
                             </div>
                         </div>
+                    </div>
+                </div>
             </ul>
 
 
@@ -597,6 +596,8 @@
                                 {{/expression_disease}} {{^expression_disease}} No data available. {{/expression_disease}}
                             </div>
                         </div>
+                    </div>
+                </div>
             </ul>
 
             <ul id="basics10" class="cd-faq-group selected">
@@ -615,9 +616,12 @@
                         <p class="panelmaincontent">
                         <li class="list-group" id="panelmaincontent1"> <strong>Journal:</strong> {{journal}}<br>
                             <strong>Title:</strong> {{title}}<br>
-                            <i class="fas fa-book"></i> PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/{{pmid}}" target="_blank">{{pmid}}</a></li>
+                            <i class="fas fa-book"></i> PMID:<a href="{{url}}" target="_blank">{{pmid}}</a></li>
 
 
+
+
+                        <!--{{url}}{{pmid}}https://www.ncbi.nlm.nih.gov/pubmed/{{pmid}}-->
                         {{/publication}} {{^publication}} No data available. {{/publication}}
                     </div>
                 </div>
