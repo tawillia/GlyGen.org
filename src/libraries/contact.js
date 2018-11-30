@@ -24,7 +24,8 @@ $(function () {
             $.ajax({
                 type: "POST",
                 url: url,
-                data: "query="+JSON.stringify(formData),
+                data: "query=" + JSON.stringify(formData),
+                timeout: getTimeout("contact"),
                 success: function (result) {
                     // data = JSON object that contact.php returns
                     var messageAlert, messageText;
@@ -32,18 +33,22 @@ $(function () {
                         messageAlert = 'alert-danger';
                         messageText = result.error_code;
                     } else {
-                        // we recieve the type of the message: success x danger and apply it to the 
+                        // we recieve the type of the message: success x danger 
                         messageAlert = result.type;
                         messageText = result.message;
                     }
                     contactReply(messageAlert, messageText);
+
+                    if(messageAlert == 'alert-danger')
+                        activityTracker("error", null, "contact form: "+messageText);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    // we recieve the type of the message: success x danger and apply it to the 
                     var messageAlert = 'alert-danger';
-                    var messageText = "Oops, something went wrong! We did not receive your message. Please try again later. " + errorThrown;
+                    var messageText = "Oops, something went wrong! We did not receive your message. Please try again later. \nError: " + errorThrown;
                     contactReply(messageAlert, messageText);
-                    activityTracker("error", "", textStatus + ": " + errorThrown);
+                    // getting the appropriate error message from this function in utility.js file
+                    var err = decideAjaxError(jqXHR.status, textStatus);
+                    activityTracker("error", "", err + ": " + errorThrown);
                 }
             });
             return false;

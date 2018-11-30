@@ -2,16 +2,11 @@
 // @description: UO1 Version-1.1.
 //31st july
 
-
-
 /**
-
  * Adding function to String prototype to shortcut string to a desire length.
-
  * @param {int} n - The length of the string
  * @returns {int} -Short String
  */
-
 String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
@@ -23,13 +18,8 @@ var dir = $('.dir-select').val();
 var url = getWsUrl('list_glycangene') + "?action=get_user";
 var limit = 10;
 
-
-
-
 /**
-
  * Format function to create link to the details page
-
  * @param {object} value - The data binded to that particular cell.
  @return -Details particular Glycan Id
  */
@@ -41,23 +31,14 @@ function pageFormat1(value, row, index, field) {
     return "<a href='" + row.gene_link + " ' target='_blank'>" + value + "</a>"
 }
 
-
-
-
-
 /**
-
  * Format function of the detail table when opening each row [+]
-
  * @param {int} index - The row clicked
-
  * @param {object} row - The data object binded to the row
  * @return- detail view with IUPAC AND GLYCOCT
  */
-
-
 function detailFormat(index, row) {
-    var html = [];
+    // var html = [];
     var html = [];
     var evidences = row.evidence;
     for (var i = 0; i < evidences.length; i++) {
@@ -69,7 +50,18 @@ function detailFormat(index, row) {
     return html.join('');
 }
 
+function buildSummary(queryInfo, question) {
 
+    //quick search
+    var summaryTemplate = $('#summary-template').html();
+    queryInfo.execution_time= moment().format('MMMM Do YYYY, h:mm:ss a');
+    queryInfo[question] = true;
+    // queryInfo.species = getMessageText(queryInfo.tax_id, queryInfo);
+    // queryInfo.questionText = DYNAMIC_MESSAGES[question](queryInfo);
+    // queryInfo.questionText = getMessageText(question, queryInfo);
+    var summaryHtml = Mustache.render(summaryTemplate, queryInfo);
+    $('#summary-table').html(summaryHtml);
+}
 
 function editSearch() {
     {
@@ -78,13 +70,9 @@ function editSearch() {
     }
 }
 
-
 function totalNoSearch(total_length) {
     $('.searchresult').html( "\""  + total_length + " Proteins were found\"");
-    // $('.searchresult').html( "&#34;"  + total_length + " results of glycan&#34;");
-
 }
-
 
 /**
  * Handling a succesful call to the server for list page
@@ -93,8 +81,6 @@ function totalNoSearch(total_length) {
  * @param {Object} data.pagination - the dataset for pagination info
  * @param {Object} data.query - the dataset for query
  */
-
-
 function ajaxListSuccess(data) {
     // console.log(data);
     //console.log(data.code);
@@ -103,8 +89,6 @@ function ajaxListSuccess(data) {
         displayErrorByCode(data.code);
         activityTracker("error", id, "error code: " + data.code +" (page: "+ page+", sort:"+ sort+", dir: "+ dir+", limit: "+ limit +")");
     } else {
-
-
         var $table = $('#gen-table');
         var items = [];
         if (data.results) {
@@ -128,31 +112,36 @@ function ajaxListSuccess(data) {
         $table.bootstrapTable('append', items);
 
         buildPages(data.pagination);
+        buildSummary(data.query, question);
 
+        document.title = 'Orthologus-list';
         // buildSummary(data.query);
 
-
-
-        activityTracker("user", id, "successful response (page: "+ page+", sort:"+ sort+", dir: "+ dir+", limit: "+ limit +")");
+        activityTracker("user", id, "successful response "+ question +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
     }
+}
 
+function editSearch() {
+    var question =  getParameterByName('question');
+
+    window.location.replace("quick_search.html?id=" + id + '&question=' + question);
+    activityTracker("user", id, "edit search");
 }
 
 /// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure() {
-//  $('#error-message').show();
-    displayErrorByCode('server_down');
-    activityTracker("error", id, "server down (page: "+ page+", sort:"+ sort+", dir: "+ dir+", limit: "+ limit +")");
+function ajaxListFailure(jqXHR, textStatus, errorThrown) {
+    // getting the appropriate error message from this function in utility.js file
+    var err = decideAjaxError(jqXHR.status, textStatus);
+    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
+    displayErrorByCode(errorMessage);
+    activityTracker("error", id, err + ": " + errorMessage + "(page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
 }
 
 /**
-
  * LoadDataList function to configure and start the request to GWU  service
-
  * @param {string} id - The glycan id to load
  * */
 function LoadDataList() {
-
     var ajaxConfig = {
         dataType: "json",
         url: getWsUrl("list_glycangene"),
@@ -162,22 +151,16 @@ function LoadDataList() {
         error: ajaxListFailure
     };
 
-
     // make the server call
     $.ajax(ajaxConfig);
 }
 
 /**
-
  * getParameterByName function to EXtract query parametes from url
-
  * @param {string} name - The name of the variable variable to extract from query string
-
  * @param {string} url- The complete url with query string values
  * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
  */
-
-
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -189,8 +172,8 @@ function getParameterByName(name, url) {
 }
 
 var id = getParameterByName('id');
+var question = getParameterByName('question');
 LoadDataList(id);
-
 
 /**
  * hides the loading gif and displays the page after the results are loaded.
@@ -200,4 +183,3 @@ LoadDataList(id);
 $(document).ajaxStop(function () {
     $('#loading_image').fadeOut();
 });
-

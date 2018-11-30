@@ -1,13 +1,13 @@
-<!--
-//@author: Rupali Mahadik
-// @description: UO1 Version-1.1.
-//@Date:20th June 2018.
-//@refactored:June-27-2017
-  
-// @author: Tatiana Williamson
-// @description: UO1 Version-1.1.0
-// @Date: May 14, 2018
-   -->
+<!---------------------------------------
+@author: Rupali Mahadik
+@description: UO1 Version-1.1.
+@Date:20th June 2018.
+@refactored:June-27-2017
+
+@author: Tatiana Williamson
+@date: September 12, 2018 
+@description: UO1 Version-1.1.0
+----------------------------------------->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123338976-1"></script>
     <script async src="js/ga.js" type="text/javascript"></script>
-    
+
     <meta charset="utf-8">
     <meta name="description" content="Search for glycan structures based on their GlyTouCan registry IDs, native mass, glycan type or organism. It is also possible to search for glycans based on enzymes that have been involved in the biosynthesis or proteins that this glycan was attached to">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,15 +25,21 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    
-    <title>Glycan Search - glygen</title>
+
+    <title>Glycan search - glygen</title>
     <!-- CSS for UI Typeahead -->
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-    <!--This does not work as downloaded version so UX using this as CDN for font.css-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    <!--This does not work as downloaded version so UI using this as CDN for font.css-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
         crossorigin="anonymous">
     <!-- CSS for boots -->
     <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap.min.css">
+    
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
     <!-- CSS for serach page -->
     <link rel="stylesheet" type="text/css" href="css/search.css">
     <!-- CSS for alertify -->
@@ -42,7 +48,28 @@
     <link href="css/nouislider.min.css" rel="stylesheet">
     <!-- CSS for all pages-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/server.css">
 
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/favicomatic/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/favicomatic/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/icons/favicomatic/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/icons/favicomatic/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/icons/favicomatic/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/icons/favicomatic/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-128.png" sizes="128x128" />
+        <meta name="application-name" content="GlyGen"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF" />
+        <meta name="msapplication-TileImage" content="images/icons/favicomatic/mstile-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="images/icons/favicomatic/mstile-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="images/icons/favicomatic/mstile-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="images/icons/favicomatic/mstile-310x150.png" />
+        <meta name="msapplication-square310x310logo" content="images/icons/favicomatic/mstile-310x310.png" />
 </head>
 
 <body onload="tracking()">
@@ -54,185 +81,355 @@
     <div w3-include-html="header.html"></div>
     <script>w3.includeHTML();</script>
 
-    <h3 class="page-heading" style="text-align: center"> Glycan Search </h3>
-    <div class="container gg-container">
-        <div class="row"> 
-            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 20px 15px 10px 0;">
-        </div>
-        
-        <!-- GlyTouCan Accession -->
-        <div class="row top-table-margin">
-            <label class="control-label col-sm-4" for="glycan_id">
-                <span>
-                    <a href="javascript://" title="GlyTouCan Accession" data-toggle="popover" data-placement="left" data-content="Enter complete or partial GlyTouCan Accession of your glycan (see https://glytoucan.org/)">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> GlyTouCan Accession:</label>
+    <h2 class="page-heading" style="text-align: center"> Glycan Search </h2>
 
-            <div class="col-sm-8 gg-form-group">
-                <input type="text" name="glycan_id" class="form-control glycan" id="glycan_id" placeholder="Enter complete or partial GlyTouCan Accession" onkeyup="validateGlycanAcc(this)">
-                <div class="gg-text-example textExample">Example: <a2 href="">G17689DH</a></div>
-                <h6 id='glycanAccMsg' class="validation-message"></h6>
-            </div>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-panel">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_default_1" data-toggle="tab" id="tab-simple">
+                                    Simple Search </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_2" data-toggle="tab" id="tab-advance">
+                                    Advanced Search </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_3" data-toggle="tab">
+                                    Tutorial </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content container">
+                            <!-- Start Tab 1 Simplified search -->
+                            <div class="tab-pane fade in active" id="tab_default_1">
+                                <div class="container">
+                                    <div class="row simplified-search">
+                                        <div class="col-sm-3 gg-form-group">
+                                            <select id="simplifiedCategory">
+                                                <option value="">Search by</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-7 gg-form-group">
+                                            <input type="text" name="simplifiedSearch" class="form-control" id="simplifiedSearch"
+                                                placeholder="Enter the value">
 
-        <!-- Monoisotopic Mass-->
-        <div class="gg-form-group row">
-            <div>
-                <label class="control-label col-sm-4">
-                    <span>
-                        <a href="javascript://" title="Monoisotopic Mass" data-toggle="popover" data-placement="left" data-content="Use the sliders to select a Monoisotopic Mass range for your protein(s)">
-                            <i class="far fa-question-circle help-sign"></i>
-                        </a>
-                    </span>Monoisotopic Mass:
-                </label>
-            </div>
-          
-            <div class="col-sm-10 row glycanSizeMargin">
-                <!-- First range-->
-                <div style="margin-top: -35px;" class="col-xs-8 col-sm-offset-6 gg-form-group slider-alignment" id="slider">
-                    <div class="sliderbox">
-                        <div class="sliderbox-slider" id="sliderbox-slider"></div>
-                        <div class="row"> 
-                            <span class="min-label"><strong>Min</strong></span>
-                            <input class="sliderbox-input-min form-control">
-                            <span class="max-label"><strong>Max</strong></span>
-                            <input class="sliderbox-input-max form-control">
+                                            <div class="gg-text-example" id="simpleCatSelectedOptionExample"></div>
+                                        </div>
+                                        <div class="col-sm-2 gg-form-group text-right">
+                                            <input type="button" class="btn-lg btn-primary" value="Search" onclick="searchGlycanSimple()">
+                                        </div>
+                                    </div>
+                                    <div id="search-simple-display"></div>
+                                </div> <!--    End Simplified Search Div-->
+                            </div> <!--  End first Tab -->
+                            <!-- Start Tab 2 Advanced search-->
+                            <div class="tab-pane fade in" id="tab_default_2">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="advancedSearch-container">
+                                            <!-- Top button-->
+                                            <div class="row adv-search-top-btns">
+                                                <input type="button" class="btn-lg btn-primary-clear-fields adv-top-button"
+                                                    value="Clear Fields" onclick="resetAdvanced()">
+
+                                                <input type="button" class="btn-lg btn-primary adv-top-button" value="Search Glycan"
+                                                    onclick="submitvalues()">
+                                            </div>
+
+                                            <!-- GlyTouCan Accession -->
+                                            <div class="row">
+                                                <label class="control-label col-sm-4" for="glycan_id">
+                                                    <span>
+                                                        <a href="javascript://" title="GlyTouCan Accession" data-toggle="popover"
+                                                            data-placement="left" data-content="Enter complete or partial GlyTouCan Accession of your glycan (see https://glytoucan.org/)">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> GlyTouCan Accession:</label>
+                                                <div class="col-sm-8 gg-form-group">
+                                                    <input type="text" name="glycan_id" class="form-control glycan" id="glycan_id"
+                                                        placeholder="Enter complete or partial GlyTouCan Accession"
+                                                        onkeyup="validateGlycanAcc(this)">
+                                                    <div class="gg-text-example">Example: <a href="" id="textExampleGlycan">G17689DH</a></div>
+                                                    <h6 id='glycanAccMsg' class="validation-message"></h6>
+                                                </div>
+                                            </div>
+                                            <!-- Monoisotopic Mass-->
+                                            <div class="gg-form-group row">
+                                                <div>
+                                                    <label class="control-label col-sm-4">
+                                                        <span>
+                                                            <a href="javascript://" title="Monoisotopic Mass"
+                                                                data-toggle="popover" data-placement="left"
+                                                                data-content="Use the sliders to select a Monoisotopic Mass range for your protein(s)">
+                                                                <i class="far fa-question-circle help-sign"></i>
+                                                            </a>
+                                                        </span>Monoisotopic Mass:
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-10 row glycanSizeMargin">
+                                                    <!-- First range-->
+                                                    <div style="margin-top: -35px;" class="col-xs-8 col-sm-offset-6 gg-form-group slider-alignment"
+                                                        id="slider">
+                                                        <div class="sliderbox">
+                                                            <div class="sliderbox-slider" id="sliderbox-slider"></div>
+                                                            <div class="row">
+                                                                <span class="min-label"><strong>Min</strong></span>
+                                                                <input class="sliderbox-input-min form-control">
+                                                                <span class="max-label"><strong>Max</strong></span>
+                                                                <input class="sliderbox-input-max form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Number of Sugars -->
+                                            <div class="gg-form-group row">
+                                                <div>
+                                                    <label class="control-label col-sm-4">
+                                                        <span>
+                                                            <a href="javascript://" title="Number of Sugars"
+                                                                data-toggle="popover" data-placement="left"
+                                                                data-content="Use the sliders to select a Number of Sugars range for your protein(s)">
+                                                                <i class="far fa-question-circle help-sign"></i>
+                                                            </a>
+                                                        </span>Number of Sugars:
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-10 row glycanSizeMargin">
+                                                    <div style="margin-top: -35px;" class="col-xs-8 col-sm-offset-6 gg-form-group slider-alignment"
+                                                        id="slider1">
+                                                        <div class="sliderbox1">
+                                                            <div class="sliderbox-slider1" id="sliderbox-slider1"></div>
+                                                            <div class="row">
+                                                                <span class="min-label"><strong>Min</strong></span>
+                                                                <input class="sliderbox-input-min1 form-control">
+                                                                <span class="max-label"><strong>Max</strong></span>
+                                                                <input class="sliderbox-input-max1 form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Organism-->
+                                            <div class="gg-form-group row">
+                                                <label class="control-label col-sm-4" for="species">
+                                                    <span>
+                                                        <a href="javascript://" title="Organism" data-toggle="popover"
+                                                            data-placement="left" data-content="Click to select an Organism that makes your glycan(s)">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> Organism:</label>
+
+                                                <div class="col-sm-8">
+                                                    <select class="organism" id="species">
+                                                        <option value="0">Select Organism</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Glycan type-->
+                                            <div class="gg-form-group row">
+                                                <label class="control-label col-sm-4" for="ddl">
+                                                    <span>
+                                                        <a href="javascript://" title="Glycan Type" data-toggle="popover"
+                                                            data-placement="left" data-content="Click to select a Glycan Type">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> Glycan Type:</label>
+                                                <div class="col-sm-8">
+                                                    <select class="ddl glycanType" id="ddl" onchange="configureDropDownLists(this, document.getElementById('ddl2'))">
+                                                        <option value="">Select Glycan Type</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Glycan subtype-->
+                                            <div id="showSubtype" class="gg-form-group row" style="display: none;">
+                                                <label class="control-label col-sm-4" for="ddl2">
+                                                    <span>
+                                                        <a href="javascript://" title="Glycan Subtype" data-toggle="popover"
+                                                            data-placement="left" data-content="Click to select a Glycan Subtype">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> Glycan Subtype:</label>
+                                                <div class="col-sm-8">
+                                                    <select id="ddl2">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- UniProtKB Accession-->
+                                            <div class="gg-form-group row">
+                                                <label class="control-label col-sm-4" for="protein">
+                                                    <span>
+                                                        <a href="javascript://" title="UniProtKB Accession" data-toggle="popover"
+                                                            data-placement="left" data-content="Enter the UniProtKB Accession of a glycoprotein that bears your glycan(s)">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span>UniProtKB Accession:</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="ProteinID" class="form-control protein textExampleInput"
+                                                        id="protein" placeholder="Enter the UniProtKB Accession of a glycoprotein"
+                                                        onkeyup="validateProteinAcc(this)">
+                                                    <div class="gg-text-example">Example: <a href="" id="textExampleProtein">P14210-1</a>
+                                                        (Hepatocyte growth factor) </div>
+                                                    <h6 id='proteinAccMsg' class="validation-message"></h6>
+                                                </div>
+                                            </div>
+                                            <!-- Glycan Motif -->
+                                            <div class="gg-form-group row">
+                                                <label class="control-label col-sm-4" for="motif">
+                                                    <span>
+                                                        <a href="javascript://" title="Glycan Motif" data-toggle="popover"
+                                                            data-placement="left" data-content="Enter a Glycan Motif comprising part of your glycan(s)">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> Glycan Motif:</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="GlycanMotif" class="form-control motif" id="motif"
+                                                        placeholder="Enter the name of a Glycan Motif contained in your glycan"
+                                                        onkeyup="validateMotifName(this)">
+
+                                                    <div class="gg-text-example">Example: <a href="" id="textExampleMotif">N-Glycan complex</a></div>
+                                                    <h6 id='motifNameMsg' class="validation-message"></h6>
+                                                </div>
+                                            </div>
+                                            <!-- Biosynthetic Enzyme -->
+                                            <div class="gg-form-group row">
+                                                <label class="control-label col-sm-4" for="enzyme">
+                                                    <span>
+                                                        <a href="javascript://" title="Biosynthetic Enzyme" data-toggle="popover"
+                                                            data-placement="left" data-content="Enter the Gene Name of an enzyme that particpates in the biosynthesis of your glycan(s)">
+                                                            <i class="far fa-question-circle help-sign"></i>
+                                                        </a>
+                                                    </span> Biosynthetic Enzyme:</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="Enzyme" class="form-control enzyme" id="enzyme"
+                                                        placeholder="Enter the Gene Name of an enzyme" onkeyup="validateEnzymeAcc(this)">
+                                                    <div class="gg-text-example">Example: <a href="" id="textExampleEnzyme">B4GALT1</a></div>
+                                                    <h6 id='enzymeAccMsg' class="validation-message"></h6>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom button  -->
+                                            <div class="row">
+                                                <input type="button" class="btn-lg btn-primary bottom-table-margin"
+                                                    value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 0 15px 20px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Start Tab Tutorial -->
+                            <div class="tab-pane fade in" id="tab_default_3">
+                                <div class="container">
+                                    <div class="row tutorial">
+                                        <!-- Simple slideshare-->
+                                        <div class="row">
+                                            <div class="col-lg-12 tutorialSection">
+                                                <h4 class="page-heading">SIMPLE SEARCH: How to Use Simple Glycan Search</h4>
+                                            </div>
+                                            <div class="box">
+                                                <div class="videoWrapperLeft tutorialSection  col-lg-6 col-md-12 active">
+                                                    <iframe src="//www.slideshare.net/slideshow/embed_code/key/fAZiPBF8ztVq2c" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-simple-glycan-search" title="How to use simple glycan search" target="_blank">How to use simple glycan search</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+                                                    <p>You can search for glycans by specifying their GlyTouCan accession numbers, their specific structures or the specific biochemical contexts within which they are found.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+<!--Keep this Simplified search tutorial for future updates
+                                        <div class="row">
+                                            <div class="col-lg-12 tutorialSection">
+                                                <h4 class="page-heading">SIMPLIFIED SEARCH: Finding a glycan by
+                                                    selecting option of your choice</h4>
+                                            </div>
+
+                                            <div class="videoWrapperLeft col-lg-6 col-md-12">
+                                                <iframe width="640" height="360" src="https://www.youtube.com/embed/ply1RPwQPvk"
+                                                    frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
+                                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                    Consequatur maiores error molestiae quos magnam cumque, ipsa odio
+                                                    nostrum quaerat magni et quis nam quam, laborum blanditiis. Maxime
+                                                    molestiae adipisci eligendi.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere
+                                                    assumenda excepturi dolor quibusdam sunt accusantium non mollitia,
+                                                    veniam ad rerum quod magni earum quo omnis eveniet obcaecati
+                                                    pariatur, accusamus, consectetur!</p>
+                                            </div>
+                                        </div>
+-->
+                                        <div class="row">
+                                            <div class="col-lg-12 tutorialSection">
+                                                <h4 class="page-heading">ADVANCED SEARCH: Finding a glycan using its
+                                                    GlyTouCan Accession</h4>
+                                            </div>
+                                            <div class="box">
+                                                <div class="col-lg-6 col-md-12">
+                                                    <p>One of GlyGen's central aims is to provide information about the
+                                                        structures, biosynthesis, biochemical contexts and functions of
+                                                        glycans that are attached to proteins.</p>
+                                                    <p>This tutorial describes how to initiate the exploration of
+                                                        GlyGen data by searching for a specific glycan when its
+                                                        GlyTouCan accession is known.</p>
+                                                </div>
+                                                <div class="videoWrapperRight active col-lg-6 col-md-12">
+                                                    <iframe width="640" height="360" src="https://www.youtube.com/embed/BlhCYJM3G30?rel=0"
+                                                        frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
+                                                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Second Advanced search video-->
+                                        <div class="row">
+                                            <div class="col-lg-12 tutorialSection">
+                                                <h4 class="page-heading">ADVANCED SEARCH: Finding a glycan based on its
+                                                    chemical features or biological context</h4>
+                                            </div>
+                                            <div class="tutorialSection">
+                                                <div class="videoWrapperLeft col-lg-6 col-md-12">
+                                                    <iframe width="640" height="360" src="https://www.youtube.com/embed/7TEjBsolbRY?rel=0"
+                                                        frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
+                                                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+                                                    <p>This tutorial illustrates how to search for a glycan or
+                                                        collection of glycans based on their general properties,
+                                                        structural features, attachment to a glycoprotein, mechanisms
+                                                        of biosynthesis.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Advanced slideshare -->
+                                        <div class="row">
+                                            <div class="col-lg-12 tutorialSection">
+                                                <h4 class="page-heading">ADVANCED SEARCH: How to Use Advanced Glycan Search</h4>
+                                            </div>
+                                            <div class="box">
+                                                <div class="col-lg-6 col-md-12">
+                                                    <p>You can search for glycans by specifying their chemical features
+                                                        of biological context. In many cases, you may not have this
+                                                        information, but will have other information about the glycan
+                                                        or collection of glycans that makes them interesting to you.
+                                                    </p>
+                                                </div>
+                                                <div class="videoWrapperLeft tutorialSection  col-lg-6 col-md-12 active">
+                                                    <iframe src="//www.slideshare.net/slideshow/embed_code/key/HDImkuoKkWIlg0" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-advanced-glycan-search" title="How to use advanced glycan search" target="_blank">How to use advanced glycan search</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!--  End Tab 3 Tutorial -->
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
-        </div>
-        
-        <!-- Number of Sugars -->
-        <div class="gg-form-group row">
-            <div>
-                <label class="control-label col-sm-4">
-                    <span>
-                        <a href="javascript://" title="Number of Sugars" data-toggle="popover" data-placement="left" data-content="Use the sliders to select a Number of Sugars range for your protein(s)">
-                            <i class="far fa-question-circle help-sign"></i>
-                        </a>
-                    </span>Number of Sugars:
-                </label>
-            </div>       
-            <div class="col-sm-10 row glycanSizeMargin">       
-                <div style="margin-top: -35px;" class="col-xs-8 col-sm-offset-6 gg-form-group slider-alignment" id="slider1">
-                    <div class="sliderbox1">
-                        <div class="sliderbox-slider1" id="sliderbox-slider1"></div>
-                        <div class="row"> 
-                            <span class="min-label"><strong>Min</strong></span>
-                            <input class="sliderbox-input-min1 form-control">
-                            <span class="max-label"><strong>Max</strong></span>
-                            <input class="sliderbox-input-max1 form-control">
-                        </div>
-                    </div>
-                </div>    
-            </div>
-        </div>
-
-        <!-- Organism-->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="organism">
-                <span>
-                    <a href="javascript://" title="Organism" data-toggle="popover" data-placement="left" data-content="Click to select an Organism that makes your glycan(s)">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> Organism:</label>
-
-            <div class="col-sm-8">
-                <select class="organism" id="organism">
-                    <option value="0">Select Organism</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Glycan type-->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="ddl">
-                <span>
-                    <a href="javascript://" title="Glycan Type" data-toggle="popover" data-placement="left" data-content="Click to select a Glycan Type">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> Glycan Type:</label>
-
-            <div class="col-sm-8">
-                <select class="ddl glycanType" id="ddl" onchange="configureDropDownLists(this, document.getElementById('ddl2'))">
-                    <option value="">Select Glycan Type</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Glycan subtype-->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="ddl2">
-                <span>
-                    <a href="javascript://" title="Glycan Subtype" data-toggle="popover" data-placement="left" data-content="Click to select a Glycan Subtype">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> Glycan Subtype:</label>
-
-            <div class="col-sm-8">
-                <select id="ddl2">
-                    <option value="">Select Glycan Subtype</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- UniProt Accession-->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="protein">
-                <span>
-                    <a href="javascript://" title="UniProt Accession" data-toggle="popover" data-placement="left" data-content="Enter the UniProt Accession of a glycoprotein that bears your glycan(s)">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span>UniProt Accession:</label>
-
-            <div class="col-sm-8">
-                <input type="text" name="ProteinID" class="form-control protein textExampleInput" id="protein" placeholder="Enter the UniProt Accession of a glycoprotein" onkeyup="validateProteinAcc(this)">
-                <div class="gg-text-example textExample2">Example: <a2 href="">P14210-1</a> (Hepatocyte growth factor ) </div>
-                <h6 id='proteinAccMsg' class="validation-message"></h6>
-            </div>
-        </div>
-
-        <!-- Glycan Motif -->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="motif">
-                <span>
-                    <a href="javascript://" title="Glycan Motif" data-toggle="popover" data-placement="left" data-content="Enter a Glycan Motif comprising part of your glycan(s)" >
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> Glycan Motif:</label>
-
-            <div class="col-sm-8">
-                <input type="text" name="GlycanMotif" class="form-control motif" id="motif" placeholder="Enter the name of a Glycan Motif contained in your glycan" onkeyup="validateMotifName(this)">
-
-                <div class="gg-text-example textExample3">Example: <a2 href="">N-Glycan complex</a></div>
-                <h6 id='motifNameMsg' class="validation-message"></h6>
-            </div>
-        </div>
-
-        <!-- Biosynthetic Enzyme -->
-        <div class="gg-form-group row">
-            <label class="control-label col-sm-4" for="enzyme">
-                <span>
-                    <a href="javascript://" title="Biosynthetic Enzyme" data-toggle="popover" data-placement="left" data-content="Enter the Gene Name of an enzyme that particpates in the biosynthesis of your glycan(s)">
-                        <i class="far fa-question-circle help-sign"></i>
-                    </a>
-                </span> Biosynthetic Enzyme:</label>
-
-            <div class="col-sm-8">
-                <input type="text" name="Enzyme" class="form-control enzyme" id="enzyme" placeholder="Enter the Gene Name of an enzyme" onkeyup="validateEnzymeAcc(this)">
-
-                <div class="gg-text-example textExample4">Example: <a href="">B4GALT1</a></div>
-                <!-- <div class="gg-text-example">Example: P26572 (MGAT1_HUMAN)</div>-->
-                <h6 id='enzymeAccMsg' class="validation-message"></h6>
-            </div>
-        </div>
-        <div class="row"> 
-            <input type="button" class="btn-lg btn-primary bottom-table-margin" value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 0 15px 20px;">
         </div>
     </div>
-
 
     <div w3-include-html="footer.html"></div>
     <!--Script for jquery-->
@@ -249,28 +446,28 @@
     <script src="js/navbar.js"></script>
     <!-- script for client validation -->
     <script src="js/validation.js"></script>
+    <!-- script for typeahead -->
+    <script type="text/javascript" src="js/typeahead.js"></script>
     <!-- main script for search -->
     <script type="text/javascript" src="js/glycan_search.js"></script>
+
     <!-- script to resolve jquery conflict -->
     <!--<script>jQuery.noConflict();</script>-->
     <!-- script for user activity  -->
     <script src="js/activity_tracker.js"></script>
-    <!-- script for webservice-->
+    <!-- script for getting Web Service URLs -->
+    <script type="text/javascript" src="js/domain_url.js"></script>
     <script type="text/javascript" src="js/ws_url.js"></script>
+
     <!-- script for error handling alerts -->
     <script type="text/javascript" src="libraries/alertify.js"></script>
     <!-- script for error-message/header-footer js -->
     <script src="js/utility.js"></script>
     <!-- script for editing users search  -->
-    <script src="js/editsearch.js"></script>
+    <script src="js/edit_search.js"></script>
     <!-- script for help icon ? -->
     <script src="js/popover.js"></script>
-
-
-
-
-
-
+    <script src="js/text_example.js"></script>
 </body>
 
 </html>

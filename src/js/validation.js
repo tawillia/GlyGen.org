@@ -1,8 +1,10 @@
 //@author: Rupali Mahadik
-
 // @description: UO1 Version-1.1.
 //6sep-18
 
+/** 
+* validation for each field
+*/
 function validatePathwayID(input) {
     var validLength = (input.value.length <=13);
     if (validLength) {
@@ -14,9 +16,10 @@ function validatePathwayID(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validateProteinAcc(input) {
-
     var validLength = (input.value.length <=12);
     if (validLength) {
         document.getElementById("proteinAccMsg").innerHTML = " ";
@@ -27,8 +30,10 @@ function validateProteinAcc(input) {
     }
 }
 
+/** 
+*validation for each field
+*/
 function validateProteinAcc1(input) {
-
     var validLength = (input.value.length <=12);
     if (validLength) {
         document.getElementById("proteinAccMsg1").innerHTML = " ";
@@ -39,8 +44,10 @@ function validateProteinAcc1(input) {
     }
 }
 
+/** 
+* validation for each field
+*/
 function validateProteinAcc2(input) {
-
     var validLength = (input.value.length <= 12);
     if (validLength) {
         document.getElementById("proteinAccMsg2").innerHTML = " ";
@@ -51,14 +58,11 @@ function validateProteinAcc2(input) {
     }
 }
 
-
-
-
-
-
+/** 
+* validation for each field
+*/
 
 function validateProteinName(input) {
-
     var validLength = (input.value.length <= 111);
     if (validLength) {
         document.getElementById("proteinNameMsg").innerHTML = " ";
@@ -69,10 +73,10 @@ function validateProteinName(input) {
     }
 }
 
-
-
+/** 
+* validation for each field
+*/
 function validateEnzymeAcc(input) {
-
     var validLength = (input.value.length <= 12);
     if (validLength) {
         document.getElementById("enzymeAccMsg").innerHTML = " ";
@@ -83,9 +87,10 @@ function validateEnzymeAcc(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validateProteinID(input) {
-
     var validLength = (input.value.length <= 16);
     if (validLength) {
         document.getElementById("proteinIDMsg").innerHTML = " ";
@@ -96,10 +101,10 @@ function validateProteinID(input) {
     }
 }
 
-
-
+/** 
+* validation for each field
+*/
 function validateDiseaseName(input) {
-
     var validLength = (input.value.length <= 108);
     if (validLength) {
         document.getElementById("diseaseNameMsg").innerHTML = " ";
@@ -110,9 +115,10 @@ function validateDiseaseName(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validatePathwayName(input) {
-
     var validLength = (input.value.length <=141);
     if (validLength) {
         document.getElementById("pathwayNameMsg").innerHTML = " ";
@@ -123,9 +129,10 @@ function validatePathwayName(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validateRefAcc(input) {
-
     var validLength = (input.value.length <=14);
     if (validLength) {
         document.getElementById("refAccMsg").innerHTML = " ";
@@ -136,6 +143,9 @@ function validateRefAcc(input) {
     }
 }
 
+/** 
+* validation for each field
+*/
 function validateMotifName(input) {
     var validLength = (input.value.length <=47);
     if (validLength) {
@@ -147,8 +157,9 @@ function validateMotifName(input) {
     }
 }
 
-
-
+/** 
+* validation for each field
+*/
 function validateGlycanAcc(input) {
     var validLength = (input.value.length <= 8);
     if (validLength) {
@@ -160,7 +171,9 @@ function validateGlycanAcc(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validateGlycanAcc1(input) {
     var validLength = (input.value.length <= 8);
     if (validLength) {
@@ -172,6 +185,9 @@ function validateGlycanAcc1(input) {
     }
 }
 
+/** 
+* validation for each field
+*/
 function validateGlycanAcc2(input) {
     var validLength = (input.value.length <= 8);
     if (validLength) {
@@ -183,7 +199,9 @@ function validateGlycanAcc2(input) {
     }
 }
 
-
+/** 
+* validation for each field
+*/
 function validateGeneName(input) {
     var validLength = (input.value.length <=25);
     if (validLength) {
@@ -193,4 +211,18 @@ function validateGeneName(input) {
         document.getElementById("geneNameMsg").innerHTML = "Entry is too long - max length is 47";
         return false;
     }
+}
+
+/** 
+* validation for each field
+*/
+function aminoLetter(textareatxt) {
+    var letters = /^[RKDEQNHSTYCWAILMFVPGX\n]+$/gi;
+    var validLength = (textareatxt.value.length <= 3356);
+    var validCharacters = textareatxt.value.match(letters);
+    var validEntry = (validLength && validCharacters);
+    document.getElementById("msg").innerHTML = "";
+    document.getElementById("msg").innerHTML += (validCharacters ? '' : "Enter a valid amino seq.");
+    document.getElementById("msg").innerHTML += (validLength ? '' : " Entry is too long - max length ");
+    return validEntry;
 }

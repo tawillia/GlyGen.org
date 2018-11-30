@@ -1,14 +1,27 @@
+/* ---------------------------------------------------------------------
+@author: Rupali Mahadik.
+@co-author: Tatiana Williamson
+@description: UO1 Version-1.0.1
+@date-created: January 2018
+@update: October 12 2018 - Tatiana Williamson - Added simplified search.
+-------------------------------------------------------------------------*/
 * {
     box-sizing: border-box;
 }
 
-input[type=text], select, textarea {
+input[type=text],
+select,
+textarea {
     width: 100%;
-/*    padding: 12px;*/
     border: 1px solid #ddd;
-    border-radius: 4px;
     box-sizing: border-box;
     resize: vertical;
+    background-color: #f9f9f9;
+}
+
+input[type=text]:hover,
+input[type=text]:focus {
+    background-color: #F5F5F5;
 }
 
 label {
@@ -28,48 +41,6 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #f86868;
-    
-}
-
-.gg-container {
-    width: 70%;
-    border-radius: 5px;
-    background-color: #dfe5ed;
-    padding: 20px 80px; 
-    margin-top: 30px;
-    margin-bottom: 60px;
-}
-
-.top-table-margin {
-    margin-top: 30px;
-}
-
-.bottom-table-margin {
-    margin-bottom: 30px;
-}
-
-.align-center {
-    text-align: center !important; 
-}
-
-.glycanSizeMargin  {
-    margin-bottom: -10px;
-    margin-top: 0;
-}
-
-.glycanSizeMargin2  {
-    margin-bottom: -20px;
-    margin-top: 0;
-}
-
-.gg-text-example {
-    margin-top: 3px;
-    padding-left: 4px;
-    color: #2E78B7;    
-}
-
-.gg-form-group {
-    margin-bottom: 20px;
 }
 
 h6 {
@@ -78,9 +49,90 @@ h6 {
 
 select {
     height: 35px;
-    background-color: #F4F4F4;
+    text-indent: 5px;
 }
 
+/* --------------------------
+    Simplified Search 
+-----------------------------*/
+#advancedSearch {
+    display: none;
+}
+
+.simplified-search {
+    width: 90%;
+    border-radius: 5px;
+    border: 2px solid #dfe5ed;
+    padding: 45px 40px 20px;
+    margin: 0 auto;
+    overflow: auto;
+    vertical-align: middle;
+    margin-top: 17%;
+    margin-bottom: 16%;
+}
+
+.simplified-search input[type=text] {
+    padding: 21px;
+    border-radius: 6px;
+}
+
+.simplified-search select {
+    height: 45px !important;
+    text-indent: 15px;
+}
+
+/*------------------------
+    Advanced Search
+-------------------------*/
+
+.advancedSearch-container {
+    width: 90%;
+    border-radius: 5px;
+    border: 2px solid #dfe5ed;
+    padding: 40px 80px 20px;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.adv-search-top-btns {
+    text-align: right;
+}
+
+.adv-top-button {
+    margin-bottom: 35px;
+    margin-right: 15px;
+}
+
+.btn-primary-clear-fields {
+    color: #204d74;
+    background-color: #fff;
+    border-color: #337ab7; 
+}
+
+.btn-primary-clear-fields:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.glycanSizeMargin {
+    margin-bottom: -10px;
+    margin-top: 0;
+}
+
+.gg-text-example {
+    margin-top: 3px;
+    padding-left: 4px;
+    color: #2E78B7;
+}
+.gg-text-example a:focus {
+    text-decoration: none;
+    color: #2E78B7;
+}
+
+.gg-form-group {
+    margin-bottom: 20px;
+}
 
 .col-25 {
     float: left;
@@ -100,14 +152,162 @@ select {
     display: table;
     clear: both;
 }
+
+/*------------------------------------
+    Tutorial Section
+-------------------------------------*/
+.tutorial {
+    width: 90%;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.tutorialSection {
+    margin-top: 20px;
+}
+.videoWrapperRight,
+.videoWrapperLeft {
+    position: relative;
+    padding-bottom: 20%; /*16:9*/
+    padding-top: 34px; 
+    height: 0; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.videoWrapperRight iframe {
+    position: absolute;
+    top: 0;
+/*    right: 0;*/
+    width: 90%;
+    height: 100%;
+}
+
+.videoWrapperLeft iframe {
+    position: absolute;
+    top: 0;
+    left: 12px;
+    width: 90%;
+    height: 100%;
+}
+
+
+/* ---------------------------------
+    Tabs style Simplified Search
+------------------------------------- */
+/* Tabs panel */
+.tabbable-panel {
+    padding: 10px;
+}
+
+/* Default mode */
+.tabbable-line > .nav-tabs {
+    border: none;
+    margin: 0px;
+}
+
+.tabbable-line > .nav-tabs > li {
+    margin-right: 2px;
+}
+
+.tabbable-line > .nav-tabs > li > a {
+    border: 1px solid #D0D8E3;
+    background: #eee;
+    margin-right: 0;
+    color: #2F78B7;
+}
+
+.tabbable-line > .nav-tabs > li.open,
+.tabbable-line > .nav-tabs > li:hover {
+    border-top: 4px solid #C0D3ED;
+}
+
+.tabbable-line > .nav-tabs > li.open > a,
+.tabbable-line > .nav-tabs > li:hover > a {
+    border: 0;
+    background: none !important;
+    color: #6E9FE2 !important;
+}
+
+.tabbable-line > .nav-tabs > li.open > a > i,
+.tabbable-line > .nav-tabs > li:hover > a > i {
+    color: #a6a6a6;
+}
+
+.tabbable-line > .nav-tabs > li.open .dropdown-menu,
+.tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+    margin-top: 0px;
+}
+
+.tabbable-line > .nav-tabs > li.active {
+    border-top: 4px solid #2F78B7;
+    position: relative;
+}
+
+.tabbable-line > .nav-tabs > li.active > a {
+    border: 0;
+    color: #333333;
+    background: #fff;
+}
+
+.tabbable-line > .nav-tabs > li.active > a > i {
+    color: #404040;
+}
+
+.tabbable-line > .tab-content {
+    margin-top: -3px;
+    background-color: #fff;
+    border: 0;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+    min-width: inherit;
+}
+
+.portlet .tabbable-line > .tab-content {
+    padding-bottom: 0;
+}
+
+/* ---- End tab style ----*/
+@media (max-width: 1200px) {
+    .box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    }
+    .active {
+        order: -1;
+        flex: 1 0 100%;
+    }
+}
+@media (max-width: 1024px) {
+
+    .slider-alignment {
+        margin-left: 45%;
+        width: 80% !important;
+    }
+
+    .tabbable-line > .nav-tabs {
+        padding-left: 3%;
+    }
+
+    .simplified-search {
+        margin-bottom: 19% !important;
+    }
+    
+     .tabbable-line > .nav-tabs {
+    margin-left: -3%; 
+    }
+}
+
 @media only screen and (max-width: 900px) {
     .slider-alignment {
         margin-left: 20%;
         margin-top: 20px !important;
         overflow: auto;
         width: 100% !important;
-    } 
+    }
 }
+
 @media only screen and (max-width: 768px) {
     .gg-container {
         width: 100%;
@@ -117,77 +317,141 @@ select {
         margin-top: 30px;
         margin-bottom: 60px;
     }
-    
+
+    .simplified-search {
+        margin-bottom: 19% !important;
+    }
+
     .slider-alignment {
-        margin-left: 10%;
+        margin-left: 18%;
         margin-top: 0 !important;
         margin-bottom: 20px;
-        width: 80% !important; 
-    }    
+        width: 78% !important;
+    }
+
+    .tabbable-line > .nav-tabs {
+    margin-left: -3%; 
+    }
+    
+    .advancedSearch-container {
+        width: 95%;
+        padding: 40px 20px 20px;
+    }
+    .container {
+	    width: 99%;
+    }
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {
-    .col-25, .col-75, input[type=submit] {
+
+    .col-25,
+    .col-75,
+    input[type=submit] {
         width: 100%;
         margin-top: 0;
     }
-    
+
     .slider-alignment {
-        margin-left: 5%;
-        margin-top: 0 !important;
-        margin-bottom: 0;
-        width: 90% !important;
-    }    
+        margin: 0;
+        width: 100% !important;
+    }
+
+    .simplified-search {
+        margin-bottom: 11% !important;
+    }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
     .max-label {
-        margin-left: 0 !important;
+        margin: 0 !important;
+    }
+
+    .min-label {
+        margin: 0 !important;
     }
 
     .slider-alignment {
-        margin-left: 5%;
-        margin-top: 0 !important;
-        margin-bottom: 0;
-        width: 90% !important;
-/*        overflow: auto;*/
+        width: 95% !important;
+        padding-left: 10%;
     }
+
+    .simplified-search {
+        margin-bottom: 10px !important;
+        padding: 30px 10px 10px;
+    }
+    .advancedSearch-container {
+        padding: 30px 15px 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 300px) {
+
+    .simplified-search {
+        margin-bottom: 10px !important;
+    }  
 }
 
 /* search box*/
-.autocomplete-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
-.autocomplete-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }
-.autocomplete-selected { background: #f0f0f0; }
-.autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }
-#searchfield { display: block; width: 100%; text-align: center; margin-bottom: 35px; }
- 
-#searchfield form {
-  display: inline-block;
-  background: #eeefed;
-  padding: 0;
-  margin: 0;
-  padding: 5px;
-  border-radius: 3px;
-  margin: 5px 0 0 0;
+.autocomplete-suggestions {
+    border: 1px solid #999;
+    background: #fff;
+    cursor: default;
+    overflow: auto;
 }
+
+.autocomplete-suggestion {
+    padding: 10px 5px;
+    font-size: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.autocomplete-selected {
+    background: #f0f0f0;
+}
+
+.autocomplete-suggestions strong {
+    font-weight: normal;
+    color: #3399ff;
+}
+
+#searchfield {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+#searchfield form {
+    display: inline-block;
+    background: #eeefed;
+    padding: 0;
+    margin: 0;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0 0 0;
+}
+
 #searchfield form .biginput {
-  width: 600px;
-  height: 40px;
-  padding: 0 10px 0 10px;
-  background-color: #fff;
-  border: 1px solid #c8c8c8;
-  border-radius: 3px;
-  color: #aeaeae;
-  font-weight:normal;
-  font-size: 1.5em;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+    width: 600px;
+    height: 40px;
+    padding: 0 10px 0 10px;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    color: #aeaeae;
+    font-weight: normal;
+    font-size: 1.5em;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 #searchfield form .biginput:focus {
-  color: #858585;
+    color: #858585;
 }
 
 #msg {
@@ -196,24 +460,26 @@ select {
     margin-top: 0px;
 }
 
-.limitedNumbSelect2{
+.limitedNumbSelect2 {
     width: 400px;
 }
-#glycanrow{
+
+#glycanrow {
     padding-left: -10px;
     margin-left: 0px;
 }
-#glycanrelationrow{
+
+#glycanrelationrow {
     padding-right: -5px;
 }
-.form-control motif{
+
+.form-control motif {
     padding-left: -10px;
     margin-left: 0px;
 }
 
 .chosen-container-multi .chosen-choices {
     display: block;
-
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -223,25 +489,28 @@ select {
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-#aminos{
+
+#aminos {
     color: #2E78B7;
     text-align: center;
 }
 
-.textbox{
+.textbox {
     margin-bottom: 10px;
     margin-top: 19px;
 }
-#pathway{
+
+#pathway {
     margin-top: 20px;
 }
-#msg{
+
+#msg {
     margin-top: 0px;
 }
 
@@ -251,6 +520,7 @@ select {
     width: 30%;
     margin-bottom: 0;
 }
+
 .sliderbox-input-min1 {
     margin-top: 20px;
     display: inline-block;
@@ -263,11 +533,13 @@ select {
     width: 30%;
     margin-bottom: 0;
 }
+
 .sliderbox-input-max1 {
     margin-top: 10px;
     display: inline-block;
     width: 30%;
 }
+
 .max-label {
     margin-left: 5%;
 }
@@ -276,6 +548,11 @@ select {
     margin-left: 5%;
 }
 
-.validation-message{
+.validation-message {
     color: darkred;
+}
+
+.errorMessageSimpleSearch {
+    font-weight: bold;
+    text-align: center;
 }

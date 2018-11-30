@@ -17,6 +17,8 @@ function faqMain() {
 		// and also avoids too much space between the footer and the last content box.
 		if ($(window).width() > MqM){
 			var marginBottom = $(window).height() - $('#search_disease').height() - 80;
+			// var marginBottomDetail = $(window).height() - $('#publications').height() - 80;
+			// var marginBottom = marginBottomQs ? marginBottomQs : marginBottomDetail;
 			marginBottom = (marginBottom < 0)?0:marginBottom;
 			$('.container').css({
 				'marginBottom': marginBottom,
@@ -172,8 +174,9 @@ function faqMain() {
 					margin = parseInt($('.cd-faq-title').eq(1).css('marginTop').replace('px', '')),
 					activeCategory = $('.cd-faq-categories a[href="#' + actual.attr('id') + '"]'),
 					topSection = (activeCategory.parent('li').is(':first-child')) ? 0 : Math.round(actual.offset().top);
-
-				if ((topSection - 20 <= $(window).scrollTop()) && (Math.round(actual.offset().top) + actual.height() + margin - 20 > $(window).scrollTop())) {
+				
+					// Gaurav: changed -20 to -30 below because the highlighting of sidebar was overlapping.
+				if ((topSection - 30 <= $(window).scrollTop()) && (Math.round(actual.offset().top) + actual.height() + margin - 30 > $(window).scrollTop())) {
 					activeCategory.addClass('selected');
 				} else {
 					activeCategory.removeClass('selected');

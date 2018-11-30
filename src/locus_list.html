@@ -1,7 +1,6 @@
 <!--
  @author: Rupali Mahadik
  @description: UO1 Version-1.1.-31-July
-
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -16,17 +15,42 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <title>Locus_list Page - glygen</title>
+    <title>Locus list page - glygen</title>
 
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-    <!--<![endif]&ndash;&gt;-->
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap.min.css">
+    
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="css/list.css">
+     <link rel="stylesheet" type="text/css" href="css/detail.css">
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
-
+    <link rel="stylesheet" type="text/css" href="css/server.css">
+    
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/favicomatic/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/favicomatic/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/icons/favicomatic/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/icons/favicomatic/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/icons/favicomatic/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/icons/favicomatic/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-128.png" sizes="128x128" />
+        <meta name="application-name" content="GlyGen"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF" />
+        <meta name="msapplication-TileImage" content="images/icons/favicomatic/mstile-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="images/icons/favicomatic/mstile-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="images/icons/favicomatic/mstile-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="images/icons/favicomatic/mstile-310x150.png" />
+        <meta name="msapplication-square310x310logo" content="images/icons/favicomatic/mstile-310x310.png" />
 </head>
 
 <body onload="tracking()">
@@ -39,9 +63,7 @@
 <div w3-include-html="header.html"></div>
 <script>w3.includeHTML();</script>
 
-
 <!-- page content starts here -->
-
 <div class="container-fluid" id="listview">
     <div class="row">
         <div id="summary-table" class="col-md-12 col-xs-12">
@@ -62,44 +84,48 @@
                     <option>50</option>
                     <option>70</option>
                 </select>
-                <!--<label>Sort By</label>-->
-                <!--<select class="sort-select form-control" onchange="xsort(this);">-->
-                    <!--<option selected value="uniprot_canonical_ac">UniProt Accession</option>-->
-                    <!--<option value="gene_name">Gene Name</option>-->
-                    <!--<option value="protein_name">Protein Name</option>-->
-                    <!--<option value="organism">Tax ID</option>-->
-                <!--</select>-->
-                <!--<select class="dir-select form-control" onchange="xdir(this);">-->
-                    <!--<option value="asc" selected>ASC</option>-->
-                    <!--<option value="desc">DESC</option>-->
-                <!--</select>-->
                 <label class="searchresult"></label>
             </form>
         </div>
     </div>
-    <!-- sorting_top-end -->
-    <!-- table start here -->
+    <script id="summary-template" type="text/template">
+        <div class="panel panel-default results-table-top">
+            <div class="panel-heading"><center><h3>Summary of your Protein Search<h3></center></div>
+            <h5><center>Performed on: {{execution_time}} (EST)</center></h5>
+
+            {{#QUESTION_3}}
+                <center><p>What are the gene locations of the enzymes involved in the biosynthesis of <b>{{#glytoucan_ac}}{{glytoucan_ac}}{{/glytoucan_ac}}</b> in human?</p></center>
+            {{/QUESTION_3}}
+
+            <div align="center">
+                <button type="button" class="btn btn-primary-updateSearch"  onclick="LoadDataList();">Update Results</button>
+
+                &nbsp; &nbsp;
+
+                <button type="button" class="btn btn-primary"  onclick="editSearch();">Modify Search</button>
+
+                <p class="small">** To perform the same search again using the current version of the database, click <strong>“Update Results”</strong>.</p>
+            </div>
+        </div>
+    </script>
 
     <div class="row">
         <div class="col-md-12 col-xs-12">
-            <table id="gen-table" data-show-export="true" data-toggle="table" data-detail-view="true" data-detail-formatter="detailFormat"
+            <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="uniprot_canonical_ac" data-sort-order="desc" data-detail-view="true" data-detail-formatter="detailFormat"
                    data-page-size="10">
-                <!-- <table id="gen-table"    data-search="true">    may be for version 2-->
-                <!-- <th data-field="state" data-checkbox="true"></th>           may be for version 2 -->
-
                 <thead>
-                <tr>
-                    <th data-field="uniprot_canonical_ac" data-formatter="pageFormat" data-sortable="true">UniProt Accession</th>
-                    <th data-field="gene_name" data-formatter="pageFormat1" data-sortable="true" >Gene Name</th>
-                    <th data-field="protein_name" data-sortable="true">Protein Name </th>
-                    <th data-field="organism" data-sortable="true">Organism</th>
-                    <th data-field="tax_id" data-sortable="true">Tax ID</th>
-                </tr>
+                    <tr>
+                        <th data-field="uniprot_canonical_ac" data-formatter="pageFormat" data-sortable="true">UniProtKB Accession</th>
+                        <th data-field="gene_name" data-formatter="pageFormat1" data-sortable="true" >Gene Name</th>
+                        <th data-field="protein_name" data-sortable="true">Protein Name </th>
+                        <th data-field="organism" data-sortable="true">Organism</th>
+                        <th data-field="tax_id" data-sortable="true">Tax ID</th>
+                    </tr>
                 </thead>
             </table>
         </div>
-    </div>
-    <!-- table container ends here -->
+    </div><!-- table container ends here -->
+    
     <!-- sorting_bottom -->
     <div class="row">
         <div class="col-md-12 col-xs-12" id="sortbottom">
@@ -115,20 +141,8 @@
                     <option>50</option>
                     <option>70</option>
                 </select>
-                <!--<label>Sort By</label>-->
-                <!--<select class="sort-select form-control" onchange="xsort(this);">-->
-                    <!--<option selected value="uniprot_canonical_ac">UniProt Accession</option>-->
-                    <!--<option value="gene_name">Gene Name</option>-->
-                    <!--<option value="protein_name">Protein Name</option>-->
-                    <!--<option value="organism">Tax ID</option>-->
-                <!--</select>-->
-                <!--<select class="dir-select form-control" onchange="xdir(this);">-->
-                    <!--<option value="asc" selected>ASC</option>-->
-                    <!--<option value="desc">DESC</option>-->
-                <!--</select>-->
                 <label class="searchresult"></label>
             </form>
-            <!--<label class="searchresult"></label>-->
         </div>
     </div>
 </div>
@@ -136,9 +150,7 @@
 <div w3-include-html="footer.html"></div>
 <script>w3.includeHTML();</script>
 
-
 <script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
-
 <!-- script for table -->
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
 <!-- script for time for query-serach -->
@@ -147,13 +159,14 @@
 <!-- script for template engine -->
 <script type="text/javascript" src="libraries/mustache.js"></script>
 <!-- script for getting Web Service URLs -->
+<script type="text/javascript" src="js/domain_url.js"></script>
 <script type="text/javascript" src="js/ws_url.js"></script>
 <!-- script for glycan list page -->
 <!-- script for pagination page -->
 <script type="text/javascript" src="js/pagination.js"></script>
 <!-- script for error-message/header-footer js -->
 <script src="js/utility.js"></script>
-
+<!-- <script type="text/javascript" src="js/quickproteinlist.js"></script> -->
 <script type="text/javascript" src="js/locus.js"></script>
 <!-- script for third party-->
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>

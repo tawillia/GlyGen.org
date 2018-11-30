@@ -1,18 +1,14 @@
-
-
-
 //@Author:Rupali Mahadik.
 //@update: July 11, 2018 - Gaurav Agarwal - added user tracking navigation on pagination table.
 // @update on July 25 2018 - Gaurav Agarwal - added code for loading gif.
 // @update: July 27, 2018 - Gaurav Agarwal - commented out the conditional statements in update search.
+// @added: Oct 19, 2018 - Gaurav Agarwal - added downloadPrompt() which gives selection box for downloading data.
+
 /**
-
  * Adding function to String prototype to shortcut string to a desire length.
-
  * @param {int} n - The length of the string
  * @returns {int} -Short String
  */
-
 String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
@@ -24,70 +20,35 @@ var dir = 'desc'
 var url = getWsUrl('protein_list');
 var limit = 25;
 
-
-
-function addCommas(nStr) {
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-
-    return x1 + x2;
-}
 /**
  * it creates user interface for summary
  * @param {Object} queryInfo - the dataset of pagination info is retun from server
  * @param {string} queryInfo.execution_time - The queryInfo.execution_time gives execution_time of query in the form of date.
  * @param {integer} paginationInfo.limit - The paginationInfo.limit givesrecords per page from pagination object
  */
-
 function buildSummary(queryInfo) {
     var summaryTemplate = $('#summary-template').html();
-    queryInfo.execution_time= moment().format('MMMM Do YYYY, h:mm:ss a')
-    // queryInfo.execution_time = moment(queryInfo.execution_time).tz("PST").format("MM/DD/YYYY hh:mm:ss a");
-    // var excutionDate= new Date(queryInfo.execution_time);
-    // queryInfo.execution_time = excutionDate.toLocaleString();
-    queryInfo.mass.min = addCommas(queryInfo.mass.min);
-    queryInfo.mass.max = addCommas(queryInfo.mass.max);
+    queryInfo.execution_time = moment().format('MMMM Do YYYY, h:mm:ss a');
+    if (queryInfo.mass) {
+        queryInfo.mass.min = addCommas(queryInfo.mass.min);
+        queryInfo.mass.max = addCommas(queryInfo.mass.max);
+    }
     var summaryHtml = Mustache.render(summaryTemplate, queryInfo);
     $('#summary-table').html(summaryHtml);
 }
 
-
 /**
- * Redirect to Page index page or search back
+ * Format function of getting total result for each search   [+]
+ * @param {total_length} paginationInfo.total_length
  */
-function redirectPage1() {
-    window.location.replace("http://glycomics.ccrc.uga.edu/ggtest/gui/index.html");
-}
-
-function redirectPage2() {
-    window.location.href = "http://glycomics.ccrc.uga.edu/ggtest/gui/protein_search.html";
-}
-
-
-// $(document).ready(function () {
-//     $("demosearch").tooltip();
-// });
-
-/**
- * Redirect to  searchPage with id after clicking editSearch
- */
-
-
 function totalNoSearch(total_length) {
-    $('.searchresult').html( "\""  + total_length + " Proteins were found\"");
-    // $('.searchresult').html( "&#34;"  + total_length + " results of glycan&#34;");
-
+    $('.searchresult').html("\"" + total_length + " Proteins were found\"");
 }
 
-
-
+/**
+ * Redirect to a search page with id after clicking editSearch
+ * @function [[editSearch]] returns to search page with prefield fields
+ */
 function editSearch() {
     {
         window.location.replace("protein_search.html?id=" + id);
@@ -96,72 +57,34 @@ function editSearch() {
 }
 
 /**
-
  * Format function to create link to the details page
-
  * @param {object} value - The data binded to that particular cell.
- @return -Details particular Protein Id
+ * @return -Details particular Protein Id
  */
 function PageFormat(value, row, index, field) {
     return "<a href='protein_detail.html?uniprot_canonical_ac=" + value + "'>" + value + "</a>";
 }
 
-
 /**
-
  * Format function for column "MASS"
-
  * @param {object} value - The data binded to that particular cell.
  * @return- Protein Mass if available else NA
  */
-
 function MassFormatter(value) {
     if (value) {
         var mass = value;
         return value;
-
-
     } else {
         return "NA";
     }
 }
 
-
-
-
 /**
-
  * updateSearch function of the detail table when opening each row [+]
-
  * @param {int} index - The row clicked
-
  * @param {object} row - The data object binded to the row
  * @return- detail view with IUPAC AND GLYCOCT
  */
-
-var lastSearch;
-
-function updateSearch() {
-    console.log(lastSearch.query);
-    $.ajax({
-        method: 'GET',
-        dataType: "json",
-        // url: 'http://glygen-vm-tst.biochemistry.gwu.edu/api/protein/search?query=' + JSON.stringify(lastSearch.query),
-        url: getWsUrl('search_protein')+"?query=" + JSON.stringify(lastSearch.query),
-        success: function (result) {
-            // if (result.list_id) {
-                console.log(result);
-                activityTracker("user", id, "update search");
-                window.location = 'protein_list.html?id=' + result.list_id;
-            // } else {
-            //     // handle if no results
-            //     activityTracker("error", id, "update search: no result found");
-            // }
-        },
-        error: ajaxListFailure
-    });
-}
-
 
 /**
  * Handling a succesful call to the server for list page
@@ -171,18 +94,21 @@ function updateSearch() {
  * @param {Object} data.query - the dataset for query
  */
 
-
 function ajaxListSuccess(data) {
     // console.log(data);
     //console.log(data.code);
     if (data.code) {
         console.log(data.code);
         displayErrorByCode(data.code);
-        activityTracker("error", id, "error code: " + data.code +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+        activityTracker("error", id, "error code: " + data.code + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     } else {
         var $table = $('#gen-table');
         var items = [];
         if (data.results) {
+            if (data.query.organism && (data.query.organism.id === 0)) {
+                data.query.organism.name = "All";
+            }
+
             for (var i = 0; i < data.results.length; i++) {
                 var protein = data.results[i];
                 items.push({
@@ -191,42 +117,37 @@ function ajaxListSuccess(data) {
                     gene_name: protein.gene_name,
                     protein_name_long: protein.protein_name_long,
                     organism: protein.organism,
-                    refseq_name:protein.refseq_name,
-                    refseq_ac:protein.refseq_ac
+                    refseq_name: protein.refseq_name,
+                    refseq_ac: protein.refseq_ac
                 });
             }
         }
 
         $table.bootstrapTable('removeAll');
         $table.bootstrapTable('append', items);
-
         buildPages(data.pagination);
-
         buildSummary(data.query);
-
         document.title = 'Protein-list';
         lastSearch = data;
-        activityTracker("user", id, "successful response (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+        activityTracker("user", id, "successful response (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     }
-
 }
 
 /// ajaxFailure is the callback function when ajax to GWU service fails
 function ajaxListFailure(jqXHR, textStatus, errorThrown) {
+    $('#loading_image').fadeOut();
     // getting the appropriate error message from this function in utility.js file
     var err = decideAjaxError(jqXHR.status, textStatus);
-    displayErrorByCode(err);
-    activityTracker("error", id, err + ": " + errorThrown + " (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
+    displayErrorByCode(errorMessage);
+    activityTracker("error", id, err + ": " + errorMessage + " (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
 }
 
 /**
-
  * LoadDataList function to configure and start the request to GWU  service
-
  * @param {string} id - The protein id to load
  * */
 function LoadDataList() {
-
     var ajaxConfig = {
         dataType: "json",
         url: getWsUrl("protein_list"),
@@ -236,23 +157,16 @@ function LoadDataList() {
         success: ajaxListSuccess,
         error: ajaxListFailure
     };
-
-
     // make the server call
     $.ajax(ajaxConfig);
 }
 
 /**
-
  * getParameterByName function to EXtract query parametes from url
-
  * @param {string} name - The name of the variable variable to extract from query string
-
  * @param {string} url- The complete url with query string values
  * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
  */
-
-
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -262,11 +176,8 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
 var id = getParameterByName('id');
-
 LoadDataList(id);
-
 
 /**
  * hides the loading gif and displays the page after the results are loaded.
@@ -277,15 +188,15 @@ $(document).ajaxStop(function () {
     $('#loading_image').fadeOut();
 });
 
-$(document).ready(function(){
-    $('#gen-table').on("sort.bs.table", function(event,field,order){
-        // event.preventDefault();
-        event.stopPropagation();
-        sort = field;
-        dir = order;
-        LoadDataList();
-        activityTracker("user", id, "sort: " + sort);
-        return false;
-    });
-});
-
+/**
+ * Gets the values selected in the download dropdown 
+ * and sends to the downloadFromServer() function in utility.js
+ * @author Gaurav Agarwal
+ * @since Oct 22, 2018.
+ */
+function downloadPrompt() {
+    var page_type = "protein_list";
+    var format = $('#download_format').val();
+    var IsCompressed = $('#download_compression').is(':checked');
+    downloadFromServer(id, format, IsCompressed, page_type);
+}
