@@ -207,7 +207,10 @@ function createOption(ddl, text, value) {
 function ajaxProteinSearchSuccess() {
     // displays the loading gif when the ajax call starts
     $('#loading_image').fadeIn();
-    activityTracker("user", null, "Performing Advanced Search");
+
+    var prevListId = getParameterByName("id") || "";
+    activityTracker("user", prevListId, "Performing Advanced Search");
+
     var query_type = "search_protein";
     var mass_slider = document.getElementById("sliderbox-slider").noUiSlider.get(0);
     var selected_species = document.getElementById("species");
@@ -249,6 +252,7 @@ function ajaxProteinSearchSuccess() {
                 activityTracker("user", "", "Advanced Search: no result found for " + json);
                 $('#loading_image').fadeOut();
             } else {
+                activityTracker("user", prevListId + ">" + results.list_id, "Advanced Search: Searched with modified parameters");
                 window.location = './glycoprotein_list.html?id=' + results.list_id;
                 $('#loading_image').fadeOut();
             }
@@ -441,7 +445,9 @@ function clickableExample() {
 function searchProteinSimple() {
     // displays the loading gif when the ajax call starts
     $('#loading_image').fadeIn();
-    activityTracker("user", null, "Performing Simplified Search");
+
+    var prevListId = getParameterByName("id") || "";
+    activityTracker("user", prevListId, "Performing Simplified Search");
 
     // Get values from form fields
     var query_type = "protein_search_simple";
@@ -470,6 +476,7 @@ function searchProteinSimple() {
                 activityTracker("user", "", "Simplified Search: no result found for " + json);
                 $('#loading_image').fadeOut();
             } else {
+                activityTracker("user", prevListId + ">" + results.list_id, "Simplified Search: Searched with modified parameters");
                 window.location = './glycoprotein_list.html?id=' + results.list_id;
                 $('#loading_image').fadeOut();
             }
@@ -519,10 +526,11 @@ function LoadDataList(id) {
  * @param {Object} data.query - the dataset for query
  */
 function ajaxListSuccess(data) {
+    id = getParameterByName("id")
     if (data.code) {
         console.log(data.code);
         displayErrorByCode(data.code);
-        activityTracker("error", id, "error code: " + data.code + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
+        activityTracker("error", id, "error code: " + data.code);
     } else {
         if (data.query) {
             if (data.query.query_type === "protein_search_simple") {
@@ -534,7 +542,7 @@ function ajaxListSuccess(data) {
                 $('.nav-tabs a[href="#tab_default_2"]').tab('show');
             }
         }
-        activityTracker("user", "successful response (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
+        activityTracker("user", id, "Search modification initiated");
     }
 }
 

@@ -473,3 +473,28 @@ function populateLastSearch(question, id) {
             break;
     }
 }
+
+
+//calls the script in faq_main.js file
+faqMain();
+/**
+ * This is used to scroll to the particular sub section 
+ * and open the drop down of the ID called from home page
+ */
+$(document).ready(function () {
+    //to open the drop down of the ID called from home page.
+    var url_loc = $(location).attr('href');
+    if (url_loc.match('#')) {
+        var faq_trigger_id = url_loc.substring(url_loc.indexOf('#'), url_loc.lastIndexOf('#'));
+        var faq_id = url_loc.substring(url_loc.lastIndexOf('#'));
+        //to scroll to the particular sub section.
+        $(faq_id).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
+        if ($(window).width() < 768) {   //mobile view
+            $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(faq_trigger_id).addClass('selected');
+            $('.cd-close-panel').addClass('move-left');
+            $('body').addClass('cd-overlay');
+        } else {
+            $('body,html').animate({ 'scrollTop': $(faq_trigger_id).offset().top - 19 }, 200);
+        }
+    }
+});

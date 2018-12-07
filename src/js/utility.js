@@ -383,3 +383,19 @@ $(document).on('click', '.gg-download', function (e) {
 function getDateMMDDYYYY(date) {
     return date.slice(5, 7) + '/' + date.slice(8, 10) + '/' + date.slice(0, 4);
 }
+
+/**
+ * getParameterByName function to Extract query parameters from url
+ * @param {string} name - The name of the variable to extract from query string
+ * @param {string} url- The complete url with query string values
+ * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
+ */
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

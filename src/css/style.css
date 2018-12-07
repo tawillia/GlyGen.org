@@ -885,15 +885,15 @@ ____________________________________  */
     margin-top: 40px;
 }
 
-.downloadButton {
-    float: right;
-}
-
 /*---------------------------------------
     Download link button 
     for detail and link pages
     Updated October 17, 2018
 -----------------------------------------*/
+.downloadButton {
+    float: right;
+}
+
 .btn-link-detail {
     text-decoration: none !important;
     font-size: 1em !important;
@@ -986,6 +986,9 @@ ____________________________________  */
         margin: 0 auto;
         border-radius: 0;
         padding: 1em;
+    }
+    .btn-link-detail {
+        margin-bottom: 3%;
     }
 }
 

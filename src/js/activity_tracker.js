@@ -117,7 +117,7 @@ function activityTracker(type, id, message) {
         "page": pagePath.substring(pagePath.lastIndexOf('/') + 1),
         "message": message
     };
-    console.log(data);
+    // console.log(data);
 
     $.post(getWsUrl("log_activity"), { query: JSON.stringify(data) })
         .done(function (resp) {

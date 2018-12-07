@@ -11,7 +11,7 @@
  */
 var highlight = {};
 var SEQUENCE_ROW_RUN_LENGTH = 10;
-var SEQUENCE_SPACES_BETWEEN_RUNS = 2;
+var SEQUENCE_SPACES_BETWEEN_RUNS = 1;
 
 /**
  * get glycosylation data
@@ -123,7 +123,6 @@ function buildRowText(rowData) {
 function buildRowHighlight(rowData, type) {
     var highlight = [];
     for (var x = 0; x < rowData.length; x++) {
-        // console.log(x, type, rowData[x][type]);
         if (rowData[x][type]) {
             highlight.push('<span class="highlight-highlight-area">&nbsp;</span>');
         } else {
@@ -179,7 +178,7 @@ function createHighlightRow(start, rowData) {
 function createHighlightUi(highlightData, perLine) {
     var $ui = $('<div class="highlight-display"></div>');
     var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 +10         +20         +30         +40         +50</pre>";
-    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                  |           |           |           |           |</pre>";
+    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 |           |          |           |          |</pre>";
     $ui.append(seqTopIndex);
     $ui.append(seqTopIndexLines);
     for (var x = 0; x < highlightData.length; x += perLine) {
@@ -229,7 +228,7 @@ function formatSequence(sequenceString) {
     var perLine = 60;
     var output = '';
     var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 +10         +20         +30         +40         +50</pre>";
-    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                  |           |           |           |           |</pre>";
+    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 |          |          |          |          |</pre>";
     output += seqTopIndex;
     output += seqTopIndexLines;
 
@@ -297,7 +296,6 @@ function ajaxSuccess(data) {
             }
         }
 
-        // define variable to for itemscrossref
         var itemscrossRef = [];
         //check data.
         if (data.crossref) {
@@ -329,7 +327,7 @@ function ajaxSuccess(data) {
 
             data.itemscrossRef = itemscrossRef;
         }
-        // //pathway
+
         var itemsPathway = [];
         if (data.pathway) {
             for (var i = 0; i < data.pathway.length; i++) {
@@ -392,16 +390,12 @@ function ajaxSuccess(data) {
             }
         }
 
-        // data.sequence = undefined;
-        //mustach rending
         var html = Mustache.to_html(template, data);
         var $container = $('#content');
 
-        // getting array
         var itemsMutate = [];
         var itemsExpressionTissue = [];
         var itemsExpressionDisease = [];
-        // filling in glycosylation data
 
         // filling in expression_disease
         if (data.expression_disease) {
@@ -432,11 +426,6 @@ function ajaxSuccess(data) {
             }
         }
 
-// log it to see what would get sent to mustache
-        console.log(data);
-
-// Mustache.render(template, data);hgbgghvythvhgtfkgyhjhsgghg
-
         // filling in mutation data
         if (data.mutation) {
             // Get data for sequence highlight
@@ -458,7 +447,6 @@ function ajaxSuccess(data) {
         }
 
         var sequenceData = buildHighlightData(originalSequence, highlight);
-        console.log(sequenceData);
 
         $container.html(html);
         if (window.innerWidth <= 500) {
@@ -480,12 +468,11 @@ function ajaxSuccess(data) {
             });
         });
 
-        // $container.find('#isoform').click();
         // glycosylation table
         $('#glycosylation-table').bootstrapTable({
             columns: [{
                 field: 'glytoucan_ac',
-                title: 'GlyTouCan Accession',
+                title: 'GlyTouCan <br/> Accession',
                 sortable: true,
                 formatter: function (value, row, index, field) {
                     return "<a href='glycan_detail.html?glytoucan_ac=" + value + "'>" + value + "</a>"
@@ -713,7 +700,7 @@ function ajaxSuccess(data) {
 }
 
 /**
- * @param {data} the callback function to GWU service if fails
+ * @param {data} the callback function to logging service on failure
  * Returns the GWU services fails.
  */
 function ajaxFailure(jqXHR, textStatus, errorThrown) {
@@ -793,3 +780,26 @@ function downloadPrompt() {
     var IsCompressed = $('#download_compression').is(':checked');
     downloadFromServer(uniprot_canonical_ac, format, IsCompressed, page_type);
 }
+
+
+// *********** Please do not change this as it may break the hash scroll code ***********
+$(document).ajaxStop(function () {
+    // calls the sidebar function only when all ajax calls are completed
+    faqMain();
+    function scrollToPanel(hash) {
+        //to scroll to the particular sub section.
+        $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
+        if ($(window).width() < 768) { //mobile view
+            $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
+            $('.cd-close-panel').addClass('move-left');
+            $('body').addClass('cd-overlay');
+        } else {
+            $('body,html').animate({
+                'scrollTop': $(hash).offset().top - 19
+            }, 200);
+        }
+    }
+    if (window.location.hash) {
+        scrollToPanel(window.location.hash);
+    }
+});

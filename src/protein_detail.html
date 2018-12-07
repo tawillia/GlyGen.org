@@ -121,14 +121,14 @@
         </ul>
         <!-- cd-faq-categories -->
         <!-- main content for page -->
-        <div class="cd-faq-items" id="content" style="margin-bottom: 400px;">
+        <div class="cd-faq-items" id="content" style="margin-bottom: 400px; margin-right: 0;">
             <script id="item_template" type="text/template">
             <!--Accession  starts here for page -->
             <center><h2 class="page-heading" style="margin-top: -5px;">Details for protein <span> {{#uniprot}} {{uniprot_canonical_ac}} {{/uniprot}} </span></h2></center>
             
-            <div class="row" style="margin-bottom: -40px;">
+            <div class="row">
                 <div class="dropdown gg-download text-right">
-                    <button class="btn btn-default2 btn-link btn-link-detail dropdown-toggle" type="button" id="download" alt="Download results" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-link btn-link-detail dropdown-toggle" type="button" id="download" alt="Download results" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="glyphicon glyphicon-save"></i> Download
                         <span class="caret"></span>
                     </button>
@@ -157,7 +157,7 @@
             <!-- General-->
             <ul id="general" class="cd-faq-group selected">
                 <li class="cd-faq-title" />
-                <div class="panel panel-default ">
+                <div class="panel panel-default">
                     <div class="gg-panel-heading"><h4>General</h4></div>
                     <div class="panel-body">
                         <div class="row">
@@ -188,7 +188,7 @@
 
                                 {{#recommendedname}} {{#full}}
                                 <li class="list-group"><strong>UniProtKB Entry
-                                    name:</strong> {{recommendedname.full}}
+                                    Name:</strong> {{recommendedname.full}}
                                     {{#short}} ({{recommendedname.short}}) {{/short}}
                                 </li>
                                 {{/full}}
@@ -313,25 +313,29 @@
             
             <!-- Sequence -->
             <ul id="sequence" class="cd-faq-group selected">
-                <li class="cd-faq-title" />
+                <li class="cd-faq-title"/>
                 <div class="panel panel-default">
                     <div class="gg-panel-heading">
                         <h4>Sequence</h4>
                     </div>
                     <div class="panel-body">
+                        
                         {{#sequence}}
-                        <div class="sequence-panel" id="sequnce_highlight">
-                            <ul>
-                                <li>
-                                    <input type="checkbox" name="checkbox" id="seq_n_link" onchange="checkUncheck('n_link_glycosylation', this)"/>&nbsp;<span class="sequnce1">N-linked Glycosylation</span>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkbox" onchange="checkUncheck('o_link_glycosylation', this)"/>&nbsp;<span class="sequnce2">O-linked Glycosylation</span>
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="checkbox" onchange="checkUncheck('mutation', this)"/>&nbsp;<span class="sequnce3">Mutation</span>
-                                </li>
-                            </ul>
+                        <div class="box">    
+                            <div class="col-lg-9 col-md-12 col-xs-12 sequence-panel" id="sequnce_highlight"></div>
+                            <div class="col-lg-3 col-md-12 col-sm-12 active">
+                                <ul class="highlight-panel-categories">
+                                    <li>
+                                        <input type="checkbox" name="checkbox" id="seq_n_link" onchange="checkUncheck('n_link_glycosylation', this)"/>&nbsp;<span class="sequnce1">N-linked Glycosylation</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="checkbox" onchange="checkUncheck('o_link_glycosylation', this)"/>&nbsp;<span class="sequnce2">O-linked Glycosylation</span>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="checkbox" onchange="checkUncheck('mutation', this)"/>&nbsp;<span class="sequnce3">Mutation</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         {{/sequence}}
                         {{^sequence}} No data available. {{/sequence}}
@@ -393,7 +397,7 @@
                     <div class="panel-body">
                         <div class="row">
                             {{#isoforms}}
-                            <div class='col-md-12 col-xs-12'>
+                            <div class="col-lg-9 col-md-12 col-sm-12">
                                 <div class="panelmaincontent">
                                     <li class="list-group"><strong>UniProtKB Isoform Accession:</strong> <a class="panelcontent" href="{{{url}}}" target="_blank">{{isoform_ac}}</a></li>
                                 </div>
@@ -565,29 +569,6 @@
     <!-- downloading files js -->
     <script src="libraries/download.js"></script>
 
-    <!-- Please do not change this it breaks hash scroll code-->
-    <script type="text/javascript">
-        $(document).ajaxStop(function () {
-            // calls the sidebar function only when all ajax calls are completed
-            faqMain();
-            function scrollToPanel(hash) {
-                //to scroll to the particular sub section.
-                $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
-                if ($(window).width() < 768) { //mobile view
-                    $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
-                    $('.cd-close-panel').addClass('move-left');
-                    $('body').addClass('cd-overlay');
-                } else {
-                    $('body,html').animate({
-                        'scrollTop': $(hash).offset().top - 19
-                    }, 200);
-                }
-            }
-            if (window.location.hash) {
-                scrollToPanel(window.location.hash);
-            }
-        });
-    </script>
 
 </body>
 

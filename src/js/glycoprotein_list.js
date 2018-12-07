@@ -54,7 +54,7 @@ function totalNoSearch(total_length) {
  */
 function editSearch() {
     {
-        window.location.replace("glycoprotein_search.html?id=" + id);
+        window.location.replace("glycoprotein_search.html?id=" + getParameterByName("id"));
         activityTracker("user", id, "edit search");
     }
 }
@@ -143,7 +143,7 @@ function ajaxListFailure(jqXHR, textStatus, errorThrown) {
  * LoadDataList function to configure and start the request to GWU  service
  * @param {string} id - The protein id to load
  **/
-function LoadDataList() {
+function LoadDataList(id) {
     var ajaxConfig = {
         dataType: "json",
         url: getWsUrl("protein_list"),
@@ -158,25 +158,6 @@ function LoadDataList() {
 }
 
 /**
- * getParameterByName function to EXtract query parametes from url
- * @param {string} name - The name of the variable variable to extract from query string
- * @param {string} url- The complete url with query string values
- * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
- */
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-var id = getParameterByName('id');
-LoadDataList(id);
-
-/**
  * hides the loading gif and displays the page after the results are loaded.
  * @author Gaurav Agarwal
  * @date July 25, 2018
@@ -186,6 +167,8 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function () {
+    var id = getParameterByName('id');
+    LoadDataList(id);
     $('#gen-table').on("sort.bs.table", function (event, field, order) {
         // event.preventDefault();
         event.stopPropagation();

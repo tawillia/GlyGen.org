@@ -47,13 +47,13 @@ function setProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism.id);
-        $("#gene_name").val(data.query.gene_name);
-        $("#protein_name").val(data.query.protein_name);
-        $("#pathway").val(data.query.pathway_id);
-        $("#sequences").val(data.query.sequence.aa_sequence);
-        $("#sequence_type").val(data.query.sequence.type);
-        $("#refseq").val(data.query.refseq_ac);
+        $("#species").val(data.query.organism? data.query.organism.id : "");
+        $("#gene_name").val(data.query.gene_name || "");
+        $("#protein_name").val(data.query.protein_name || "");
+        $("#pathway").val(data.query.pathway_id || "");
+        $("#sequences").val(data.query.sequence? data.query.sequence.aa_sequence : "");
+        $("#type").val(data.query.sequence? data.query.sequence.type : "");
+        $("#refseq").val(data.query.refseq_ac || "");
     }
 }
 /**
@@ -68,18 +68,18 @@ function setGlycoProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism.id);
-        $("#gene_name").val(data.query.gene_name);
-        $("#glycan_id").val(data.query.glycan.glytoucan_ac);
-        $("#relation").val(data.query.glycan.relation);
-        $("#protein_name").val(data.query.protein_name);
-        $("#pathway").val(data.query.pathway_id);
-        $("#sequences").val(data.query.sequence.aa_sequence);
-        $("#type").val(data.query.sequence.type);
-        $("#glycosylated_aa").val(data.query.glycosylated_aa).trigger("chosen:updated");
+        $("#species").val(data.query.organism? data.query.organism.id : "");
+        $("#gene_name").val(data.query.gene_name || "");
+        $("#glycan_id").val(data.query.glycan? data.query.glycan.glytoucan_ac : "");
+        $("#relation").val(data.query.glycan? data.query.glycan.relation : "");
+        $("#protein_name").val(data.query.protein_name || "");
+        $("#pathway").val(data.query.pathway_id || "");
+        $("#sequences").val(data.query.sequence? data.query.sequence.aa_sequence : "");
+        $("#type").val(data.query.sequence? data.query.sequence.type : "");
+        $("#glycosylated_aa").val(data.query.glycosylated_aa || "").trigger("chosen:updated");
         // $("#glycosylated_aa").val('').trigger("chosen:updated");
-        $("#glycosylation_evidence").val(data.query.glycosylation_evidence);
-        $("#refseq").val(data.query.refseq_ac);
+        $("#glycosylation_evidence").val(data.query.glycosylation_evidence || "");
+        $("#refseq").val(data.query.refseq_ac || "");
     }
 }
 
