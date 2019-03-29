@@ -1,9 +1,12 @@
 //@author: Rupali Mahadik
 // @description: UO1 Version-1.1.
-//@update:6 June 2018
+// @author: Tatiana Williamson
+// @description: glycoprotein_search.js
+//@update: 6 June 2018
 //@update: 26 June 2018-web services changes updated
 // @update on July 25 2018 - Gaurav Agarwal - added code for loading gif.
 // @update on Aug 12, 2018 - Gaurav Agarwal - added ajax timeout and error handling functions
+// @update on Feb 8, 2019 - Tatiana Williamson
 
 
 /**
@@ -79,7 +82,6 @@ var searchInitValues;
 var mass_max;
 var mass_min;
 $(document).ready(function () {
-    $("#simpleCatSelectedOptionExample").hide();
     $(".glycosylated_aa").chosen({
             // max_selected_options: 10,
             placeholder_text_multiple: "Click to select multiple Amino Acids",
@@ -98,6 +100,7 @@ $(document).ready(function () {
             searchInitValues = result;
             var orgElement = $("#species").get(0);
             result.organism.sort(sortDropdown);
+            result.simple_search_category[0].display = "Any category";
             for (var x = 0; x < result.organism.length; x++) {
                 createOption(orgElement, result.organism[x].name, result.organism[x].id);
             }
@@ -142,6 +145,7 @@ $(document).ready(function () {
             if (id) {
                 LoadDataList(id);
             }
+            populateExample();
         }
     });
 
@@ -223,11 +227,11 @@ function ajaxProteinSearchSuccess() {
     var gene_name = $("#gene_name").val();
     var protein_name = $("#protein_name").val();
     var pathway_id = $("#pathway").val();
-    // var sequence =
-    var sequence = {
-        "type": $("#type").val(),
-        "aa_sequence": $("#sequences").val().replace(/\n/g, "")
-    };
+    var sequence = $("#sequences").val().replace(/\n/g, "");
+    // var sequence = {
+    //     "type": $("#type").val(),
+    //     "aa_sequence": $("#sequences").val().replace(/\n/g, "")
+    // };
     var glycan_id = $("#glycan_id").val();
     var glycan_relation = $("#glycan_relation").val();
     var glycosylated_aa = $(".glycosylated_aa").val();
@@ -276,50 +280,48 @@ function ajaxProteinSearchSuccess() {
 function searchJson(input_query_type, mass_min, mass_max, input_organism, input_protein_id,
     input_refseq_id, input_gene_name, input_protein_name, input_pathway_id, input_sequence,
     input_glycan, input_relation, input_glycosylated_aa, input_glycosylation_evidence) {
-    var sequences = {
-        "type": "exact",
-        "aa_sequence": input_sequence
-    };
-    if (input_sequence != "") {
-        sequences.type = input_sequence.type;
-        sequences.aa_sequence = input_sequence.aa_sequence;
+    var sequences = null;
+    if (input_sequence) {
+        sequences = {
+            "type": "exact",
+            "aa_sequence": input_sequence
+        }
     }
-    var organisms = {
-        "id": 0,
-        "name": "All"
-    }
-
-    if (input_organism.id != "0") {
-        organisms.id = input_organism.id;
-        organisms.name = input_organism.name;
-    }
-
-    var glycans = {}
+    // if (input_sequence != "") {
+    //     sequences.type = input_sequence.type;
+    //     sequences.aa_sequence = input_sequence.aa_sequence;
+    // }
+    var glycans = {};
     if (input_glycan) {
         glycans = {
             relation: input_relation,
             glytoucan_ac: input_glycan
         }
     }
-
-    var formjson = {
+    var organisms ={};
+    if (input_organism.id != "0") {
+        organisms.id = input_organism.id;
+        organisms.name = input_organism.name;
+    }
+    var formjson = $.extend({}, {
         "operation": "AND",
         query_type: input_query_type,
         mass: {
             "min": parseInt(mass_min),
             "max": parseInt(mass_max)
         },
-        sequence: sequences,
-        organism: organisms,
-        refseq_ac: input_refseq_id,
-        protein_name: input_protein_name,
-        gene_name: input_gene_name,
-        pathway_id: input_pathway_id,
-        uniprot_canonical_ac: input_protein_id,
-        glycan: glycans,
+
+        sequence: sequences ?sequences:undefined,
+        organism: organisms ?organisms:undefined,
+        refseq_ac: input_refseq_id? input_refseq_id: undefined,
+        protein_name: input_protein_name? input_protein_name: undefined,
+        gene_name: input_gene_name?input_gene_name: undefined,
+        pathway_id: input_pathway_id ?input_pathway_id: undefined,
+        uniprot_canonical_ac: input_protein_id ?input_protein_id: undefined,
+        glycan: glycans?glycans: undefined,
         glycosylated_aa: input_glycosylated_aa,
-        glycosylation_evidence: input_glycosylation_evidence
-    };
+        glycosylation_evidence: input_glycosylation_evidence ?input_glycosylation_evidence: undefined
+    });
     return formjson;
 }
 
@@ -364,7 +366,7 @@ $('#simplifiedCategory').on('change', populateExample);
 function populateExample() {
     $('#simpleCatSelectedOptionExample').show();
 //    var value = $('#simplifiedCategory').val();
-    var name = $("#simplifiedCategory option:selected").text();
+    var name = $("#simplifiedCategory option:selected").val();
     var examples = [];
     var exampleText = "Example";
     
@@ -384,33 +386,35 @@ function populateExample() {
         case "protein":
             examples = ["P14210-1"];
             break;
-        case "any":
+        default:
             examples = ["Deafness", "G17689DH", "Homo sapiens", "hsa:3082", "P14210-1"];
             exampleText += "s";
             break;
     }
-    if (name != "Search by") {
-        $('#simpleCatSelectedOptionExample')[0].innerHTML = exampleText + ": ";
-        $.each(examples, function(i, example) {
-            $('#simpleCatSelectedOptionExample')[0].innerHTML += "<a href='' class='simpleTextExample'>" + example + "</a>, ";
-        });
-        //remove last comma and space
-        $('#simpleCatSelectedOptionExample')[0].innerHTML = $('#simpleCatSelectedOptionExample')[0].innerHTML.slice(0, -2);
+    
+    //    if (name != "Choose category") {
+    $('#simpleCatSelectedOptionExample')[0].innerHTML = exampleText + ": ";
+    $.each(examples, function(i, example) {
+        $('#simpleCatSelectedOptionExample')[0].innerHTML += "<a href='' class='simpleTextExample' data-tippy='Click to Insert'>" + example + "</a>, ";
+    });
+    //remove last comma and space
+    $('#simpleCatSelectedOptionExample')[0].innerHTML = $('#simpleCatSelectedOptionExample')[0].innerHTML.slice(0, -2);
 
-        $('#simplifiedSearch').attr('placeholder', "Enter the " + getPlaceHolder(name));
-        clickableExample();
-    } else {
-        $('#simpleCatSelectedOptionExample').hide();
-        $('#simpleTextExample').text('');
-        $('#simplifiedSearch').attr('placeholder', "Enter the search term");
-    }
+    $('#simplifiedSearch').attr('placeholder', "Enter the " + getPlaceHolder(name));
+    $('[data-toggle="tooltip"]').tooltip(); 
+    clickableExample();
+    //    } else {
+    //        $('#simpleCatSelectedOptionExample').hide();
+    //        $('#simpleTextExample').text('');
+    //        $('#simplifiedSearch').attr('placeholder', "Enter the search term");
+    //    }
 }
 /**
  * Adds a different placeholder text in simple search 
  * @param {string} type [Changes a different placeholer text]
  */
 function getPlaceHolder(type) {
-    switch(type.toLowerCase()) {
+    switch (type.toLowerCase()) {
         case "glycan":
             return "GlyTouCan Accession";
         case "protein":
@@ -534,12 +538,12 @@ function ajaxListSuccess(data) {
     } else {
         if (data.query) {
             if (data.query.query_type === "protein_search_simple") {
-                $('.nav-tabs a[href="#tab_default_1"]').tab('show');
+                $('.nav-tabs a[href="#simple_search"]').tab('show');
                 $("#simplifiedCategory").val(data.query.term_category);
                 $("#simplifiedSearch").val(data.query.term);
                 populateExample();
             } else {
-                $('.nav-tabs a[href="#tab_default_2"]').tab('show');
+                $('.nav-tabs a[href="#advanced_search"]').tab('show');
             }
         }
         activityTracker("user", id, "Search modification initiated");

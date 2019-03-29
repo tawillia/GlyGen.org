@@ -1,13 +1,12 @@
-//@Author: Rupali Mahadik
+//@author: Rupali Mahadik
 // @description: UO1 Version-1.1.
 //@Date:19th Feb 2018.- with Rupali Mahadik dummy webservice
 //@update:3 April 2018. with Rupali Mahadik real web service
 //@update: June 26-2018- with Rupali Mahadik web service changes.
-// @update: pagination change Rupali Mahadik.
 //@update: July 5, 2018 - Gaurav Agarwal - added user tracking navigation on pagination table.
 // @update: July 27, 2018 - Gaurav Agarwal - commented out the conditional statements in update search.
 // @update on Aug 28 2018 - Gaurav Agarwal - updated ajaxListFailure function
-// @update: :New organism spec Rupali Mahadik.
+// @added: Oct 22, 2018 - Gaurav Agarwal - added downloadPrompt() which gives selection box for downloading data.
 
 
 /**
@@ -15,52 +14,33 @@
  * @param {int} n - The length of the string
  * @returns {int} -Short String
  */
+
 String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
     };
-var id = '';
+var id = 'glytoucan_ac';
 var page = 1;
-var sort = 'mass';
-var dir = $('.dir-select').val();
-var url = getWsUrl('glycan_list') + "?action=get_user";
-var limit = 10;
+var sort = 'glytoucan_ac';
+var dir = 'asc';
+var url = getWsUrl('motif_detail') + "?action=get_user";
+//var url= "http://tst.api.glygen.org/motif/detail?query={glytoucan_ac:G00055MO,offset:1,limit:20,sort:glytoucan_ac,order:asc}"
+var limit = 20;
+
 
 /**
- * it creates user interface for summary
- * @param {Object} queryInfo - the dataset of pagination info is retun from server
- * @param {string} queryInfo.execution_time - The queryInfo.execution_time gives execution_time of query in the form of date.
- * @param {integer} paginationInfo.limit - The paginationInfo.limit givesrecords per page from pagination object
+ * Format function of getting total result for each search   [+]
+ * @param {total_length} paginationInfo.total_length -
  */
-function buildSummary(queryInfo) {
-    var summaryTemplate = $('#summary-template').html();
-    queryInfo.execution_time= moment().format('MMMM Do YYYY, h:mm:ss a')
-    queryInfo[question] = true;
-    var summaryHtml = Mustache.render(summaryTemplate, queryInfo);
-    $('#summary-table').html(summaryHtml);
-}
 
-/**
- * Returns total number of pages for each list
- * @param {string} total_length the dataset of pagination info is retun from server
- */
 function totalNoSearch(total_length) {
-    $('.searchresult').html( "\""  + total_length + " glycans were found\"");
-}
-
-/**
- * Redirect to searchPage with id after clicking editSearch
- */
-function editSearch() {
-    var question =  getParameterByName('question');
-        window.location.replace("quick_search.html?id=" + id + '&question=' + question);
-        activityTracker("user", id, "edit search");
+    $('.searchresult').html("\"" + total_length + " glycans were found\"");
 }
 
 /**
  * Format function to create link to the details page
  * @param {object} value - The data binded to that particular cell.
- * @return -Details particular Glycan Id
+ * @return - Details particular Glycan Id
  */
 function pageFormat(value, row, index, field) {
     return "<a href='glycan_detail.html?glytoucan_ac=" + value + "'>" + value + "</a>";
@@ -84,6 +64,7 @@ function imageFormat(value, row, index, field) {
  * @param {object} value - The data binded to that particular cell.
  * @return- Glycan Mass if available else NA
  */
+
 function massFormatter(value) {
     if (value) {
         var mass = value;
@@ -93,7 +74,7 @@ function massFormatter(value) {
     }
 }
 
-var lastSearch;
+
 
 /**
  * Handling a succesful call to the server for list page
@@ -102,14 +83,22 @@ var lastSearch;
  * @param {Object} data.pagination - the dataset for pagination info
  * @param {Object} data.query - the dataset for query
  */
+
 function ajaxListSuccess(data) {
-    // console.log(data);
-    //console.log(data.code);
-    if (data.code) {
-        console.log(data.code);
-        displayErrorByCode(data.code);
-        activityTracker("error", id, "error code: " + data.code +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+    if (data.error_code) {
+        console.log(data.error_code);
+        displayErrorByCode(data.error_code);
+        activityTracker("error", id, "error code: " + data.error_code + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     } else {
+        data.imagePath = getWsUrl('glycan_image', data.glytoucan.glytoucan_ac);
+
+        // load mustache template 1
+        var template1 = $('#item_template_detail').html();
+        // render 1 with data
+        var template1html = Mustache.render(template1, data);
+        // insert 1 back into DOM
+        $('#content_detail').html(template1html);
+
         var $table = $('#gen-table');
         var items = [];
         if (data.results) {
@@ -126,15 +115,22 @@ function ajaxListSuccess(data) {
                 });
             }
         }
-
+        if (data.query.organism && (data.query.organism.id === 0)) {
+            data.query.organism.name = "All";
+        }
         $table.bootstrapTable('removeAll');
         $table.bootstrapTable('append', items);
-        buildPages(data.pagination);
-        // buildSummary(data.query);
-        buildSummary(data.query, question);
-        document.title='glycan-list';
-        lastSearch = data;
-        activityTracker("user", id, "successful response "+ question +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+         buildPages(data.pagination);
+
+
+        // load mustache template 2
+        var template2 = $('#item_template_publ').html();
+        // render 1 with data
+        var template2html = Mustache.render(template2, data);
+        // insert 1 back into DOM
+        $('#content_publ').html(template2html);
+
+        activityTracker("user", id, "successful response (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     }
 }
 
@@ -153,19 +149,15 @@ function ajaxListFailure(jqXHR, textStatus, errorThrown) {
  * @param {string} id - The glycan id to load
  * */
 function LoadDataList() {
-    if(!id){
-        id= getParameterByName('id');
-    }
     var ajaxConfig = {
         dataType: "json",
-        url: getWsUrl("glycan_list"),
-        data: getListPostData(id, page, sort, dir, limit),
-        method: 'POST',
+        url: getWsUrl("motif_detail", glytoucan_ac),
+        data: getListPostMotifData(glytoucan_ac, page, sort, dir, limit),
+        method: 'GET',
         timeout: getTimeout("list_glycan"),
         success: ajaxListSuccess,
         error: ajaxListFailure
     };
-
     // make the server call
     $.ajax(ajaxConfig);
 }
@@ -176,6 +168,7 @@ function LoadDataList() {
  * @param {string} url- The complete url with query string values
  * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
  */
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -186,9 +179,8 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-var id = getParameterByName('id');
-var question = getParameterByName('question');
-LoadDataList(id);
+var glytoucan_ac = getParameterByName('glytoucan_ac');
+LoadDataList(glytoucan_ac);
 
 /**
  * hides the loading gif and displays the page after the results are loaded.
@@ -198,3 +190,17 @@ LoadDataList(id);
 $(document).ajaxStop(function () {
     $('#loading_image').fadeOut();
 });
+
+
+/**
+ * Gets the values selected in the download dropdown
+ * and sends to the downloadFromServer() function in utility.js
+ * @author Gaurav Agarwal
+ * @since Oct 22, 2018.
+ */
+function downloadPrompt() {
+    var page_type = "glycan_list";
+    var format = $('#download_format').val();
+    var IsCompressed = $('#download_compression').is(':checked');
+    downloadFromServer(id, format, IsCompressed, page_type);
+}

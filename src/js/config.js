@@ -1,5 +1,5 @@
 /**
- * @author: Gaurav Agarwal
+ * @author: Rupali Mahadik
  * version 1.1.0
  * @description: Displays each question in quick search page on page load
  * @date: July 5, 2018 
@@ -20,6 +20,10 @@ MESSAGES.QUESTION_7 = "What are the glycosyltransferases in species X?";
 MESSAGES.QUESTION_8 = "What are the glycohydrolases in species X?";
 MESSAGES.QUESTION_9 = "What are the reported or predicted glycosylated proteins in species X?";
 MESSAGES.QUESTION_10 = "Which glycosyltransferases are known to be involved in disease X?";
+MESSAGES.QUESTION_TRY1 = "What are the enzymes involved in the biosynthesis of Man5 in human? ";
+MESSAGES.QUESTION_TRY2 = " What protein have been  shown to bear a bi-antennary fully sialylated N-Glycan and which site is this glycan attached to? ";
+MESSAGES.QUESTION_TRY3 = " Which glycans might have been synthesized in mouse using Mgat1 ?";
+
 
 /**
  * @param {string} target [[Displays each question in quick search page on page load]]

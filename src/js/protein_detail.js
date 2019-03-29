@@ -1,10 +1,16 @@
 //@author: Rupali Mahadik
-// (Mustache template, Glycosylation table, Highlighting sequence)
+// (Rupali Mahadik-Mustache template, Glycosylation table, Highlighting sequence)
 // @description: UO1 Version-1.1.
+//@Date:19th Feb 2018. Rupali Mahadik-with dummy web service
+//@update: 3-April 2018. Rupali Mahadik-with real web service
+//@update: June 26-2018- Rupali Mahadik-with web service changes
 // @update: July 16, 2018 - Gaurav Agarwal - Error and page visit logging
 // @update on July 25 2018 - Gaurav Agarwal - added code for loading gif.
 // @update: July 31 2018 - Gaurav Agarwal - added mutation table.
+// @update: Aug 1, 2018 - Rupali Mahadik - Table for Biosynthetic enzyme and found glycoprotein
+// @update: Aug 6, 2018 - Rupali Mahadik - Grouping for cross ref
 // @added: Oct 22, 2018 - Gaurav Agarwal - added downloadPrompt() which gives selection box for downloading data.
+// @update: Jan 17th, 2019 - Rupali Mahadik - added new evidence display 
 
 /**
  * Object to hold highlight data in state
@@ -62,7 +68,7 @@ function getMutationHighlightData(mutationData) {
  */
 function isHighlighted(position, selection) {
     var result = false;
-    if (selection){
+    if (selection) {
         for (var x = 0; x < selection.length; x++) {
             var start = selection[x].start;
             var end = selection[x].start + selection[x].length - 1;
@@ -85,7 +91,7 @@ function isHighlighted(position, selection) {
  */
 function buildHighlightData(sequence, highlightData) {
     var result = [];
-    if(sequence) {
+    if (sequence) {
         for (var x = 0; x < sequence.length; x++) {
             var position = x + 1;
             result.push({
@@ -177,22 +183,23 @@ function createHighlightRow(start, rowData) {
  */
 function createHighlightUi(highlightData, perLine) {
     var $ui = $('<div class="highlight-display"></div>');
-    var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 +10         +20         +30         +40         +50</pre>";
-    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 |           |          |           |          |</pre>";
+
+    var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px; font-family:monospace; font-size: 14px;'>                +10        +20        +30        +40        +50</pre>";
+    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px; font-family:monospace; font-size: 14px;'>                 |          |          |          |          |</pre>";
     $ui.append(seqTopIndex);
     $ui.append(seqTopIndexLines);
     for (var x = 0; x < highlightData.length; x += perLine) {
         var rowDataTemp = adjustSequenceRuns(highlightData.slice(x, x + perLine));
         var rowData = [];
         for (var i = 0; i < rowDataTemp.length; i++) {
-            for(var s = 0; s < SEQUENCE_SPACES_BETWEEN_RUNS; s++) {
+            for (var s = 0; s < SEQUENCE_SPACES_BETWEEN_RUNS; s++) {
                 rowDataTemp[i].push({
                     character: '&nbsp;',
                     n_link_glycosylation: false,
                     o_link_glycosylation: false,
                     mutation: false
                 });
-            }            
+            }
             $.merge(rowData, rowDataTemp[i]);
         }
 
@@ -210,12 +217,14 @@ var uniprot_canonical_ac;
  */
 function scrollToPanel(hash) {
     //to scroll to the particular sub section.
-    if ($(window).width() < 768) {   //mobile view
+    if ($(window).width() < 768) { //mobile view
         $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
         $('.cd-close-panel').addClass('move-left');
         $('body').addClass('cd-overlay');
     } else {
-        $('body,html').animate({'scrollTop': $(hash).offset().top - 19}, 200);
+        $('body,html').animate({
+            'scrollTop': $(hash).offset().top - 19
+        }, 200);
     }
 }
 
@@ -227,8 +236,8 @@ function scrollToPanel(hash) {
 function formatSequence(sequenceString) {
     var perLine = 60;
     var output = '';
-    var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 +10         +20         +30         +40         +50</pre>";
-    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px'>                 |          |          |          |          |</pre>";
+    var seqTopIndex = "<pre style='border:0px; padding:0px; margin-bottom:0px; font-family:monospace; font-size: 14px;'>                +10        +20        +30        +40        +50</pre>";
+    var seqTopIndexLines = "<pre style='border:0px; padding:0px; margin-bottom:0px; font-family:monospace;font-size: 14px;'>                 |          |          |          |          |</pre>";
     output += seqTopIndex;
     output += seqTopIndexLines;
 
@@ -246,7 +255,7 @@ function formatSequence(sequenceString) {
  */
 function adjustSequenceRuns(sequence) {
     var y_arr = [];
-    for (var i = 0; i<sequence.length; i += SEQUENCE_ROW_RUN_LENGTH) {
+    for (var i = 0; i < sequence.length; i += SEQUENCE_ROW_RUN_LENGTH) {
         y_arr.push(sequence.slice(i, i + SEQUENCE_ROW_RUN_LENGTH));
     }
     return y_arr;
@@ -270,6 +279,64 @@ function addCommas(nStr) {
     return x1 + x2;
 }
 
+
+function formatEvidences(item) {
+    if (item && item.length) {
+        for (var i = 0; i < item.length; i++) {
+            var currentItem = item[i];
+            var databases = [];
+            if (currentItem && currentItem.evidence && currentItem.evidence.length) {
+                for (var j = 0; j < currentItem.evidence.length; j++) {
+                    var evidenceitem = currentItem.evidence[j];
+                    var found = '';
+
+                    for (var x = 0; x < databases.length; x++) {
+                        var databaseitem = databases[x];
+                        if (databaseitem.database === evidenceitem.database) {
+                            found = true;
+                            databaseitem.links.push({
+                                url: evidenceitem.url,
+                                id: evidenceitem.id
+                            });
+                        }
+                    }
+
+                    if (!found) {
+                        databases.push({
+                            database: evidenceitem.database,
+                            color: databasecolor(evidenceitem.database),
+                            links: [{
+                                url: evidenceitem.url,
+                                id: evidenceitem.id
+                            }]
+                        })
+                    }
+                }
+            }
+            currentItem.databases = databases;
+        }
+    }
+}
+function EvidencebadgeFormator(value, row, index, field) {
+    var buttonsHtml = "";
+    $.each(value, function (i, v) {
+        var linksHtml = "";
+        $.each(v.links, function (i, w) {
+            linksHtml += '<li class="linkHtml5">' +
+                '<a href="' + w.url + '" target="_blank">' + w.id + '</a></li>'
+        });
+
+        buttonsHtml += '<span class="evidence_badge">' +
+            '<button class="btn btn-primary color-' + v.database + '" type="button" style="background-color: ' + v.color + '; border-color: ' + v.color + '">' + v.database +
+            '&nbsp;&nbsp;&nbsp;<span class="badge">' + v.links.length + '</span>' +
+            '</button>' +
+            '<div class="hidden evidence_links">' +
+            '<ul>' + linksHtml + '</ul>' +
+            '</div>' +
+            '</span>';
+    });
+    return buttonsHtml;
+}
 /**
  * Handling a succesful call to the server for details page
  * @param {Object} data - the data set returned from the server on success
@@ -279,22 +346,39 @@ function ajaxSuccess(data) {
         activityTracker("error", uniprot_canonical_ac, data.error_code);
         // added by Gaurav on July 27, 2018. Web service error display.
         alertify.alert('Error occured', data.error_code);
-    }
-    else {
+    } else {
         activityTracker("user", uniprot_canonical_ac, "successful response");
         var template = $('#item_template').html();
-        if(data.sequence) {
+        if (data.sequence) {
             var originalSequence = data.sequence.sequence;
             data.sequence.sequence = formatSequence(originalSequence);
-            if(data.isoforms) {
+
+            if (data.isoforms) {
                 for (var i = 0; i < data.isoforms.length; i++) {
                     // assign the newly result of running formatSequence() to replace the old value
                     data.isoforms[i].sequence.sequence = formatSequence(data.isoforms[i].sequence.sequence);
                     data.isoforms[i].locus.start_pos = addCommas(data.isoforms[i].locus.start_pos);
                     data.isoforms[i].locus.end_pos = addCommas(data.isoforms[i].locus.end_pos);
+                    if (data.isoforms[i].locus && data.isoforms[i].locus.evidence) {
+                        data.isoforms[i].evidence = data.isoforms[i].locus.evidence;
+                        formatEvidences([data.isoforms[i]]);
+                    }
                 }
             }
+
+
         }
+
+        formatEvidences(data.species);
+        formatEvidences(data.function);
+        formatEvidences(data.mutation);
+        formatEvidences(data.glycosylation);
+        formatEvidences(data.expression_disease);
+        formatEvidences(data.expression_tissue);
+        formatEvidences(data.disease);
+
+     
+
 
         var itemscrossRef = [];
         //check data.
@@ -306,12 +390,10 @@ function ajaxSuccess(data) {
                     var databaseitem = itemscrossRef[j];
                     if (databaseitem.database === crossrefitem.database) {
                         found = true;
-                        databaseitem.links.push(
-                            {
-                                url: crossrefitem.url,
-                                id: crossrefitem.id
-                            }
-                        );
+                        databaseitem.links.push({
+                            url: crossrefitem.url,
+                            id: crossrefitem.id
+                        });
                     }
                 }
                 if (!found) {
@@ -337,13 +419,11 @@ function ajaxSuccess(data) {
                     var databaseitem1 = itemsPathway[j];
                     if (databaseitem1.resource === pathwayitem.resource) {
                         found = true;
-                        databaseitem1.links.push(
-                            {
-                                url: pathwayitem.url,
-                                id: pathwayitem.id,
-                                name: pathwayitem.name
-                            }
-                        );
+                        databaseitem1.links.push({
+                            url: pathwayitem.url,
+                            id: pathwayitem.id,
+                            name: pathwayitem.name
+                        });
                     }
                 }
                 if (!found) {
@@ -361,70 +441,46 @@ function ajaxSuccess(data) {
             data.itemsPathway = itemsPathway;
         }
 
-        data.itemsGlycosyl = [];
-        data.itemsGlycosyl2 = [];
-
         if (data.glycosylation) {
-
-            // Get data for sequence highlight
             highlight.o_link_glycosylation = getGlycosylationHighlightData(data.glycosylation, 'O-linked');
             highlight.n_link_glycosylation = getGlycosylationHighlightData(data.glycosylation, 'N-linked');
+       
+            data.glycosylation.sort(function (a, b) {
+                // compare residue firs
+                if (a.residue < b.residue) { return -1; }
+                else if (b.residue < a.residue) { return 1; }
+                // compare position
+                else if (a.position < b.position) { return -1; }
+                else if (b.position < a.position) { return 1; }
+    
+                // else the same
+                return 0;
+            });
+       
+            data.hasGlycosylation = (data.glycosylation.length > 0);
+        }
 
-            for (var i = 0; i < data.glycosylation.length; i++) {
-                var glycan = data.glycosylation[i];
-                if (glycan.glytoucan_ac) {
-                    data.itemsGlycosyl.push({
-                        glytoucan_ac: glycan.glytoucan_ac,
-                        residue: glycan.residue + glycan.position,
-                        type: glycan.type,
-                        evidence: glycan.evidence
-                    });
-                }
-                else {
-                    data.itemsGlycosyl2.push({
-                        residue: glycan.residue + glycan.position,
-                        type: glycan.type,
-                        evidence: glycan.evidence
-                    });
-                }
-            }
+        function hasGlycanId(item) {
+            return (item.glytoucan_ac !== undefined);
+        }
+
+        if (data.glycosylation) {
+            data.glycosylation = data.glycosylation.map(function (item) {
+                item.residue = item.residue + item.position;
+                return item;
+            });
+
+            data.itemsGlycosyl = data.glycosylation.filter(hasGlycanId);
+
+            data.itemsGlycosyl2 = data.glycosylation.filter(function (item) {
+                return !(hasGlycanId(item));
+            });
         }
 
         var html = Mustache.to_html(template, data);
         var $container = $('#content');
-
         var itemsMutate = [];
-        var itemsExpressionTissue = [];
-        var itemsExpressionDisease = [];
 
-        // filling in expression_disease
-        if (data.expression_disease) {
-            for (var i = 0; i < data.expression_disease.length; i++) {
-                var expressionD = data.expression_disease[i];
-                itemsExpressionDisease.push({
-                    name: expressionD.name,
-                    disease: expressionD.disease,
-                    significant: expressionD.significant,
-                    trend: expressionD.trend,
-                    evidence: expressionD.evidence
-                    // "significant":"yes",
-                    // "trend":"down",
-                });
-            }
-        }
-
-        // filling in expression_tissue
-        if (data.expression_tissue) {
-            for (var i = 0; i < data.expression_tissue.length; i++) {
-                var expressionT = data.expression_tissue[i];
-                itemsExpressionTissue.push({
-                    name: expressionT.name,
-                    tissue: expressionT.tissue,
-                    present: expressionT.present,
-                    evidence: expressionT.evidence
-                });
-            }
-        }
 
         // filling in mutation data
         if (data.mutation) {
@@ -433,6 +489,8 @@ function ajaxSuccess(data) {
 
             for (var i = 0; i < data.mutation.length; i++) {
                 var mutate = data.mutation[i];
+                formatEvidences([mutate]);
+
                 itemsMutate.push({
                     annotation: mutate.annotation,
                     disease: mutate.disease,
@@ -441,7 +499,8 @@ function ajaxSuccess(data) {
                     end_pos: mutate.end_pos,
                     // merging the two sequences, separated by arrow symbol.
                     sequence: mutate.sequence_org + " &#8594 " + mutate.sequence_mut,
-                    evidence: mutate.evidence
+                    evidence: mutate.evidence,
+                    database: mutate.databases
                 });
             }
         }
@@ -449,6 +508,8 @@ function ajaxSuccess(data) {
         var sequenceData = buildHighlightData(originalSequence, highlight);
 
         $container.html(html);
+        // setupEvidenceList();
+
         if (window.innerWidth <= 500) {
             createHighlightUi(sequenceData, 10);
         } else {
@@ -470,13 +531,20 @@ function ajaxSuccess(data) {
 
         // glycosylation table
         $('#glycosylation-table').bootstrapTable({
-            columns: [{
-                field: 'glytoucan_ac',
-                title: 'GlyTouCan <br/> Accession',
-                sortable: true,
-                formatter: function (value, row, index, field) {
-                    return "<a href='glycan_detail.html?glytoucan_ac=" + value + "'>" + value + "</a>"
-                }
+            columns: [
+                {
+                    field: 'databases',
+                    title: 'Sources',
+                    sortable: true,
+                    formatter: EvidencebadgeFormator
+                },
+                {
+                    field: 'glytoucan_ac',
+                    title: 'GlyTouCan <br/> Accession',
+                    sortable: true,
+                    formatter: function (value, row, index, field) {
+                        return "<a href='glycan_detail.html?glytoucan_ac=" + value + "'>" + value + "</a>"
+                    }
             },
                 {
                     field: 'type',
@@ -493,6 +561,7 @@ function ajaxSuccess(data) {
                     field: 'imageFormat',
                     title: 'Image of Glycan Structure',
                     sortable: true,
+               
                     formatter: function imageFormat(value, row, index, field) {
                         var url = getWsUrl('glycan_image', row.glytoucan_ac);
                         return "<div class='img-wrapper'><img class='img-cartoon' src='" + url + "' alt='Cartoon' /></div>";
@@ -501,26 +570,21 @@ function ajaxSuccess(data) {
             ],
             pagination: 10,
             data: data.itemsGlycosyl,
-            detailView: true,
-            detailFormatter: function (index, row) {
-                var html = [];
-                var evidences = row.evidence;
-                for (var i = 0; i < evidences.length; i++) {
-                    var evidence = evidences[i];
-                    html.push("<div class='row'>");
-                    html.push("<div class='col-xs-12'><li class='list-group-indent'>" + evidence.database + ":<a href=' " + evidence.url + " ' target='_blank'>" + evidence.id + "</a></li></div>");
-                    html.push("</div>");
-                }
-                return html.join('');
-            },
             onPageChange: function () {
                 scrollToPanel("#glycosylation");
+                setupEvidenceList();
             }
         });
 
         // glycosylation table
         $('#glycosylation-table2').bootstrapTable({
             columns: [
+                {
+                    field: 'databases',
+                    title: 'Sources',
+                    sortable: true,
+                    formatter: EvidencebadgeFormator
+                },
                 {
                     field: 'type',
                     title: 'Type',
@@ -531,22 +595,15 @@ function ajaxSuccess(data) {
                     field: 'residue',
                     title: 'Residue',
                     sortable: true
+                   
                 }
             ],
             pagination: 10,
             data: data.itemsGlycosyl2,
-            detailView: true,
-            detailFormatter: function (index, row) {
-                var html = [];
-                var evidences = row.evidence;
-                for (var i = 0; i < evidences.length; i++) {
-                    var evidence = evidences[i];
-                    html.push("<div class='row'>");
-                    html.push("<div class='col-xs-12'><li class='list-group-indent'>" + evidence.database + ":<a href=' " + evidence.url + " ' target='_blank'>" + evidence.id + "</a></li></div>");
-                    html.push("</div>");
-                }
-                return html.join('');
-            },
+            onPageChange: function () {
+                scrollToPanel("#glycosylation");
+                setupEvidenceList();
+            }
         });
 
         $(".EmptyFind").each(function () {
@@ -559,10 +616,18 @@ function ajaxSuccess(data) {
         $('#loading_image').fadeOut();
         // mutation table
         $('#mutation-table').bootstrapTable({
-            columns: [{
-                field: 'annotation',
-                title: 'Annotation name',
-                sortable: true
+            columns: [
+                {
+                    field: 'database',
+                    title: 'Sources',
+                    sortable: true,
+                    formatter: EvidencebadgeFormator
+                },
+
+                {
+                    field: 'annotation',
+                    title: 'Annotation name',
+                    sortable: true
             },
                 {
                     field: 'disease',
@@ -571,9 +636,9 @@ function ajaxSuccess(data) {
                     formatter: function (value, row, index, field) {
                         var diss;
                         if (value.icd10)
-                            diss = value.name + " (ICD10:" + value.icd10 + " ; DOID:<a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
+                            diss = value.name + " (ICD10: " + value.icd10 + " ; DOID: <a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
                         else
-                            diss = value.name + " (DOID:<a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
+                            diss = value.name + " (DOID: <a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
                         return diss;
                     }
                 },
@@ -599,18 +664,9 @@ function ajaxSuccess(data) {
                 }],
             pagination: 10,
             data: itemsMutate,
-            detailView: true,
-            detailFormatter: function (index, row) {
-                var html = [];
-                var evidences = row.evidence;
-                for (var i = 0; i < evidences.length; i++) {
-                    var evidence = evidences[i];
-                    html.push("<div class='row'>");
-                    html.push("<div class='col-xs-12'><li class='list-group-indent'>" + evidence.database + ": <a href=' " + evidence.url + " ' target='_blank'>" + evidence.id + "</a></li></div>");
-                    html.push("</div>");
-                }
-                return html.join('');
-            },
+            onPageChange: function () {
+                setupEvidenceList();
+            }
         });
 
         $('#loading_image').fadeOut();
@@ -619,15 +675,21 @@ function ajaxSuccess(data) {
         $('#expressionDisease-table').bootstrapTable({
             columns: [
                 {
+                    field: 'databases',
+                    title: 'Sources',
+                    sortable: true,
+                    formatter: EvidencebadgeFormator
+                },
+                {
                     field: 'disease',
                     title: 'Disease',
                     sortable: true,
                     formatter: function (value, row, index, field) {
                         var diss1;
                         if (value.icd10)
-                            diss1 = value.name + " (ICD10:" + value.icd10 + " ; DOID:<a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
+                            diss1 = value.name + " (ICD10: " + value.icd10 + " ; DOID: <a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
                         else
-                            diss1 = value.name + " (DOID:<a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
+                            diss1 = value.name + " (DOID: <a href='" + value.url + "' target='_blank'>" + value.doid + "</a>)";
                         return diss1;
                     }
                 },
@@ -644,19 +706,11 @@ function ajaxSuccess(data) {
                 },
             ],
             pagination: 10,
-            data: itemsExpressionDisease,
-            detailView: true,
-            detailFormatter: function (index, row) {
-                var html = [];
-                var evidences = row.evidence;
-                for (var i = 0; i < evidences.length; i++) {
-                    var evidence = evidences[i];
-                    html.push("<div class='row'>");
-                    html.push("<div class='col-xs-12'><li class='list-group-indent'>" + evidence.database + ": <a href=' " + evidence.url + " ' target='_blank'>" + evidence.id + "</a></li></div>");
-                    html.push("</div>");
-                }
-                return html.join('');
-            },
+            data: data.expression_disease,
+            onPageChange: function () {
+
+                setupEvidenceList();
+            }
         });
 
         $('#loading_image').fadeOut();
@@ -665,37 +719,38 @@ function ajaxSuccess(data) {
         $('#expressionTissue-table').bootstrapTable({
             columns: [
                 {
+                    field: 'databases',
+                    title: 'Sources',
+                    sortable: true,
+                    formatter: EvidencebadgeFormator
+                },
+                {
                     field: 'tissue',
                     title: 'Tissue',
                     sortable: true,
                     formatter: function (value, row, index, field) {
-                        return value.name + " (UBERON:<a href='" + value.url + "' target='_blank'>" + value.uberon + "</a>)"
+                        return value.name + " (UBERON: <a href='" + value.url + "' target='_blank'>" + value.uberon + "</a>)"
                     }
                 },
                 {
                     field: 'present',
                     title: 'Present',
-                    sortable: true
+                    sortable: true,
+                    class: 'upper-case'
                 }
 
             ],
 
             pagination: 10,
-            data: itemsExpressionTissue,
-            detailView: true,
-            detailFormatter: function (index, row) {
-                var html = [];
-                var evidences = row.evidence;
-                for (var i = 0; i < evidences.length; i++) {
-                    var evidence = evidences[i];
-                    html.push("<div class='row'>");
-                    html.push("<div class='col-xs-12'><li class='list-group-indent'>" + evidence.database + ": <a href=' " + evidence.url + " ' target='_blank'>" + evidence.id + "</a></li></div>");
-                    html.push("</div>");
-                }
-                return html.join('');
-            },
+            data: data.expression_tissue,
+            onPageChange: function () {
+
+                setupEvidenceList();
+            }
         });
     }
+
+    setupEvidenceList();
     $('#loading_image').fadeOut();
 }
 
@@ -731,6 +786,31 @@ function LoadData(uniprot_canonical_ac) {
     $.ajax(ajaxConfig);
 }
 
+function setupEvidenceList () {
+    var $evidenceBadges = $('.evidence_badge');
+    $evidenceBadges.each(function () {
+        var $badge = $(this);
+
+        if (!$badge.attr('data-badge')) {
+            $badge.find('button').on('click', show_evidence);
+            $badge.attr('data-badge', true);
+        }
+    });
+}
+
+function show_evidence() {
+    var $evidenceList = $(this).next();
+    var isHidden = $evidenceList.hasClass('hidden');
+    //$(".evidence_links").addClass("hidden");
+
+    if (isHidden) {
+        $evidenceList.removeClass("hidden");
+    } else {
+        $evidenceList.addClass("hidden");
+    }
+
+}
+
 /**
  * getParameterByName function to extract query parametes from url
  * @param {name} string for the name of the variable variable to extract from query string
@@ -764,7 +844,7 @@ function checkUncheck(type, element) {
 
 $(document).ready(function () {
     uniprot_canonical_ac = getParameterByName('uniprot_canonical_ac');
-    document.title = uniprot_canonical_ac + " Detail - glygen";   //updates title with the protein ID
+    document.title = uniprot_canonical_ac + " Detail - glygen"; //updates title with the protein ID
     LoadData(uniprot_canonical_ac);
 });
 
@@ -780,26 +860,3 @@ function downloadPrompt() {
     var IsCompressed = $('#download_compression').is(':checked');
     downloadFromServer(uniprot_canonical_ac, format, IsCompressed, page_type);
 }
-
-
-// *********** Please do not change this as it may break the hash scroll code ***********
-$(document).ajaxStop(function () {
-    // calls the sidebar function only when all ajax calls are completed
-    faqMain();
-    function scrollToPanel(hash) {
-        //to scroll to the particular sub section.
-        $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
-        if ($(window).width() < 768) { //mobile view
-            $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
-            $('.cd-close-panel').addClass('move-left');
-            $('body').addClass('cd-overlay');
-        } else {
-            $('body,html').animate({
-                'scrollTop': $(hash).offset().top - 19
-            }, 200);
-        }
-    }
-    if (window.location.hash) {
-        scrollToPanel(window.location.hash);
-    }
-});

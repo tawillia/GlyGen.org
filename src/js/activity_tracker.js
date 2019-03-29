@@ -117,7 +117,7 @@ function activityTracker(type, id, message) {
         "page": pagePath.substring(pagePath.lastIndexOf('/') + 1),
         "message": message
     };
-    // console.log(data);
+    console.log(data);
 
     $.post(getWsUrl("log_activity"), { query: JSON.stringify(data) })
         .done(function (resp) {
@@ -157,7 +157,7 @@ window.onerror = function (msg, url, line, col, error) {
     // hide the loading gif
     $('#loading_image').fadeOut();
     activityTracker("error", getUrlVars(), "JS Error: " + msg + "\nurl: " + url + "\nline: " + line);
-
+    displayErrorByCode("js_error");
     var suppressErrorAlert = false;
     // If you return true, then error alerts (like in older versions of 
     // Internet Explorer) will be suppressed.

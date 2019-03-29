@@ -39,7 +39,7 @@ function tryBioEnzyme() {
         error: tryMeAjaxFailure,
         success: function (results) {
             if (results.list_id) {
-                window.location = './protein_list.html?id=' + results.list_id;
+                window.location = './protein_list.html?id=' + results.list_id + "&question=QUESTION_TRY1";
                 activityTracker("user", id, question);
                 $('#loading_image').fadeOut();
             }
@@ -66,8 +66,8 @@ function tryGlycanSite() {
         error: tryMeAjaxFailure,
         success: function (results) {
             if (results.list_id) {
+                window.location = './protein_list.html?id=' + results.list_id + "&question=QUESTION_TRY2";
                 activityTracker("user", id, question);
-                window.location = './protein_list.html?id=' + results.list_id;
                 $('#loading_image').fadeOut();
             }
             else {
@@ -110,8 +110,8 @@ function tryMouseGlycans() {
                 activityTracker("user", "", question+": no result found");
                 $('#loading_image').fadeOut();
             } else {
+                window.location = './glycan_list.html?id=' + results.list_id + "&question=QUESTION_TRY3";;
                 activityTracker("user", "", question);
-                window.location = './glycan_list.html?id=' + results.list_id;
                 $('#loading_image').fadeOut();
             }
         }

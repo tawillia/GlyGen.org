@@ -21,6 +21,25 @@ function addCommas(nStr) {
 
     return x1 + x2;
 }
+
+function databasecolor(name) {
+    switch (name) {
+        case 'GlycomeDB': return '#a06868';
+        case 'UniCarbKB': return '#6b7f71';
+        case 'UniProtKB': return '#4b8aa0';
+        case 'PubMed': return '#7c985d';
+        case 'RefSeq': return '#3ea2ad';
+        case 'Ensembl Peptide': return '#936caf';
+        case 'Ensembl Transcript': return '#b971a6';
+        case 'OMIM': return '#8d85fa';
+        case 'BioMuta': return '#7975af';
+        case 'Bgee': return '#798bae';
+        case 'BioXpress': return '#7f989a';
+
+    }
+}
+
+
 function getErrorMessage(errorCode) {
     // This can appended to the end of the error message displayed for the user to be able to quickly contact us.
     var contactUsMsg = " If the problem persists then you may <a href='contact.html' >contact us</a>";
@@ -28,8 +47,8 @@ function getErrorMessage(errorCode) {
     switch (errorCode) {
         case 'invalid-query-json':
             return {
-                message: "This is not a valid entry. Please try again.",
-                title: "Invalid Entry Error"
+                message: "This is not a valid input. Please try again.",
+                title: "Invalid Input Error"
             };
         case 'open-connection-failed':
             return {
@@ -38,17 +57,17 @@ function getErrorMessage(errorCode) {
             };
         case 'unexpected-field-in-query':
             return {
-                message: "This is unexpected field entry. Please try again",
-                title: "Unexpected Field Entry Error"
+                message: "This is unexpected field input. Please try again",
+                title: "Unexpected Field Input Error"
             };
         case 'invalid-parameter-value-length':
             return {
-                message: "Please adjust length of your entry and try again.",
-                title: "Invalid Value Length Error"
+                message: "Please input a value and try again.",
+                title: "Missing Input Value"
             };
         case 'no-search-criteria-submitted':
             return {
-                message: "Entry error occurred. Please provide input a term to search for.",
+                message: "Input error occurred. Please provide input a term to search for.",
                 title: "Unexpected Error"
             };
         case 'non-existent-record':
@@ -73,13 +92,13 @@ function getErrorMessage(errorCode) {
             };
         case 'no-results-found':
             return {
-                message: "Sorry, we couldn't find any data matching your entry. Please change your parameters and try again.",
+                message: "Sorry, we couldn't find any data matching your input. Please change your search term and try again.",
                 title: "No Results Found"
             };
 
         case 'missing-parameter':
             return {
-                message: "Missing parameter",
+                message: "Missing search term",
                 title: "Selection Error"
             };
         case 'missing-query-key-in-query-json':
@@ -121,6 +140,14 @@ function getErrorMessage(errorCode) {
                 title: "Request Aborted"
             };
 
+        case 'js_error':
+            return {
+                message: "Oops, there seems to be some issue on this page. "
+                    + "Sorry, for the inconvenience. "
+                    + "We've recorded this issue and are looking into it." + contactUsMsg,
+                title: "Website Error"
+            };
+
         case 0:
             return {
                 message: "Could not connect to the server." + contactUsMsg,
@@ -154,7 +181,7 @@ function displayError(message, title) {
     var pagePath = window.location.pathname;
     if (pagePath.substring(pagePath.lastIndexOf('/') + 1).toLocaleLowerCase().includes("list")) {
         // for all list pages, if any error occurs, it will go back to the previous page.
-        alertify.alert(title, message, function(){ window.history.back(); }).set('modal', false);;
+        alertify.alert(title, message, function () { window.history.back(); }).set('modal', false);;
     } else {
         alertify.alert(title, message).set('modal', false);
     }
@@ -201,7 +228,8 @@ function getTimeout(ajaxWebService) {
 
     // detail
     var detailGlycan = 5000,
-        detailProtein = 5000;
+        detailProtein = 5000,
+        detailMotif = 5000;
 
     // contact us
     var contact = 5000;
@@ -216,6 +244,8 @@ function getTimeout(ajaxWebService) {
             return listGlycan;
         case "detail_glycan":
             return detailGlycan;
+        case "detail_motif":
+            return detailMotif;
         case "home_init":
             return homeInit;
         case "glycan_search_simple":
@@ -398,4 +428,25 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+/**
+ * 
+ * @param {} labelId 
+ * @param {} key 
+ */
+/**
+ * Populates a label using the key-value json file
+ * @param {String} controlId The id of the control to populate
+ * @param {String} key Key of the value to populuate
+ * @param {String} prefix Prefix to the value
+ * @param {String} suffix Suffix to the value
+ * @param {integer} contentsIndex The index in the contents() array of the control where the text is to be put
+ */
+
+function populateFromKeyValueStore(controlId, key, prefix, suffix, contentsIndex) {
+    contentsIndex = contentsIndex || 0;
+    $.getJSON("content/key-value.json", function (jsonData) {
+        $("#" + controlId).contents()[contentsIndex].data = prefix + jsonData[key].display_name + suffix;
+    });
 }

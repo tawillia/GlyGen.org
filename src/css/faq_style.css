@@ -13,12 +13,17 @@ Primary style
 
 *::after,
 *::before {
-  content: '';
+  content: "";
+}
+
+.table td:before, .table td:after, .table tbody:before, .table tbody:after {
+  content: none;
 }
 
 body {
-  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  color: #4e5359;
+  font-family: "Verdana", "Geneva", sans-serif;
+/*  color: #4e5359;*/
+  color: #4A4A4A;
   background-color: #F5F5F5;
   /*#f3f3f5*/
 }
@@ -97,37 +102,6 @@ header h1 {
     font-weight: 300;
   }
 } */
-
-/* download class added by Gaurav 09/24/2018 */
-
-.gg-download {
-  box-shadow: none !important;
-/*  margin-bottom: 1em;*/
-/*  margin-bottom: -30px;*/
-}
-
-.dropdown-menu .divider {
-  margin: 8px 0;
-}
-
-.dropdown-menu {
-  min-width: 140px;
-  margin-right: 2.2%;
-}
-
-@media only screen and (min-width: 1301px) and (max-width: 1900px) {
-  .gg-download {
-    margin-left: 18%;
-  }
-}
-
-@media only screen and (min-width: 1024px) and (max-width: 1300px) {
-  .gg-download {
-    margin-left: 29%;
-  }
-}
-
-/* end of download class */
 
 .cd-faq {
   width: 90%;
@@ -293,7 +267,7 @@ header h1 {
   position: fixed;
   height: 100%;
   width: 90%;
-  top: 0;
+  top: 40px;
   right: 0;
   background: #ffffff;
   padding: 15% 5% 1em;
@@ -566,11 +540,11 @@ header h1 {
 }
 
 .cd-faq-content p {
-  font-size: 14px;
   font-size: 1.3em;
   /*0.875rem*/
   line-height: 1.4;
   color: #6c7d8e;
+  font-family: "Verdana", "Geneva", sans-serif;
 }
 
 .cd-faq-content {
@@ -623,7 +597,7 @@ header h1 {
 .gg-text-example {
   margin-top: 3px;
   padding-left: 4px;
-  color: #2E78B7;
+/*  color: #2E78B7;*/
 }
 
 /** Side navbar top margin adjust
@@ -634,4 +608,7 @@ header h1 {
   .cd-faq-categories {
     top: 50px;
   }
+}
+.quick-search-visible {
+  border: solid 1px #2F78B7;
 }

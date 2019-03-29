@@ -80,18 +80,18 @@
                     <button type="button" class="btn btn-primary nextbutton" onclick="next();">Next</button>
                     <label>Records per page</label>
                     <select class="limit-select form-control" onchange="xlimit(this);">
-                        <option selected>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>70</option>
+                        <option selected>20</option>
+                        <option>40</option>
+                        <option>60</option>
+                        <option>80</option>
                     </select>
                     <label class="searchresult"></label>
                 </form>
                 
                 <div class="dropdown gg-download text-right col-sm-2">
-                    <button class="btn btn-default2 btn-link btn-link-detail dropdown-toggle" type="button" id="download"
+                    <button class="btn btn-link btn-link-detail dropdown-toggle" type="button" id="download"
                         alt="Download results" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="glyphicon glyphicon-save"></i> Download
+                        <i class="glyphicon glyphicon-save"></i> DOWNLOAD
                         <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-list dropdown-menu-right" aria-labelledby="download">
@@ -125,12 +125,13 @@
                         <h3>Summary of your Glycan Search<h3>
                     </center>
                 </div>
-
+                <br>
+                 <center><b>{{question}}</b></center>
                 <h6><center>Performed on: {{execution_time}} (EST)</center></h6>
 
                 <div>
                     <table class="table table-hover">
-                        <tbody class="col-sm-offset-3 col-sm-9">
+                        <tbody class="col-sm-9">
 
                         <!--glycan typeahead-->
                         {{#glytoucan_ac}}
@@ -215,25 +216,26 @@
                         </tr>
                         {{/glycan_motif}}
 
-                        {{#term_category}}
-                        <tr>
-                            <td>Term Category:</td>
-                            <td>{{term_category}}</td>
-                        </tr>
-                        {{/term_category}}
-
                         {{#term}}
                         <tr>
-                            <td>Term:</td>
+                            <td>Search Term:</td>
                             <td>{{term}}</td>
                         </tr>
                         {{/term}}
+                        
+                        {{#term_category}}
+                        <tr>
+                            <td>Search Category:</td>
+                            <td>{{term_category}}</td>
+                        </tr>
+                        {{/term_category}}
 
                         </tbody>
                     </table>
                 </div>
 
                 <div align="center">
+                    
                     <button type="button" class="btn btn-primary-updateSearch" onclick="LoadDataList();">Update Results
                     </button>
 
@@ -278,10 +280,10 @@
                     <button type="button next" class="btn btn-primary nextbutton" onclick="next();">Next</button>
                     <label>Records per page</label>
                     <select class="limit-select form-control" onchange="xlimit(this);">
-                        <option selected>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>70</option>
+                        <option selected>20</option>
+                        <option>40</option>
+                        <option>60</option>
+                        <option>80</option>
                     </select>
                     <label class="searchresult"></label>
                 </form>
@@ -309,6 +311,7 @@
     <script type="text/javascript" src="js/ws_url.js"></script>
     <!-- script for error-message/header-footer js -->
     <script src="js/utility.js"></script>
+    <script src="js/config.js"></script>
     <!--<script type="text/javascript" src="js/glycan_search.js"></script>-->
     <!-- script for pagination page -->
     <script type="text/javascript" src="js/pagination.js"></script>

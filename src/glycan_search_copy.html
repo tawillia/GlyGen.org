@@ -120,19 +120,18 @@
                         <div class="tab-pane fade in active" id="simple_search">
                             <div class="container">
                                 <div class="row simplified-search">
-                                    <div class="col-sm-4 gg-form-group">
+                                    <div class="col-sm-3 gg-form-group">
                                         <select id="simplifiedCategory">
-                                            <!--   <option value="any"></option>-->
+                                            <option value="">Choose category</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-6 gg-form-group">
+                                    <div class="col-sm-7 gg-form-group">
                                         <input type="text" 
                                             name="simplifiedSearch" 
                                             class="form-control" 
                                             id="simplifiedSearch"
-                                            placeholder="Enter the search term"  onkeyup="validateSimpleCategory(this)">
+                                            placeholder="Enter the search term">
                                         <div id="simpleCatSelectedOptionExample"></div>
-                                        <h6 id='simpleCategoryMsg' class="validation-message"></h6>
                                     </div>
                                     <div class="col-sm-2 gg-form-group text-right">
                                         <input type="button" class="btn-lg btn-primary" value="Search" onclick="searchGlycanSimple()">
@@ -168,7 +167,7 @@
                                                     data-placement="top"
                                                     data-trigger="click"
                                                     data-html="true" 
-                                                    data-content="Enter complete or partial GlyTouCan Accession of your glycan. Explore <a href='https://glytoucan.org/Structures/graphical' target='_blank'>GlyTouCan Accession</a>"
+                                                    data-content="Enter complete or partial GlyTouCan Accession of your glycan. Explore <a href='https://glytoucan.org/' target='_blank'>GlyTouCan Accession</a>"
                                                     data-tippy="Help">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> 
@@ -186,7 +185,7 @@
                                                     
                                                     <div class="gg-text-right">Explore <a href="https://glytoucan.org/Structures/graphical" 
                                                     target="_blank"
-                                                    data-tippy="Explore GlyTouCan Database">GlyTouCan Accession</a></div>
+                                                    data-tippy="Explore GlyTouCan Database">GlyTouCan Acc.</a></div>
                                                 </div>
                                                 <br>
                                                 <h6 id='glycanAccMsg' class="validation-message"></h6>
@@ -313,7 +312,7 @@
                                         <div class="row">
                                             <label class="control-label col-sm-4" for="protein">
                                                 <span><a href="javascript://" 
-                                                    title="Glycosylated Protein"
+                                                    title="UniProtKB Accession"
                                                     data-toggle="popover" 
                                                     data-placement="top"
                                                     data-trigger="click"
@@ -321,7 +320,7 @@
                                                     data-content="Enter the UniProtKB Accession for a  protein that bears your glycan. Explore <a href='https://www.uniprot.org/' target='_blank'>UniProtKB</a>"
                                                     data-tippy="Help">
                                                     <i class="far fa-question-circle help-sign"></i></a>
-                                                </span> Glycosylated Protein:
+                                                </span> UniProtKB Accession:
                                             </label>
                                             <div class="col-sm-8 gg-form-group">
                                                 <input type="text" 
@@ -338,7 +337,7 @@
                                                    
                                                     <div class="gg-text-right">Explore <a href="https://www.uniprot.org/help/accession_numbers" 
                                                     target="_blank" 
-                                                    data-tippy="Explore UniProtKB Database">UniProtKB Accession</a></div>
+                                                    data-tippy="Explore UniProtKB Database">UniProtKB Acc.</a></div>
                                                 </div>
                                                 <br>
                                                 <h6 id='proteinAccMsg' class="validation-message"></h6>
@@ -393,24 +392,79 @@
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Biosynthetic Enzyme:</label>
                                             <div class="col-sm-8">
-                                                <input 
-                                                    type="text"
-                                                    name="Enzyme"
-                                                    class="form-control enzyme"
-                                                    id="enzyme"
-                                                    placeholder="Enter the Gene Name of an enzyme"
+                                                <input type="text" 
+                                                    name="Enzyme" 
+                                                    class="form-control enzyme" id="enzyme" 
+                                                    placeholder="Enter the Gene Name of an enzyme" 
                                                     onkeyup="validateEnzymeAcc(this)">
                                                 <div>
                                                     <div class="gg-text-left">Example: <a 
                                                     href="B4GALT1" 
                                                     id="textExampleEnzyme"
-                                                    data-tippy="Click to Insert">B4GALT1</a>
-                                                    </div>
+                                                    data-tippy="Click to Insert">B4GALT1
+                                                    </a></div>
                                                     <div class="gg-text-right">Explore <a 
                                                     href="https://enzyme.expasy.org/" 
                                                     target="_blank"
+                                                    data-toggle="modal" 
                                                     data-target="#biosyntEnz"
                                                     data-tippy="Explore Biosynthetic Enzyme Database">Biosynthetic Enzyme</a></div>
+                                                    
+                                                     
+                                                    <!-- Modal -->
+
+                                                    <div class="modal fade" id="biosyntEnz" role="dialog">
+                                                    <div class="modal-dialog modal-lg">
+
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Click to enter one or multiple selections</h4>
+                                                        </div>
+                                                        <div class="modal-body">   
+                                                                <div class="panel panel-default">
+                                                                    <div class="gg-panel-heading">
+                                                                        <h4>Biosynthetic Enzyme Database Table</h4>
+                                                                    </div>
+                                                                    <div class="panel-body">
+
+                                                                        <!-- table start here -->
+
+                                                                        <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="glytoucan_ac" data-sort-order="asc" data-page-size="10">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th data-field="glytoucan_ac" data-formatter="pageFormat" data-sortable="true">Gene name</th>
+                                                                                    <th data-field="glycan_image" data-formatter="imageFormat" style="width:10%">Cazy Family</th>
+                                                                                    <th data-field="mass" data-formatter="massFormatter" data-sortable="true">UniprotKB Acc.
+                                                                                    </th>
+                                                                                    <th data-field="number_monosaccharides" data-sortable="true">Organizm
+                                                                                    </th>
+                                                                                    <th data-field="number_proteins" data-sortable="true">Protein Name
+                                                                                    </th>
+                                                                                    <th data-field="number_enzymes" data-sortable="true">Gene Symble
+                                                                                    </th>
+                                                                                    <th data-field="gene_ontology" data-sortable="true">Gene ontology ID
+                                                                                    </th>
+                                                                                    <th data-field="evidence_code" data-sortable="true">Evidence Code
+                                                                                    </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+
+                                                                        <!-- table container ends here -->
+
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+
+                                                    </div>
+                                                    </div>
+
+                                                    
                                                 </div>
                                                 <br>
                                                 <h6 id='enzymeAccMsg' class="validation-message"></h6>
@@ -435,12 +489,11 @@
                                             <h4 class="page-heading">SIMPLE SEARCH: How to Use Simple Glycan Search</h4>
                                         </div>
                                         <div class="box">
-                                            <div class="videoWrapperLeft5 tutorialSection col-lg-8 col-md-12 active">
-                                                <iframe src="//www.slideshare.net/slideshow/embed_code/key/1Gk9i2RWn1D9wV" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-simple-glycan-search-tutorial-131972574" title="How To Use Simple Glycan Search Tutorial" target="_blank">How To Use Simple Glycan Search Tutorial</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
+                                            <div class="videoWrapperLeft tutorialSection  col-lg-6 col-md-12 active">
+                                                <iframe src="//www.slideshare.net/slideshow/embed_code/key/fAZiPBF8ztVq2c" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-simple-glycan-search" title="How to use simple glycan search" target="_blank">How to use simple glycan search</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-6 col-md-12">
                                                 <p>You can search for glycans by specifying their GlyTouCan accession numbers, their specific structures or the specific biochemical contexts within which they are found.</p>
-                                                <p>This tutorial was created using a portal version: 1.0.1 (09/19/2018).</p>
                                             </div>
                                         </div>
                                     </div>
@@ -474,13 +527,15 @@
                                                 GlyTouCan Accession</h4>
                                         </div>
                                         <div class="box">
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-6 col-md-12">
+                                                <p>One of GlyGen's central aims is to provide information about the
+                                                    structures, biosynthesis, biochemical contexts and functions of
+                                                    glycans that are attached to proteins.</p>
                                                 <p>This tutorial describes how to initiate the exploration of
                                                     GlyGen data by searching for a specific glycan when its
                                                     GlyTouCan accession is known.</p>
-                                                <p>This tutorial was created using a portal version: 1.0.1 (09/19/2018).</p>
                                             </div>
-                                            <div class="videoWrapperRight5 active col-lg-8 col-md-12">
+                                            <div class="videoWrapperRight active col-lg-6 col-md-12">
                                                 <iframe width="640" height="360" src="https://www.youtube.com/embed/BlhCYJM3G30?rel=0"
                                                     frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
                                                     allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -494,17 +549,16 @@
                                                 chemical features or biological context</h4>
                                         </div>
                                         <div class="tutorialSection">
-                                            <div class="videoWrapperLeft5 col-lg-8 col-md-12">
+                                            <div class="videoWrapperLeft col-lg-6 col-md-12">
                                                 <iframe width="640" height="360" src="https://www.youtube.com/embed/7TEjBsolbRY?rel=0"
                                                     frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
                                                     allow="autoplay; encrypted-media" allowfullscreen></iframe>
                                             </div>
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-6 col-md-12">
                                                 <p>This tutorial illustrates how to search for a glycan or
                                                     collection of glycans based on their general properties,
                                                     structural features, attachment to a glycoprotein, mechanisms
                                                     of biosynthesis.</p>
-                                                <p>This tutorial was created using a portal version: 1.0.1 (09/19/2018).</p>
                                             </div>
                                         </div>
                                     </div>
@@ -514,16 +568,15 @@
                                             <h4 class="page-heading">ADVANCED SEARCH: How to Use Advanced Glycan Search</h4>
                                         </div>
                                         <div class="box">
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-6 col-md-12">
                                                 <p>You can search for glycans by specifying their chemical features
                                                     of biological context. In many cases, you may not have this
-                                                    information but will have other information about the glycan
+                                                    information, but will have other information about the glycan
                                                     or collection of glycans that makes them interesting to you.
                                                 </p>
-                                            <p>This tutorial was created using a portal version: 1.0.1 (09/19/2018).</p>
                                             </div>
-                                            <div class="videoWrapperLeft5 tutorialSection col-lg-8 col-md-12 active">
-                                                <iframe src="//www.slideshare.net/slideshow/embed_code/key/2taO0glBKuZWQx" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-advanced-glycan-search-tutorial-131973162" title="How To Use Advanced Glycan Search Tutorial" target="_blank">How To Use Advanced Glycan Search Tutorial</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
+                                            <div class="videoWrapperLeft tutorialSection  col-lg-6 col-md-12 active">
+                                                <iframe src="//www.slideshare.net/slideshow/embed_code/key/HDImkuoKkWIlg0" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/GlyGen/how-to-use-advanced-glycan-search" title="How to use advanced glycan search" target="_blank">How to use advanced glycan search</a> </strong> from <strong><a href="https://www.slideshare.net/GlyGen" target="_blank">GlyGen</a></strong> </div>
                                             </div>
                                         </div>
                                     </div>

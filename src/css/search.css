@@ -72,7 +72,7 @@ select {
 }
 
 .simplified-search input[type=text] {
-    padding: 21px;
+    height: 45px;
     border-radius: 6px;
 }
 
@@ -129,7 +129,13 @@ select {
     text-decoration: none;
     color: #2E78B7;
 }
+.gg-text-left {
+    float: left;
+}
 
+.gg-text-right {
+    float: right;
+}
 .gg-form-group {
     margin-bottom: 20px;
 }
@@ -340,8 +346,18 @@ select {
     .container {
 	    width: 99%;
     }
+/*    Advanced search labbel adjustment*/
+    .pathway-label,
+    .sequence-label {
+        margin-bottom: -3%;
+    }
 }
-
+.pathway-label {
+    margin-top: 2%;
+}
+.sequence-label {
+    margin-top: 6.5%;
+}
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {
 

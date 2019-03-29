@@ -36,13 +36,13 @@
                     </a>
                     <ul class="dropdown-menu gg-dropd-menu">
                         <li>
-                            <a alt="glycan" href="glycan_search.html">Glycan</a>
+                            <a alt="glycan" href="glycan_search.html">Glycan Search</a>
                         </li>
                         <li>
-                            <a alt="protein" href="protein_search.html">Protein</a>
+                            <a alt="protein" href="protein_search.html">Protein Search</a>
                         </li>
                         <li>
-                            <a alt="proteoform" href="glycoprotein_search.html">Glycoprotein</a>
+                            <a alt="proteoform" href="glycoprotein_search.html">Glycoprotein Search</a>
                         </li>
                     </ul>
                 </li>
@@ -76,9 +76,10 @@
                     </ul>
                 </li>
             </ul>
-            <!-- <form class="navbar-form navbar-left" action="search_box_result.html">
+            <!-- global search box -->
+            <form class="navbar-form navbar-left" action="global_search_result.html" id="globalSearch">
                 <div class="input-group">
-                    <input type="text" class="form-control gg-form" placeholder="Search.." name="search_box">
+                    <input type="text" class="form-control gg-form" placeholder="Search.." name="search_query" maxlength="50" required>
 
                     <div class="input-group-btn">
                         <button class="btn btn-default gg-btn" type="submit">
@@ -86,7 +87,7 @@
                         </button>
                     </div>
                 </div>
-            </form> -->
+            </form>
             
             <ul class="nav navbar-nav gg-nav-nav pull-right">
                 <li class="">

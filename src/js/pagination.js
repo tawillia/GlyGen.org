@@ -6,6 +6,7 @@
  * @param {domNode} element - The element from which we take the new limit value
  */
 function xlimit(element) {
+    page = 1;
     limit = $(element).val();
     $('.limit-select').val(limit);
     LoadDataList();

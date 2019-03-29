@@ -3,6 +3,22 @@
 //6sep-18
 
 /** 
+* validation for simple category  field
+*/
+function validateSimpleCategory(input) {
+    var validLength = (input.value.length <=13);
+    if (validLength) {
+        document.getElementById("simpleCategoryMsg").innerHTML = " ";
+        return true;
+    } else {
+        document.getElementById("simpleCategoryMsg").innerHTML = "Entry is too long - max length is 13.";
+        return false;
+    }
+}
+
+
+
+/** 
 * validation for each field
 */
 function validatePathwayID(input) {
@@ -15,6 +31,8 @@ function validatePathwayID(input) {
         return false;
     }
 }
+
+
 
 /** 
 * validation for each field

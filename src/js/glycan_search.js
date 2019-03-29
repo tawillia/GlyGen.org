@@ -1,10 +1,11 @@
-// <!--
 // @author: Rupali Mahadik
 // @description: UO1 Version-1.1.
+// @author: Tatiana Williamson
+// @description: glycan_search.js
 // @refactored  :June-27-2017
 // @update on July 25 2018 - Gaurav Agarwal - added code for loading gif.
 // @update on Aug 27, 2018 - Gaurav Agarwal - added ajax timeout and error handling functions
-//     -->
+// @update on Feb 8, 2019 - Tatiana Williamson
 
 /**
  * Sorts dropdown organism list in asc order in advanced search
@@ -42,7 +43,11 @@ var mass_min;
 var sugar_mass_min;
 var sugar_mass_max;
 $(document).ready(function () {
-    $("#simpleCatSelectedOptionExample").hide();
+    //Section for populating label names from key-value.json
+    populateFromKeyValueStore("lbl_glytoucan_acc", "GLYTOUCAN_ACCESSION", "", ":", 2);
+    populateFromKeyValueStore("lbl_monoiso_mass", "MONOISOTOPIC_MASS", "", ":", 2);
+
+    //End section for populating label names from key-value.json
     $.ajax({
         dataType: "json",
         url: getWsUrl("search_init_glycan"),
@@ -57,6 +62,7 @@ $(document).ready(function () {
             }
             var categoryType = $("#simplifiedCategory").get(0);
             result.simple_search_category.sort(sortDropdownSimple);
+            result.simple_search_category[0].display = "Any category";
             for (var x = 0; x < result.simple_search_category.length; x++) {
                 createOption(categoryType, result.simple_search_category[x].display, result.simple_search_category[x].id);
             }
@@ -100,6 +106,7 @@ $(document).ready(function () {
             if (id) {
                 LoadDataList(id);
             }
+            populateExample();
         }
     });
 
@@ -112,6 +119,7 @@ $(document).ready(function () {
             searchGlycanSimple();
         }
     });
+    
 });
 
 ///New slider
@@ -429,10 +437,10 @@ $('#simplifiedCategory').on('change', populateExample);
 
 function populateExample() {
     $('#simpleCatSelectedOptionExample').show();
-    var name = $("#simplifiedCategory option:selected").text();
+    var name = $("#simplifiedCategory option:selected").val();
     var examples = [];
     var exampleText = "Example";
-    
+
     switch (name.toLowerCase()) {
         case "enzyme":
             examples = ["B4GALT1"];
@@ -446,27 +454,28 @@ function populateExample() {
         case "protein":
             examples = ["P14210-1"];
             break;
-        case "any":
+        default:
             examples = ["B4GALT1", "G17689DH", "Homo sapiens", "P14210-1"];
             exampleText += "s";
             break;
     }
 
-    if (name != "Search by") {
-        $('#simpleCatSelectedOptionExample')[0].innerHTML = exampleText + ": ";
-        $.each(examples, function(i, example) {
-            $('#simpleCatSelectedOptionExample')[0].innerHTML += "<a href='' class='simpleTextExample'>" + example + "</a>, ";
-        });
-        //remove last comma and space
-        $('#simpleCatSelectedOptionExample')[0].innerHTML = $('#simpleCatSelectedOptionExample')[0].innerHTML.slice(0, -2);
+    //    if (name != "Choose category") {
+    $('#simpleCatSelectedOptionExample')[0].innerHTML = exampleText + ": ";
+    $.each(examples, function (i, example) {
+        $('#simpleCatSelectedOptionExample')[0].innerHTML += "<a href='' class='simpleTextExample' data-tippy='Click to Insert'>" + example + "</a>, ";
+    });
+    //remove last comma and space
+    $('#simpleCatSelectedOptionExample')[0].innerHTML = $('#simpleCatSelectedOptionExample')[0].innerHTML.slice(0, -2);
 
-        $('#simplifiedSearch').attr('placeholder', "Enter the " + getPlaceHolder(name));
-        clickableExample();
-    } else {
-        $('#simpleCatSelectedOptionExample').hide();
-        $('#simpleTextExample').text('');
-        $('#simplifiedSearch').attr('placeholder', "Enter the search term");
-    }
+    $('#simplifiedSearch').attr('placeholder', "Enter the " + getPlaceHolder(name));
+    $('[data-toggle="tooltip"]').tooltip();
+    clickableExample();
+    //    } else {
+    //        $('#simpleCatSelectedOptionExample').hide();
+    //        $('#simpleTextExample').text('');
+    //        $('#simplifiedSearch').attr('placeholder', "Enter the search term");
+    //    }
 }
 
 /**
@@ -474,7 +483,7 @@ function populateExample() {
  * @param {string} type [Changes a different placeholer text]
  */
 function getPlaceHolder(type) {
-    switch(type.toLowerCase()) {
+    switch (type.toLowerCase()) {
         case "glycan":
             return "GlyTouCan Accession";
         case "protein":
@@ -604,12 +613,12 @@ function ajaxListSuccess(data) {
     } else {
         if (data.query) {
             if (data.query.query_type === "glycan_search_simple") {
-                $('.nav-tabs a[href="#tab_default_1"]').tab('show');
+                $('.nav-tabs a[href="#simple_search"]').tab('show');
                 $("#simplifiedCategory").val(data.query.term_category);
                 $("#simplifiedSearch").val(data.query.term);
                 populateExample();
             } else {
-                $('.nav-tabs a[href="#tab_default_2"]').tab('show');
+                $('.nav-tabs a[href="#advanced_search"]').tab('show');
             }
         }
         activityTracker("user", id, "Search modification initiated");

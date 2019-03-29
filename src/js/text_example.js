@@ -99,7 +99,7 @@ $('#textExampleSequences').click(function() {
  * @param {string} tagsInputPathwayID
  */
 var $tagsInputPathwayID = $('#pathway');
-$('.textExampleKegg.textExampleReactome a').click(function() {
+$('.textExamplePathway').click(function() {
     $tagsInputPathwayID.val($(this).text());
     return false;
 });

@@ -21,7 +21,7 @@ function setFormValues(data) {
             massSlider1.noUiSlider.set([data.query.number_monosaccharides.min, data.query.number_monosaccharides.max]);
         }
 
-        $("#species").val(data.query.organism? data.query.organism.id : "");
+        $("#species").val(data.query.organism? data.query.organism.id : 0);
         $("#ddl").val(data.query.glycan_type || "");
         var types = document.getElementById('ddl');
         var subtypes = document.getElementById('ddl2');
@@ -47,7 +47,7 @@ function setProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism? data.query.organism.id : "");
+        $("#species").val(data.query.organism? data.query.organism.id : 0);
         $("#gene_name").val(data.query.gene_name || "");
         $("#protein_name").val(data.query.protein_name || "");
         $("#pathway").val(data.query.pathway_id || "");
@@ -68,7 +68,7 @@ function setGlycoProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism? data.query.organism.id : "");
+        $("#species").val(data.query.organism? data.query.organism.id : 0);
         $("#gene_name").val(data.query.gene_name || "");
         $("#glycan_id").val(data.query.glycan? data.query.glycan.glytoucan_ac : "");
         $("#relation").val(data.query.glycan? data.query.glycan.relation : "");

@@ -18,7 +18,9 @@ var page = 1;
 var sort = 'protein_name_long';
 var dir = 'desc'
 var url = getWsUrl('protein_list');
-var limit = 25;
+var limit = 20;
+
+var id = getParameterByName('id');;
 
 /**
  * it creates user interface for summary
@@ -27,13 +29,20 @@ var limit = 25;
  * @param {integer} paginationInfo.limit - The paginationInfo.limit givesrecords per page from pagination object
  */
 function buildSummary(queryInfo) {
-    var summaryTemplate = $('#summary-template').html();
-    queryInfo.execution_time = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var summaryTemplate;
+    var summaryHtml;
+
+    summaryTemplate = $('#summary-template').html();
     if (queryInfo.mass) {
         queryInfo.mass.min = addCommas(queryInfo.mass.min);
         queryInfo.mass.max = addCommas(queryInfo.mass.max);
     }
-    var summaryHtml = Mustache.render(summaryTemplate, queryInfo);
+    var question = getParameterByName('question');
+    if (question) {
+        queryInfo = {question: MESSAGES[question]};
+    }
+    queryInfo.execution_time = moment().format('MMMM Do YYYY, h:mm:ss a');
+    summaryHtml = Mustache.render(summaryTemplate, queryInfo);
     $('#summary-table').html(summaryHtml);
 }
 
@@ -51,7 +60,20 @@ function totalNoSearch(total_length) {
  */
 function editSearch() {
     {
-        window.location.replace("protein_search.html?id=" + id);
+        var question = getParameterByName('question');
+        var newUrl;
+
+        if (question && (question === 'QUESTION_TRY1')) {
+            newUrl = 'quick_search.html?id=' + id + '&question=QUESTION_1';
+        }
+        else if (question && (question === 'QUESTION_TRY2')) {
+            newUrl = 'quick_search.html?id=' + id + '&question=QUESTION_2';
+        }
+          else{
+            newUrl = "protein_search.html?id=" + id;
+        }
+
+        window.location.replace(newUrl);
         activityTracker("user", id, "edit search");
     }
 }
@@ -162,24 +184,6 @@ function LoadDataList() {
 }
 
 /**
- * getParameterByName function to EXtract query parametes from url
- * @param {string} name - The name of the variable variable to extract from query string
- * @param {string} url- The complete url with query string values
- * @return- A new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component.
- */
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-var id = getParameterByName('id');
-LoadDataList(id);
-
-/**
  * hides the loading gif and displays the page after the results are loaded.
  * @author Gaurav Agarwal
  * @date July 25, 2018
@@ -200,3 +204,9 @@ function downloadPrompt() {
     var IsCompressed = $('#download_compression').is(':checked');
     downloadFromServer(id, format, IsCompressed, page_type);
 }
+
+
+$(document).ready(function () {
+    // limit = $(element).val();
+    LoadDataList();
+});

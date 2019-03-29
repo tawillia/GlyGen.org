@@ -1,7 +1,7 @@
 /* ---------------------------------------------------------------------
-@author: Rupali Mahadik.
-@ao-author: Tatian Williamson.
-@description: UO1 Version-1.0.1
+@author: Rupali Mahadik
+@co-author: Tatiana Williamson
+@description: detail.css UO1 Version-1.0.1
 @date-created: January 2018
 @update: October 12 2018 - Tatiana Williamson - Added headline and styled download button.
 -------------------------------------------------------------------------*/
@@ -336,4 +336,58 @@ background-color: rgba(100, 236, 100, 0.5);  /* green */
         order: -1;
         flex: 1 0 100%;
     }
+}
+/*---------------------------
+    Motif details 
+-----------------------------*/
+.motif-panel-space {
+    margin-bottom: 20px;
+}
+
+
+.btn-primary-motif {
+    color: #204d74;
+    background-color: #fff;
+    border-color: #337ab7; 
+}
+
+.btn-primary-motif:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.highlight-text{
+    font-family:monospace;
+    font-size:14px;
+}
+
+.upper-case {
+    text-transform: capitalize;
+}
+/*---------------------------
+    Evidences css for details
+-----------------------------*/
+.evidence_badge{
+    position: relative; 
+    display: block;  
+    padding-left: 5px; 
+    padding-bottom: 30px;
+}
+.hidden evidence_links{
+    position: absolute; 
+    left:  0; 
+    width: 200px;
+}
+.linkHtml{
+   position: relative; 
+   display: inline-block; 
+/*   padding-left: 5px; */
+/*   padding-top: 5px;*/
+}
+.evidence_id{
+    position: relative; 
+/*    display: inline-block; */
+    left: -15px;
+    
 }

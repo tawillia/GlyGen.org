@@ -26,7 +26,7 @@ body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 h1,
@@ -74,6 +74,7 @@ p {
     font-weight: 500;
     margin: .5em 0 1em;
     font-size: 1.3em;
+    font-family: "Verdana", "Geneva", sans-serif;
 }
 
 .statistics-table td {
@@ -231,14 +232,14 @@ p {
 .copyrights a,
 .grant a,
 .policy ul li a {
-    color: #fff;
+    color: #AFD9FD;
     padding-bottom: 5px;
 }
 
 .copyrights a:hover,
 .grant a:hover,
 .policy ul li a:hover {
-    color: #AFD9FD;
+    color: #57AFFA;
     text-decoration: none;
 }
 
@@ -608,7 +609,8 @@ label.labelContactUs {
 
 .about-map-img {
     background-size: cover;
-    width: 99%;
+    margin-top: -60px;
+   
 }
 
 /* ------------------------------------------
@@ -862,7 +864,7 @@ label.labelContactUs {
 #loadStatistics {
     background: rgba(255, 255, 255, 0.85);
     display: block;
-    height: 9%;
+    height: 2%;
     position: absolute;
     width: 88%;
     z-index: 9;
@@ -916,6 +918,47 @@ ____________________________________  */
 .dropdown-menu-detail {
     padding: 2%;
 }
+
+.dropdown-menu-motif {
+    width: 220px !important;
+    margin-right: 3.2%;
+    padding: 10%;
+}
+/* download class added by Gaurav 09/24/2018 */
+
+.dropdown-menu .divider {
+  margin: 8px 0;
+}
+
+.dropdown-menu {
+  min-width: 160px;
+  margin-right: 2.2%;
+}
+.gg-download {
+  box-shadow: none !important;
+/*  margin-bottom: 1em;*/
+/*  margin-bottom: -30px;*/
+}
+@media (max-width: 700px) {
+    .gg-download5 {
+    padding-right: 10%;
+  } 
+}
+@media only screen and (min-width: 1301px) and (max-width: 1900px) {
+  .gg-download5 {
+    margin-left: 18%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1300px) {
+  .gg-download5 {
+    margin-right: 29%;
+  }
+}
+
+/* end of download class */
+
+
 /*------   End   --------*/
 .container-contact {
     background: #fff; 
@@ -934,6 +977,9 @@ ____________________________________  */
     .glygenIconIndex {
         width: 50% !important;
     }
+    .about-map-img {
+        margin-top: 0;
+    }
 }
 
 @media only screen and (max-width: 1280px) {
@@ -941,6 +987,9 @@ ____________________________________  */
         font-size: 0.85em;
         font-weight: 600;
     }
+    .about-map-img {
+        margin-top: 0;
+    } 
 }
 
 @media only screen and (max-width: 1024px) {
@@ -950,6 +999,9 @@ ____________________________________  */
      body  {
         margin-bottom: 15%;
     }
+    .about-map-img {
+        margin-top: 0;
+    } 
 }
 
 @media (max-width: 768px) {
@@ -978,6 +1030,10 @@ ____________________________________  */
         margin: 0 auto;
         overflow: auto;
     }
+    .about-map-img {
+        margin-top: 0;
+        width: 99%;
+    } 
 }
 
 @media (max-width: 700px) {

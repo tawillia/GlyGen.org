@@ -17,7 +17,7 @@ var page = 1;
 var sort = 'protein_name_long';
 var dir = 'desc'
 var url = getWsUrl('protein_list');
-var limit = 25;
+var limit = 20;
 
 /**
  * it creates user interface for summary
@@ -144,6 +144,9 @@ function ajaxListFailure(jqXHR, textStatus, errorThrown) {
  * @param {string} id - The protein id to load
  **/
 function LoadDataList(id) {
+    if(!id){
+        id= getParameterByName('id');
+    }
     var ajaxConfig = {
         dataType: "json",
         url: getWsUrl("protein_list"),
@@ -156,6 +159,7 @@ function LoadDataList(id) {
     // make the server call
     $.ajax(ajaxConfig);
 }
+
 
 /**
  * hides the loading gif and displays the page after the results are loaded.
