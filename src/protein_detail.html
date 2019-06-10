@@ -7,6 +7,7 @@
 @update: Bootstrap table for glycosylation  - Rupali Mahadik.
 @update: July 31, 2018 - Gaurav Agarwal - added function, disease and mutation boxes. updated and added various other fields. few UI changes.
 @update: Evidance badge - Rupali Mahadik. Jan.17-2019
+@update: Mar 12, 2019 - Gaurav Agarwal - added breadcrumb
 ----------------------------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +19,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="Pragma" content="no-cache"/>
-    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Details - glygen</title>
     <!-- Please do not change Sequence-->
     <!-- CSS reset -->
@@ -34,8 +35,6 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-table.min.css">
-    <!-- CSS common-->
-    <link rel="stylesheet" href="css/style.css">
     <!-- CSS for sidenavgation-->
     <link rel="stylesheet" href="css/faq_style.css">
     <!--detail style -->
@@ -44,93 +43,108 @@
     <script src="js/modernizr.js"></script>
     <!-- CSS for alertify -->
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
     <!--<link rel="stylesheet" type="text/css" href="css/protein-search.css">-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+    <!-- CSS common-->
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="114x114"
-          href="images/icons/favicomatic/apple-touch-icon-114x114.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/favicomatic/apple-touch-icon-72x72.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="144x144"
-          href="images/icons/favicomatic/apple-touch-icon-144x144.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/icons/favicomatic/apple-touch-icon-60x60.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="120x120"
-          href="images/icons/favicomatic/apple-touch-icon-120x120.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/icons/favicomatic/apple-touch-icon-76x76.png"/>
-    <link rel="apple-touch-icon-precomposed" sizes="152x152"
-          href="images/icons/favicomatic/apple-touch-icon-152x152.png"/>
-    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-196x196.png" sizes="196x196"/>
-    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-96x96.png" sizes="96x96"/>
-    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-32x32.png" sizes="32x32"/>
-    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-16x16.png" sizes="16x16"/>
-    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-128.png" sizes="128x128"/>
-    <meta name="application-name" content="GlyGen"/>
-    <meta name="msapplication-TileColor" content="#FFFFFF"/>
-    <meta name="msapplication-TileImage" content="images/icons/favicomatic/mstile-144x144.png"/>
-    <meta name="msapplication-square70x70logo" content="images/icons/favicomatic/mstile-70x70.png"/>
-    <meta name="msapplication-square150x150logo" content="images/icons/favicomatic/mstile-150x150.png"/>
-    <meta name="msapplication-wide310x150logo" content="images/icons/favicomatic/mstile-310x150.png"/>
-    <meta name="msapplication-square310x310logo" content="images/icons/favicomatic/mstile-310x310.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icons/favicomatic/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icons/favicomatic/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/icons/favicomatic/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/icons/favicomatic/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/icons/favicomatic/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/icons/favicomatic/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="images/icons/favicomatic/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="GlyGen" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="images/icons/favicomatic/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="images/icons/favicomatic/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="images/icons/favicomatic/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="images/icons/favicomatic/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="images/icons/favicomatic/mstile-310x310.png" />
+    <style>
+    </style>
 </head>
 
 <body onload="tracking()">
-<div id="loading_image">
-    <img src="images/page_loading.gif"/>
-</div>
-<script type="text/javascript" src="libraries/w3.js"></script>
-<div w3-include-html="header.html"></div>
-<script>
-    w3.includeHTML();
-</script>
-<section class="cd-faq">
-    <ul class="cd-faq-categories">
-        <li>
-            <a class="selected" href="#general">General</a>
-        </li>
-        <li>
-            <a href="#species">Species</a>
-        </li>
-        <li>
-            <a href="#function">Function</a>
-        </li>
-        <li>
-            <a href="#glycosylation">Glycosylation</a>
-        </li>
-        <li>
-            <a href="#sequence">Sequence</a>
-        </li>
-        <li>
-            <a href="#crossReferences">Cross References</a>
-        </li>
-        <li>
-            <a href="#pathway">Pathway</a>
-        </li>
-        <li>
-            <a href="#isoform">Isoform</a>
-        </li>
-        <li>
-            <a href="#disease">Disease</a>
-        </li>
-        <li>
-            <a href="#mutation">Mutation</a>
-        </li>
-        <li>
-            <a href="#expressionTissue">Expression Tissue</a>
-        </li>
-        <li>
-            <a href="#expressionDisease">Expression Disease</a>
-        </li>
-        <li>
-            <a href="#publications">Publications</a>
-        </li>
-    </ul>
-    <!-- cd-faq-categories -->
-    <!-- main content for page -->
-    <div class="cd-faq-items" id="content" style="margin-bottom: 400px; margin-right: 0;">
-        <script id="item_template" type="text/template">
+    <div id="loading_image">
+        <img src="images/page_loading.gif" />
+    </div>
+    <script type="text/javascript" src="libraries/w3.js"></script>
+    <div w3-include-html="header.html"></div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <section class="cd-faq">
+        <ul class="cd-faq-categories">
+            <li>
+                <a class="selected" href="#general">General</a>
+            </li>
+            <li>
+                <a href="#species">Species</a>
+            </li>
+            <li>
+                <a href="#function">Function</a>
+            </li>
+            <li>
+                <a href="#glycosylation">Glycosylation</a>
+            </li>
+            <li>
+                <a href="#sequence">Sequence</a>
+            </li>
+            <li>
+                <a href="#crossReferences">Cross References</a>
+            </li>
+            <li>
+                <a href="#pathway">Pathway</a>
+            </li>
+            <li>
+                <a href="#isoform">Isoform</a>
+            </li>
+            <li>
+                <a href="#orthologs">Orthologs</a>
+            </li>
+            <li>
+                <a href="#disease">Disease</a>
+            </li>
+            <li>
+                <a href="#mutation">Mutation</a>
+            </li>
+            <li>
+                <a href="#expressionTissue">Expression Tissue</a>
+            </li>
+            <li>
+                <a href="#expressionDisease">Expression Disease</a>
+            </li>
+            <li>
+                <a href="#publications">Publications</a>
+            </li>
+        </ul>
+        <!-- cd-faq-categories -->
+        <!-- main content for page -->
+        <div class="cd-faq-items container-fluid" id="content" style="margin-bottom: 400px; margin-right: 0;">
+            <script id="item_template" type="text/template">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <!-- breadcrumb filled by javascript -->
+                        <ul class="gg-breadcrumb">
+                            <li id="li-breadcrumb-search"><a href="#" id="breadcrumb-search">Protein Search</a></li>
+                            <li id="li-breadcrumb-list"><a href="#" id="breadcrumb-list">Protein List</a></li>
+                            <!-- <li><a href="#">Protein Detail</a></li> -->
+                            <li id="li-breadcrumb-detail">Protein Detail</li>
+                        </ul>
+                    </div>
+                </div>
             <!--Accession  starts here for page -->
             <center><h2 class="page-heading" style="margin-top: -5px;">Details for protein <span> {{#uniprot}} {{uniprot_canonical_ac}} {{/uniprot}} </span>
             </h2></center>
@@ -142,21 +156,21 @@
                         <i class="glyphicon glyphicon-save"></i> DOWNLOAD
                         <span class="caret"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-detail dropdown-menu-right" aria-labelledby="download">
+                    <div class="dropdown-menu dropdown-menu-box dropdown-menu-right" aria-labelledby="download">
                         <div class="row">
                             <div class="col-md-7"><label>Download&nbsp;format: </label></div>
-                            <div class="col-md-5"><select id='download_format'>
+                            <div class="col-md-5 text-right"><select id='download_format'>
                                 <option value='fasta'>FASTA</option>
                                 <option value='json'>JSON</option>
                             </select></div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-7"><label>Compressed: </label></div>
                             <div class="col-md-5"><input type='checkbox' id='download_compression'/></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9"></div>
-                            <div class="col-md-3">
+                        </div> -->
+                        <div class="row" style="padding-top: 15px;">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-5 text-right">
                                 <button class="btn-default" onclick="downloadPrompt();">OK</button>
                             </div>
                         </div>
@@ -175,8 +189,10 @@
                             <div class="col-md-12 col-xs-6">
                                 {{#gene}}
                                 <li class="list-group"><strong>Gene Name:</strong>
-                                    <a href="{{{url}}}" target="_blank">{{name}}</a>
+                                    <a class="panelcontent" href="{{{url}}}" target="_blank">{{name}}</a>
                                 </li>
+                                <li class="list-group"><strong>Gene Location:</strong> Chromosome: {{locus.chromosome}} ({{locus.start_pos}} - {{locus.end_pos}})
+                                </li> 
                                 {{/gene}}
                                 {{^gene}} {{/gene}}
 
@@ -187,7 +203,7 @@
                                 </li>
                                 {{/uniprot_id}}
                                 {{^uniprot_id}} {{/uniprot_id}}
-
+                                
                                 {{#uniprot_canonical_ac}}
                                 <li class="list-group"><strong>UniProtKB Accession:</strong>
                                     <a class="panelcontent" href="{{url}}" target="_blank">{{uniprot_canonical_ac}}</a>
@@ -195,6 +211,14 @@
                                 {{/uniprot_canonical_ac}}
                                 {{^uniprot_canonical_ac}} {{/uniprot_canonical_ac}}
                                 {{/uniprot}}
+
+                                {{#length}}
+                                <li class="list-group"><strong>UniProtKB Accession Length:</strong>
+                                    <a class="panelcontent" href="{{url}}" target="_blank">{{length}}</a>
+                                </li>
+                                {{/length}}
+                                {{^length}} {{/length}}
+                            
 
                                 {{#recommendedname}} {{#full}}
                                 <li class="list-group"><strong>UniProtKB Entry
@@ -213,12 +237,6 @@
                                 {{/refseq.ac}}
                                 {{/refseq}}
                                 {{#mass}}
-                                {{#mass.monoisotopic_mass}}
-                                <li class="list-group"><strong>Monoisotopic Mass:</strong> {{mass.monoisotopic_mass}} Da
-                                </li>
-                                {{/mass.monoisotopic_mass}}
-                                {{^mass.monoisotopic_mass}} {{/mass.monoisotopic_mass}}
-
                                 <li class="list-group"><strong>Chemical Mass:</strong> {{mass.chemical_mass}} Da</li>
                                 {{/mass}}
                             </div>
@@ -244,14 +262,13 @@
                                         {{#databases}}
                                         <span class="evidence_badge"
                                               style="position: relative; display: inline-block; padding-left: 5px; padding-bottom: 20px">
-                                    <button class="btn btn-primary color-{{database}}" type="button"
+                                    <button class="btn btn-primary evidence-badge-btn color-{{database}}" type="button"
                                             style="background-color:{{color}}; border-color:{{color}}">
                                         {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
                                      </button>
                                     <div class='hidden evidence_links'
                                          style="position: absolute; left: 0; width: 200px;">
                                         <ul>
-                                            id:
                                             {{#links}}
                                                 <li style="position: relative; display: inline-block; padding-left: 5px;"><a
                                                         href="{{url}}" target="_blank">{{id}}</a></li>
@@ -280,44 +297,41 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            {{#function}}
-                            <div class="row">
-                                <div class='col-md-12 col-xs-12'>
-                                    <div class='col-md-9 col-xs-8' style="position: relative; display:block; padding-left: 20px; padding-bottom: 5px; padding-top: 5px">
-                                  {{annotation}}</div>
-                                    {{#databases}}
-                                    <div class='col-md-3 col-xs-4' style="position: relative; display:block; padding-left: 5px; padding-bottom: 5px; padding-top: 5px">
-                                    <span class="evidence_badge"
-                                          style="position: relative; display: inline-block; padding-left: 5px; padding-bottom: 20px">
-                                <button class="btn btn-primary" type="button"
-                                        style="background-color:{{color}}; border-color:{{color}}">
-                                    {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
-                                 </button>
-
-                                <div class='hidden evidence_links' style="position: absolute; left: 0; width: 200px;">
-                                    <ul>
-                                        id:
-                                        {{#links}}
-                                        <!--  <div class='col-md-6 col-xs-6' id="evidence_div"> -->
-                                            <li style="position: relative; display: inline-block; padding-left: 5px;"><a href="{{url}}" target="_blank">{{id}}</a></li>
-                                        <!--</div>- -->
-                                        {{/links}}
-                                    </ul>
-                                </div>
-                            </span>
-                                    </div>
-                                    {{/databases}}
-                                    <!--: <a href="{{url}}">{{annotation}}</a>-->
-                                </div>
+                            <div class="col-md-12">
+                                <table id="tbl_function" class="table function-table">
+                                    <tbody>
+                                        {{#function}}
+                                        <tr>
+                                            <td class="annotation">{{annotation}}</td>
+                                            <td class="function-table-td">
+                                                {{#databases}}
+                                                <div>
+                                                    <div class="evidence_badge">
+                                                        <button class="btn btn-primary evidence-badge-btn" type="button" style="background-color:{{color}}; border-color:{{color}}">
+                                                        {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
+                                                        </button>                
+                                                        <div class='hidden evidence_links' style="position: absolute; left: 0; width: 200px;">
+                                                            <ul>
+                                                                
+                                                                {{#links}}
+                                                                    <li style="position: relative; display: inline-block; padding-left: 5px;"><a href="{{url}}" target="_blank">{{id}}</a></li>
+                                                                {{/links}}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{/databases}}
+                                            </td>
+                                        </tr>
+                                        {{/function}}
+                                    </tbody>
+                                </table>
                             </div>
-                            {{/function}}
                         </div>
                         {{^function}} No data available. {{/function}}
                     </div>
                 </div>
             </ul>
-
-
             <!--Glycosylation-->
             <ul id="glycosylation" class="cd-faq-group selected">
                 <div class="panel panel-default">
@@ -363,24 +377,29 @@
 
                         {{#sequence}}
                         <div class="box">
-                            <div class="col-lg-9 col-md-12 col-xs-12 sequence-panel" id="sequnce_highlight"></div>
-                            <div class="col-lg-3 col-md-12 col-sm-12 active">
+                            <div class="col-lg-8 col-md-12 col-xs-12 sequence-panel" id="sequnce_highlight"></div>
+                            <div class="col-lg-4 col-md-12 col-sm-12 active">
                                 <ul class="highlight-panel-categories" style="width:100%;">
-                                    <li>
-                                        <input type="checkbox" name="checkbox" id="seq_n_link"
+                                    <li data-type="n_link_glycosylation">
+                                        <p><input type="checkbox" name="checkbox" id="seq_n_link" {{^n_link_glycosylation_count}}disabled{{/n_link_glycosylation_count}}
                                                onchange="checkUncheck('n_link_glycosylation', this)"/>&nbsp;<span
                                             class="sequnce1">N-linked Glycosylation</span>
+                                            {{#n_link_glycosylation_count}}<span class="badge badge-light">{{n_link_glycosylation_count}}</span>{{/n_link_glycosylation_count}}</p>
                                     </li>
-                                    <li>
-                                        <input type="checkbox" name="checkbox"
+                                    <li data-type="o_link_glycosylation">
+                                        <p><input type="checkbox" name="checkbox" {{^o_link_glycosylation_count}}disabled{{/o_link_glycosylation_count}}
                                                onchange="checkUncheck('o_link_glycosylation', this)"/>&nbsp;<span
-                                            class="sequnce2">O-linked Glycosylation</span>
+                                            class="sequnce2">O-linked Glycosylation </span>{{#o_link_glycosylation_count}}<span class="badge badge-light">{{o_link_glycosylation_count}}</span>{{/o_link_glycosylation_count}}</p>
                                     </li>
-                                    <li>
-                                        <input type="checkbox" name="checkbox"
-                                               onchange="checkUncheck('mutation', this)"/>&nbsp;<span class="sequnce3">Mutation</span>
+                                    <li data-type="mutation">
+                                        <p><input type="checkbox" name="checkbox" {{^mutation_count}}disabled{{/mutation_count}}
+                                               onchange="checkUncheck('mutation', this)"/>&nbsp;<span class="sequnce3">Mutation</span>    
+                                               {{#mutation_count}}<span class="badge badge-light" >{{mutation_count}}</span>{{/mutation_count}}</p>
+                    
                                     </li>
                                 </ul>
+
+                           
                             </div>
                         </div>
                         {{/sequence}}
@@ -458,13 +477,13 @@
                                    <!-- <div class='col-md-6 col-xs-6'> -->
                                <span class="evidence_badge"
                                      style="position: relative; display: inline-block; padding-left: 15px; padding-bottom: 15px; padding-top: 5px;">
-                                <button class="btn btn-primary" type="button" style="background-color:{{color}}; border-color:{{color}}">
+                                <button class="btn btn-primary evidence-badge-btn" type="button" style="background-color:{{color}}; border-color:{{color}}">
                                     {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
                                  </button>
 
                                 <div class='hidden evidence_links' style="position: absolute; left: 15px; width: 200px;">
                                     <ul>
-                                        id:
+                                        
                                         {{#links}}
                                             <li class="evidence_id"> <a
                                                     href="{{url}}" target="_blank">{{id}} </a></li>
@@ -489,6 +508,58 @@
                 </div>
             </ul>
 
+
+            <!--Orthologs-->
+            <ul id="orthologs" class="cd-faq-group selected">
+                <li class="cd-faq-title"/>
+                <div class="panel panel-default">
+                    <div class="gg-panel-heading">
+                        <h4>Orthologs</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            {{#orthologs}}
+                            <div class="col-lg-9 col-md-12 col-sm-12">
+                                <div class="panelmaincontent">
+                                    <li class="list-group"><strong>UniProtKB Isoform Accession:</strong> <a
+                                            class="panelcontent" href="{{{url}}}" target="_blank">{{uniprot_canonical_ac}}</a>
+                                    </li>
+                                </div>
+                                
+                                    {{#databases}}
+                                   <!-- <div class='col-md-6 col-xs-6'> -->
+                               <span class="evidence_badge"
+                                     style="position: relative; display: inline-block; padding-left: 15px; padding-bottom: 15px; padding-top: 5px;">
+                                <button class="btn btn-primary upper-case evidence-badge-btn" type="button" style="background-color:{{color}}; border-color:{{color}}">
+                                    {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
+                                 </button>
+                                <div class='hidden evidence_links' style="position: absolute; left: 15px; width: 200px;">
+                                    <ul>
+                                        
+                                        {{#links}}
+                                            <li class="evidence_id"> <a
+                                                    href="{{url}}" target="_blank">{{id}} </a></li>
+                                        {{/links}}
+                                    </ul>
+                                </div>
+                              </span>
+                                   <!-- </div>  -->
+                                    {{/databases}}
+                                {{^databases}} {{/databases}}
+                                <div class="plus-button-margin-bottom"></div>
+                                <div id="fasta">
+                                    <pre class="highlight-text">{{{sequence.sequence}}}</pre>
+                                </div>
+                                <br>
+                            </div>
+                            {{/orthologs}}
+                        </div>
+                        {{^orthologs}} No data available. {{/orthologs}}
+                    </div>
+                </div>
+                </div>
+            </ul>
+
             <!-- Disease -->
             <ul id="disease" class="cd-faq-group selected">
                 <li class="cd-faq-title"/>
@@ -501,21 +572,21 @@
                             {{#disease}}
                             <div class="row">
                                 <div class='col-md-12 col-xs-12'>
-                                    <div class='col-md-6 col-xs-6'>
-                                        {{name}} ({{#icd10}}ICD10: {{icd10}}; {{/icd10}}DOID: 
-                                        <a class="panelcontent" href="{{{url}}}" target="_blank">{{doid}}</a>): 
+                                    <div class='col-md-8 col-xs-8'>
+                                        {{name}} <br>({{#icd10}}ICD10: {{icd10}}; {{/icd10}}DOID:
+                                        <a class="panelcontent" href="{{{url}}}" target="_blank">{{doid}}</a>) 
                                     </div>
                                     {{#databases}}
-                                    <div class='col-md-6 col-xs-6'>
+                                    <div class='col-md-4 col-xs-4'>
                                <span class="evidence_badge"
-                              style="position: relative; display: inline-block; padding-left: 5px; padding-bottom: 30px">
-                                <button class="btn btn-primary" type="button" style="background-color:{{color}}; border-color:{{color}}">
+                              style="position: relative; display: inline-block; padding-left:-15px;  padding-bottom: 30px">
+                                <button class="btn btn-primary evidence-badge-btn" type="button" style="background-color:{{color}}; border-color:{{color}}">
                                     {{database}} &nbsp;&nbsp;<span class="badge">{{links.length}}</span>
                                  </button>
 
                                 <div class='hidden evidence_links' style="position: absolute; left: 0; width: 200px;">
                                     <ul>
-                                        id:
+                                        
                                         {{#links}}
                                             <li style="position: relative; display: inline-block;"><a href="{{url}}" target="_blank">{{id}}</a></li>
                                         {{/links}}
@@ -611,63 +682,67 @@
 
             <a href="#0" class="cd-close-panel">Close</a>
         </script>
-    </div>
-</section>
+        </div>
+    </section>
 
-<div w3-include-html="footer.html"></div>
-<script>
-    w3.includeHTML();
-</script>
-<script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
-<!-- script for table -->
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
-<!-- script for error-message/header-footer js -->
-<script src="js/utility.js"></script>
-<!-- script for detail page -->
-<script type="text/javascript" src="js/protein_detail.js"></script>
-<!-- script for template engine -->
-<script type="text/javascript" src="libraries/mustache.js"></script>
-<!-- script for webservice -->
-<script type="text/javascript" src="js/domain_url.js"></script>
-<script type="text/javascript" src="js/ws_url.js"></script>
-<!-- script for navigation -->
-<script src="js/navbar.js"></script>
-<!-- script for side navigation -->
-<script src="js/faq_main.js"></script>
-<!-- script for user activity tracking and error logging -->
-<script src="js/activity_tracker.js"></script>
-<!-- script for error handling alerts -->
-<script type="text/javascript" src="libraries/alertify.js"></script>
-<!-- downloading files js -->
-<script src="libraries/download.js"></script>
+    <div w3-include-html="footer.html"></div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
+    <!-- script for table -->
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
+    <!-- script for error-message/header-footer js -->
+    <script src="js/utility.js"></script>
+    <!-- script for detail page -->
+    <script type="text/javascript" src="js/protein_detail.js"></script>
+    <!-- script for template engine -->
+    <script type="text/javascript" src="libraries/mustache.js"></script>
+    <!-- script for webservice -->
+    <script type="text/javascript" src="js/domain_url.js"></script>
+    <script type="text/javascript" src="js/ws_url.js"></script>
+    <!-- script for navigation -->
+    <script src="js/navbar.js"></script>
+    <!-- script for side navigation -->
+    <script src="js/faq_main.js"></script>
+    <!-- script for user activity tracking and error logging -->
+    <script src="js/activity_tracker.js"></script>
+    <!-- script for error handling alerts -->
+    <script type="text/javascript" src="libraries/alertify.js"></script>
+    <script type="text/javascript" src="libraries/contact.js"></script>
+    <!-- downloading files js -->
+    <script src="libraries/download.js"></script>
+    <!-- for evidence badge js -->
+    <script src="js/evidence_badge.js"></script>
+    <!-- for sequenceview js -->
+    <script src="js/format_sequence.js"></script>
 
-<!-- Please do not change this it breaks hash scroll code-->
-<script type="text/javascript">
-    $(document).ajaxStop(function () {
-        // calls the sidebar function only when all ajax calls are completed
-        faqMain();
 
-        function scrollToPanel(hash) {
-            //to scroll to the particular sub section.
-            $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
-            if ($(window).width() < 768) { //mobile view
-                $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
-                $('.cd-close-panel').addClass('move-left');
-                $('body').addClass('cd-overlay');
-            } else {
-                $('body,html').animate({
-                    'scrollTop': $(hash).offset().top - 19
-                }, 200);
-            }
-        }
-
-        if (window.location.hash) {
-            scrollToPanel(window.location.hash);
-        }
-    });
-</script>
+    <!-- Please do not change this it breaks hash scroll code-->
+    <script type="text/javascript">
+        $(document).ajaxStop(function () {
+            // calls the sidebar function only when all ajax calls are completed
+            faqMain();  
+            function scrollToPanel(hash) {
+    //to scroll to the particular sub section.
+    $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
+    if ($(window).width() < 768) { //mobile view
+        $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
+        $('.cd-close-panel').addClass('move-left');
+        $('body').addClass('cd-overlay');
+    } else {
+        $('body,html').animate({
+            'scrollTop': $(hash).offset().top - 19
+        }, 200);
+    }
+}
+            if (window.location.hash) {
+    scrollToPanel(window.location.hash);
+}  
+        });
+    </script>
 
 </body>
 

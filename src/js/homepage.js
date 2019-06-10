@@ -96,6 +96,7 @@ function displayHomeInitData(jsonResponse) {
 
 // ajaxFailure is the callback function when ajax to GWU service fails
 function displayFailHomeInitData(jqXHR, textStatus, errorThrown) {
+    showJsError = true;
     // getting the appropriate error message from this function in utility.js file
     var err = decideAjaxError(jqXHR.status, textStatus);
     var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || errorThrown;
@@ -103,4 +104,5 @@ function displayFailHomeInitData(jqXHR, textStatus, errorThrown) {
     activityTracker("error", null, err + ": " + errorMessage + ": home_init WS error");
     $("#version-display").text("Data is not available.").addClass("errorMessageHomepage");
     $("#statistics-display").text("Data is not available.").addClass("errorMessageHomepage");
+    showJsError = false;
 }

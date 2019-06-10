@@ -27,8 +27,10 @@
     <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="css/list.css">
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
     
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
@@ -51,6 +53,7 @@
         <meta name="msapplication-wide310x150logo" content="images/icons/favicomatic/mstile-310x150.png" />
         <meta name="msapplication-square310x310logo" content="images/icons/favicomatic/mstile-310x310.png" />
 </head>
+
 
 <body onload="tracking()">
     <div id="loading_image">
@@ -101,7 +104,7 @@
 
                     &nbsp; &nbsp;
 
-                    <button type="button" class="btn btn-primary"  onclick="editSearch();">Modify Search</button>
+                    <button type="button" class="btn btn-primary"  onclick="editSearch_quick();">Modify Search</button>
 
                     <p class="small">** To perform the same search again using the current version of the database, click <strong>“Update Results”</strong>.</p>
                 </div>
@@ -110,14 +113,13 @@
 
         <div class="row">
             <div class="col-md-12 col-xs-12">
-                <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="uniprot_canonical_ac" data-detail-view="true" data-detail-formatter="detailFormat"
+                    <!-- <table id="gen-table"></table> -->
+                <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="uniprot_canonical_ac"  data-detail-formatter="detailFormat"
                        data-page-size="10">
-                    <!-- <table id="gen-table"    data-search="true">    may be for version 2-->
-                    <!-- <th data-field="state" data-checkbox="true"></th>           may be for version 2 -->
                     <thead>
                     <tr>
-                        <th data-field="uniprot_canonical_ac"  data-sortable="true" data-formatter="pageFormat">UniProtKB Accession</th>
-                        <th data-field="protein_name" data-sortable="true">Protein Name  </th>
+                        <th  data-field="databases" data-sortable="true" data-formatter="EvidencebadgeFormator">Source</th>
+                        <th data-field="protein_name" data-sortable="true">Protein Name  </th> 
                         <th data-field="organism" data-sortable="true">Organism
                         </th>
                         <th data-field="tax_id" data-sortable="true">TaxID</th>
@@ -162,23 +164,28 @@
     <!-- script for getting Web Service URLs -->
     <script type="text/javascript" src="js/domain_url.js"></script>
     <script type="text/javascript" src="js/ws_url.js"></script>
+     <!-- script for error-message/header-footer js -->
+     <script src="js/utility.js"></script>
     <!-- script for glycan list page -->
     <script type="text/javascript" src="js/orthologus.js"></script>
-    <!-- <script type="text/javascript" src="js/quicksearch.js"></script> -->
-    <!-- <script type="text/javascript" src="js/quickproteinlist.js"></script> -->
     <!-- script for pagination page -->
     <script type="text/javascript" src="js/pagination.js"></script>
+     <!-- script for Badge -->
+     <script type="text/javascript" src="js/evidence_badge.js"></script>
     <!-- script for third party-->
     <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
     <!-- script for getting Web Service URLs -->
     <script type="text/javascript" src="libraries/alertify.js"></script>
+    <script type="text/javascript" src="libraries/contact.js"></script>
     <!-- script for third party alert-->
     <script src="js/activity_tracker.js"></script>
     <!-- script for navaigation -->
     <script src="js/navbar.js"></script>
+    <script src="js/edit_search.js"></script>
+    <!-- for evidence badge js -->
+<script src="js/evidence_badge.js"></script>
     <!--  w3 including footer-->
-    <!-- script for error-message/header-footer js -->
-    <script src="js/utility.js"></script>
+   
 
 </body>
 

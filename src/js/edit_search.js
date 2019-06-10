@@ -30,7 +30,7 @@ function setFormValues(data) {
             $("#ddl2").val(data.query.glycan_subtype);
         });
         $("#enzyme").val(data.query.enzyme? data.query.enzyme.id : "");
-        $("#protein").val(data.query.uniprot_canonical_ac || "");
+        $("#protein").val(data.query.protein_identifier || "");
         $("#motif").val(data.query.glycan_motif || "");
     }
 }
@@ -47,7 +47,7 @@ function setProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism? data.query.organism.id : 0);
+        $("#species").val(data.query.organism? data.query.organism.id : "0");
         $("#gene_name").val(data.query.gene_name || "");
         $("#protein_name").val(data.query.protein_name || "");
         $("#pathway").val(data.query.pathway_id || "");
@@ -68,7 +68,7 @@ function setGlycoProteinFormValues(data) {
             var massSlider = document.getElementById('sliderbox-slider');
             massSlider.noUiSlider.set([data.query.mass.min, data.query.mass.max]);
         }
-        $("#species").val(data.query.organism? data.query.organism.id : 0);
+        $("#species").val(data.query.organism.id? data.query.organism.id : 0);
         $("#gene_name").val(data.query.gene_name || "");
         $("#glycan_id").val(data.query.glycan? data.query.glycan.glytoucan_ac : "");
         $("#relation").val(data.query.glycan? data.query.glycan.relation : "");
@@ -88,7 +88,9 @@ function setGlycoProteinFormValues(data) {
  * @param {object} data - The Retreive data
  */
 function failToRetreiveSearch(data) {
+    showJsError = true;
     displayErrorByCode('server_down');
+    showJsError = false;
 }
 
 /**
@@ -143,6 +145,14 @@ function LoadSearchvalues(id) {
     $.ajax(ajaxConfig);
 }
 
+
+function editSearch_quick() {
+    var question =  getParameterByName('question');
+        //window.location.replace("quick_search.html?id=" + id + '&question=' + question);
+        window.location.replace("quick_search.html?id=" + id + '&question=' + question + '#' +question );
+   
+        activityTracker("user", id, "edit search");
+}
 //Do not remove this code
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;

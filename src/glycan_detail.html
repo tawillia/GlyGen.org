@@ -9,6 +9,7 @@
 @update: 27 June 2018 - web services major changes
 @update: Cross Ref grouping - Rupali Mahadik
 @update: Evidance badge - Rupali Mahadik. Jan.17-2019
+@update: Mar 12, 2019 - Gaurav Agarwal - added breadcrumb
 --------------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="en">
@@ -39,8 +40,6 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-table.min.css">
-    <!-- CSS common-->
-    <link rel="stylesheet" href="css/style.css">
     <!-- CSS for sidenavgation-->
     <link rel="stylesheet" href="css/faq_style.css">
     <!--detail style -->
@@ -49,7 +48,11 @@
     <script src="js/modernizr.js"></script>
     <!-- CSS for alertify -->
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
+     <!-- CSS common-->
+     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png"/>
     <link rel="apple-touch-icon-precomposed" sizes="114x114"
@@ -126,9 +129,19 @@
     </ul>
     <!-- cd-faq-categories -->
     <!-- main content for page -->
-    <div class="cd-faq-items" id="content">
+    <div class="cd-faq-items container" id="content">
         <!-- <div id="content" class="container" "> -->
         <script id="item_template" type="text/template">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <!-- breadcrumb filled by javascript -->
+                    <ul class="gg-breadcrumb">
+                        <li id="li-breadcrumb-search"><a href="JavaScript:void(0);" id="breadcrumb-search">Glycan Search</a></li>
+                        <li id="li-breadcrumb-list"><a href="JavaScript:void(0);" id="breadcrumb-list">Glycan List</a></li>
+                        <li id="li-breadcrumb-detail">Glycan Detail</li>
+                    </ul>
+                </div>
+            </div>
             <!-- Glycan ID starts here for page -->
             <center><h2 class="page-heading" style="margin-top: -5px;">Details for glycan <span>
                 {{#glytoucan}}{{glytoucan_ac}}{{/glytoucan}}</span></h2></center>
@@ -141,20 +154,20 @@
                         <i class="glyphicon glyphicon-save"></i> DOWNLOAD
                         <span class="caret"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-detail dropdown-menu-right" aria-labelledby="download">
+                    <div class="dropdown-menu dropdown-menu-box dropdown-menu-right" aria-labelledby="download">
                         <div class="row">
                             <div class="col-md-7"><label>Download&nbsp;format: </label></div>
-                            <div class="col-md-5"><select id='download_format'>
+                            <div class="col-md-5 text-right"><select id='download_format'>
                                 <option value='json'>JSON</option>
                             </select></div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-7"><label>Compressed: </label></div>
                             <div class="col-md-5"><input type='checkbox' id='download_compression'/></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9"></div>
-                            <div class="col-md-3">
+                        </div> -->
+                        <div class="row" style="padding-top: 15px;">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-5 text-right">
                                 <button class="btn-default" onclick="downloadPrompt();">OK</button>
                             </div>
                         </div>
@@ -184,7 +197,7 @@
                                 {{/glytoucan}}
 
                                 {{#mass}}
-                                <li class="list-group"><strong>Monoisotopic Mass:</strong> {{mass}} Da</li>
+                                <li class="list-group"><strong>Chemical Mass:</strong> {{mass}} Da</li>
                                 {{/mass}}
 
                                 {{#classification}}
@@ -210,7 +223,7 @@
                             <thead>
                                 <tr>
                         {{#species}}
-                        <div class="row">
+                        
                             <div class='col-lg-9 col-md-12 col-xs-12'>
                                 <div class="row">
                                      <div style="position: relative; display: block; padding-left: 15px;">
@@ -226,7 +239,7 @@
                                                 <div class='hidden evidence_links' id="evidence_{{taxid}}_{{database}}"
                                                      style="position:absolute; padding-left: 15px; padding-top: 5px; width: 200px;">
                                                     <ul>
-                                                        id:
+                                                  
                                                          {{#links}}
                                                         <li class="evidence_id"><a
                                                          href="{{url}}" target="_blank">{{id}}</a></li>
@@ -240,7 +253,7 @@
                             </div>
                                 {{/species}}
                                 {{^species}} No data available. {{/species}}
-                        </div>
+                        
                             </tr>
                         </thead>
                     </table>
@@ -332,7 +345,7 @@
                     </div>
                     <div class="panel-body">
                         {{ #glycoct}}
-                        <strong>GLYCOCT</strong>
+                        <strong>GlycoCT</strong>
                         <pre id="break">{{{ glycoct}}}</pre>
                         {{ /glycoct}}
 
@@ -376,7 +389,7 @@
 <script src="js/activity_tracker.js"></script>
 <!-- script for error handling alerts -->
 <script type="text/javascript" src="libraries/alertify.js"></script>
-
+<script type="text/javascript" src="libraries/contact.js"></script>
 <script type="text/javascript">
     $(document).ajaxStop(function () {
         // calls the sidebar function only when all ajax calls are completed
@@ -388,6 +401,7 @@
 <script src="js/utility.js"></script>
 <!-- downloading files js -->
 <script src="libraries/download.js"></script>
+<script src="js/evidence_badge.js"></script>
 </body>
 
 </html>

@@ -32,8 +32,8 @@ function resetAdvanced() {
         query: {
             query_type: "search_protein",
             mass: {
-                "min": 435,
-                "max": 3906488
+                "min": mass_min,
+                "max": mass_max
             },
             sequence: "",
             organism: {
@@ -116,8 +116,8 @@ $(document).ready(function () {
             for (var x = 0; x < result.simple_search_category.length; x++) {
                 createOption(categoryType, result.simple_search_category[x].display, result.simple_search_category[x].id);
             }
-            var mass_max = result.protein_mass.max;
-            var mass_min = result.protein_mass.min;
+            mass_max = Math.ceil(result.protein_mass.max);
+            mass_min = Math.floor(result.protein_mass.min);
             // mass(mass_min, mass_max);
             // check for ID to see if we need to load search values
             // please do not remove this code as it is required prepopulate search values
@@ -128,7 +128,7 @@ $(document).ready(function () {
 
             new Sliderbox({
                 target: '.sliderbox',
-                start: [435, 3906488.00], // Handle start position
+                start: [mass_min, mass_max], // Handle start position
                 connect: true, // Display a colored bar between the handles
                 behaviour: 'tap-drag', // Move handle on tap, bar is draggable
                 range: { // Slider can select '0' to '100'
@@ -181,11 +181,12 @@ $(document).ready(function () {
                 inpMin.value = addCommas(parseInt(values[handle]));
             }
         });
+
         target.addEventListener('change', function (e) {
             if (e.target === inpMin) {
-                slider.noUiSlider.set([e.target.value]);
+                slider.noUiSlider.set([parseInt(e.target.value.replace(/,/g, ''))]);
             } else {
-                slider.noUiSlider.set([null, e.target.value]);
+                slider.noUiSlider.set([null, parseInt(e.target.value.replace(/,/g, ''))]);
             }
         });
     };
@@ -199,6 +200,33 @@ $(document).ready(function () {
             searchProteinSimple();
         }
     });
+    
+    /** 
+    * @param {string} No results found 
+    * @return {string} Alert message in all searches
+    * @author Tatiana Williamson
+    */
+    $(".alert").hide();
+    $(document).on('click', function(e) {
+        $(".alert").hide();
+    })
+    
+     /** 
+    * @param {string} popover and tooltip
+    * @return {string} popover and tooltip on search pages
+    * @author Tatiana Williamson
+    */
+    $('.link-with-tooltip').each(function() {
+        $(this).popover({    
+            content : $(this).attr("popover-content"),
+            title : $(this).attr("popover-title")         
+        });    
+        $(this).tooltip({    
+            placement : 'bottom',  
+            content : $(this).attr("tooltip-title")
+        });
+        $(this).tooltip('option', 'tooltipClass', 'tooltip-custom')
+    })
 });
 
 /** 
@@ -241,7 +269,7 @@ function ajaxProteinSearchSuccess() {
         url: getWsUrl("search_protein"),
         data: json,
         timeout: getTimeout("search_protein"),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.error_code) {
                 displayErrorByCode(results.error_code);
@@ -277,7 +305,7 @@ function ajaxProteinSearchSuccess() {
  */
 function searchJson(input_query_type, mass_min, mass_max, input_organism, input_protein_id,
     input_refseq_id, input_gene_name, input_protein_name, input_pathway_id, input_sequence) {
-    var sequences = {};
+    var sequences;
     if (input_sequence) {
         sequences = {
             "type": "exact",
@@ -285,10 +313,11 @@ function searchJson(input_query_type, mass_min, mass_max, input_organism, input_
         }
     }
     
-    var organisms = {};
+    var organism;
     if (input_organism.id != "0") {
-        organisms.id = input_organism.id;
-        organisms.name = input_organism.name;
+        organism = {"id":0,"name":"All"};
+        organism.id = input_organism.id;
+        organism.name = input_organism.name;
     }
     var formjson = $.extend({}, {
         "operation": "AND",
@@ -298,7 +327,7 @@ function searchJson(input_query_type, mass_min, mass_max, input_organism, input_
             "max": parseInt(mass_max)
         },
         sequence: sequences ?sequences:undefined,
-        organism: organisms ?organisms:undefined,
+        organism: organism ?organism:undefined,
         refseq_ac: input_refseq_id? input_refseq_id: undefined,
         protein_name: input_protein_name? input_protein_name: undefined,
         gene_name: input_gene_name?input_gene_name: undefined,
@@ -369,7 +398,7 @@ function populateExample() {
             examples = ["P14210-1"];
             break;
         default:
-            examples = ["Deafness", "G17689DH", "Homo sapiens", "hsa:3082", "P14210-1"];
+            examples = ["P14210-1", "G17689DH", "hsa:3082", "Homo sapiens", "Deafness"];
             exampleText += "s";
             break;
     }
@@ -451,7 +480,7 @@ function searchProteinSimple() {
         url: getWsUrl("protein_search_simple"),
         data: json,
         // timeout: getTimeout("search_simple_protein"),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.error_code) {
                 displayErrorByCode(results.error_code);
@@ -503,7 +532,7 @@ function LoadDataList(id) {
         method: 'POST',
         timeout: getTimeout("list_protein"),
         success: ajaxListSuccess,
-        error: ajaxListFailure
+        error: ajaxFailure
     };
     // make the server call
     $.ajax(ajaxConfig);
@@ -538,14 +567,6 @@ function ajaxListSuccess(data) {
     }
 }
 
-/// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    displayErrorByCode(err);
-    activityTracker("error", id, err + ": " + errorThrown + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
-    // $('#loading_image').fadeOut();
-}
 /* ----------------------
  End-Prepopulating search results after clicking modify button on protein list summary section
  * @author Rupali Mahadik

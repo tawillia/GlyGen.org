@@ -5,7 +5,6 @@
 @date-created: January 2018
 @update: October 12 2018 - Tatiana Williamson - Added headline and styled download button.
 -------------------------------------------------------------------------*/
-
 .img-cartoon1 {
     display: block;
     max-width: 500px;
@@ -122,6 +121,9 @@ pre {
 
 .panelcontent {
     font-size: 15px;
+/*    color: #659BC9; 
+    Removed by Tatiana - it overrides links color on detail pages May 20, 2019
+*/
 }
 
 .list-group {
@@ -276,28 +278,34 @@ h4 {
 }
 
 .highlight-highlight[data-type="mutation"] .highlight-highlight-area {
-/*    background: rgba(0, 0, 256, .5); */ /* blue */
-     background-color: rgba(222, 126, 221, 0.6);
+  
+     /* background-image: linear-gradient(transparent, rgb(211, 113, 211)); */
+     
+      background: rgb(131, 235, 131);
 }
 
 .highlight-highlight[data-type="o_link_glycosylation"] .highlight-highlight-area {
-background-color: rgba(100, 236, 100, 0.5);  /* green */
-/*     */
+    /* background-image: linear-gradient(rgba(100, 236, 100, 1), transparent);   */
+    border-bottom: 3px solid blue;
+
+    
 }
+/*     */
+
 
 .highlight-highlight[data-type="n_link_glycosylation"] .highlight-highlight-area {
-/*    background: rgba(256, 0, 0, .5); */ /* red */
-    background: rgba(248, 231, 28, 0.5); 
-/*     color: #fff !important;*/
+     border-bottom: 3px solid red;
+
+ 
 }
 
 #sequnce_highlight {
     display: block;
-    padding: 9.5px;
+    padding: 9.0px;
     margin: 0;
     font-size: 14px;
     line-height: 1.42857143;
-    color: #000;
+    color:rgba(0, 0, 0);
     background-color: #e6e6e6;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -305,18 +313,29 @@ background-color: rgba(100, 236, 100, 0.5);  /* green */
 }
 /*n_link_glycosylation"*/
 .sequnce1 {
-    background-color: rgba(248, 231, 28, 0.5);
+    border-bottom: 3px solid red;
+    font-family: monospace;
+    font-size:14px;
 }
 
 /*o_link_glycosylation"*/
 .sequnce2 {
-    background-color: rgba(142, 241, 142, 0.9);
+    border-bottom: 3px solid blue;
+    font-family: monospace;
+    font-size:14px;
 }
 /*mutation*/
 .sequnce3 {
-   background-color: rgba(222, 126, 221, 0.6);
+    background: rgb(131, 235, 131);
+   font-family: monospace;
+   font-size:14px;
 }
-
+/*Sequon*/
+.sequnce4{
+    border-top: 3px solid #f48942;
+   font-family: monospace;
+   font-size:14px;
+}
 .highlight-panel-categories {
     margin: 0;
     padding: 5px;
@@ -360,6 +379,7 @@ background-color: rgba(100, 236, 100, 0.5);  /* green */
 .highlight-text{
     font-family:monospace;
     font-size:14px;
+    line-height: 26px;
 }
 
 .upper-case {
@@ -368,26 +388,45 @@ background-color: rgba(100, 236, 100, 0.5);  /* green */
 /*---------------------------
     Evidences css for details
 -----------------------------*/
-.evidence_badge{
+.evidence_badge {
     position: relative; 
-    display: block;  
     padding-left: 5px; 
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    display: inline-block;
 }
-.hidden evidence_links{
+.hidden evidence_links {
     position: absolute; 
     left:  0; 
     width: 200px;
 }
-.linkHtml{
+.linkHtml {
    position: relative; 
    display: inline-block; 
-/*   padding-left: 5px; */
-/*   padding-top: 5px;*/
 }
-.evidence_id{
+.evidence_id {
     position: relative; 
-/*    display: inline-block; */
-    left: -15px;
-    
+    display: block; 
+        
 }
+
+.highlight-text {
+    font-family: monospace;
+    font-size: 14px;
+    position: relative;
+    z-index: 10;
+ 
+}
+
+.annotation {
+    white-space: pre-wrap;
+}
+
+.function-table tr:first-child td{
+    border: none;
+}
+
+.function-table-td {
+    vertical-align: middle  !important;
+}
+

@@ -1,11 +1,14 @@
-//@author: Gaurav Agarwal
+/**
+ * This is a dictionary file containing the Web service string URLs mapped to Keys.
+ * @author: Gaurav Agarwal
+ */
 //update: Rupali Mahadik:  //Glycan webservices, //Protein webservices
 // @description: UO1 Version-1.1.
 //@update:6 June 2018
 //update:20 july://usecases search webservices
 //update:31 july:// New base URL updated.
 
-function getWsUrl(request, id, id1,glytoucan_ac) {
+function getWsUrl(request, id, id1, glytoucan_ac) {
     var ws_home_init = ws_base + "pages/home_init";
     var ws_base_glycan = ws_base + "glycan";
     var ws_base_protein = ws_base + "protein";
@@ -17,7 +20,7 @@ function getWsUrl(request, id, id1,glytoucan_ac) {
     var ws_homeInit = ws_base + "pages/home_init";
     var ws_dataDownload = ws_base + "data/download";
     var ws_globalSearch = ws_base + "globalsearch/search";
-    var ws_base_motif = ws_base + "motif";   
+    var ws_base_motif = ws_base + "motif";
 
     // var ws_base_loci=ws_base+"usecases";
 
@@ -50,7 +53,7 @@ function getWsUrl(request, id, id1,glytoucan_ac) {
 
         case "glycan_detail":
             return ws_base_glycan + "/detail/" + id;
-            
+
         case "motif_detail":
             return ws_base_motif + "/detail";
 

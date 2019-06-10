@@ -46,7 +46,6 @@ $(document).ready(function () {
     //Section for populating label names from key-value.json
     populateFromKeyValueStore("lbl_glytoucan_acc", "GLYTOUCAN_ACCESSION", "", ":", 2);
     populateFromKeyValueStore("lbl_monoiso_mass", "MONOISOTOPIC_MASS", "", ":", 2);
-
     //End section for populating label names from key-value.json
     $.ajax({
         dataType: "json",
@@ -72,10 +71,10 @@ $(document).ready(function () {
                 createOption(glycanElement, result.glycan_type[x].name, result.glycan_type[x].name);
             }
 
-            var mass_max = result.glycan_mass.max;
-            var mass_min = result.glycan_mass.min;
-            var sugar_mass_min = result.number_monosaccharides.min;
-            var sugar_mass_max = result.number_monosaccharides.max;
+            mass_max = Math.ceil(result.glycan_mass.max);
+            mass_min = Math.floor(result.glycan_mass.min);
+            var sugar_mass_min = Math.floor(result.number_monosaccharides.min);
+            var sugar_mass_max = Math.ceil(result.number_monosaccharides.max);
 
             var id = getParameterByName('id') || id;
             if (id) {
@@ -108,6 +107,7 @@ $(document).ready(function () {
             }
             populateExample();
         }
+        
     });
 
     /**
@@ -120,6 +120,32 @@ $(document).ready(function () {
         }
     });
     
+    /** 
+    * @param {string} No results found 
+    * @return {string} Alert message in all searches
+    * @author Tatiana Williamson
+    */
+    $(".alert").hide();
+    $(document).on('click', function(e) {
+        $(".alert").hide();
+    })
+    
+    /** 
+    * @param {string} popover and tooltip
+    * @return {string} popover and tooltip on search pages
+    * @author Tatiana Williamson
+    */
+    $('.link-with-tooltip').each(function() {
+        $(this).popover({    
+            content : $(this).attr("popover-content"),
+            title : $(this).attr("popover-title")         
+        });    
+        $(this).tooltip({    
+            placement : 'bottom',  
+            content : $(this).attr("tooltip-title")
+        });
+        $(this).tooltip('option', 'tooltipClass', 'tooltip-custom')
+    })
 });
 
 ///New slider
@@ -152,9 +178,9 @@ Sliderbox.prototype.handler = function (target) {
 
     target.addEventListener('change', function (e) {
         if (e.target === inpMin) {
-            slider.noUiSlider.set([e.target.value]);
+            slider.noUiSlider.set([parseInt(e.target.value.replace(/,/g, ''))]);
         } else {
-            slider.noUiSlider.set([null, e.target.value]);
+            slider.noUiSlider.set([null, parseInt(e.target.value.replace(/,/g, ''))]);
         }
     });
 };
@@ -189,9 +215,9 @@ Sliderbox1.prototype.handler = function (target) {
 
     target.addEventListener('change', function (e) {
         if (e.target === inpMin1) {
-            slider1.noUiSlider.set([e.target.value]);
+            slider1.noUiSlider.set([parseInt(e.target.value.replace(/,/g, ''))]);
         } else {
-            slider1.noUiSlider.set([null, e.target.value]);
+            slider1.noUiSlider.set([null, parseInt(e.target.value.replace(/,/g, ''))]);
         }
     });
 };
@@ -263,7 +289,6 @@ function submitvalues() {
 
     var prevListId = getParameterByName("id") || "";
     activityTracker("user", prevListId, "Performing Advanced Search");
-
     var query_type = "search_glycan";
     var mass_slider = document.getElementById("sliderbox-slider").noUiSlider.get();
     var sugar_slider = document.getElementById("sliderbox-slider1").noUiSlider.get();
@@ -285,7 +310,7 @@ function submitvalues() {
         url: getWsUrl("glycan_search"),
         data: json,
         timeout: getTimeout("search_glycan"),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.error_code) {
                 displayErrorByCode(results.error_code, results.field);
@@ -314,8 +339,8 @@ function resetAdvanced() {
         query: {
             query_type: "search_glycan",
             mass: {
-                "min": 164,
-                "max": 6750
+                "min": mass_min,
+                "max": mass_max
             },
             number_monosaccharides: {
                 "min": 1,
@@ -328,7 +353,7 @@ function resetAdvanced() {
             },
             glycan_type: "",
             glycan_subtype: "",
-            uniprot_canonical_ac: "",
+            protein_identifier: "",
             glycan_motif: ""
         }
     });
@@ -381,7 +406,7 @@ function searchjson(input_query_type, input_glycan_id, mass_min, mass_max, sugar
         organism: organisms,
         glycan_type: input_glycantype,
         glycan_subtype: input_glycansubtype,
-        uniprot_canonical_ac: input_proteinid,
+        protein_identifier: input_proteinid,
         glycan_motif: input_motif,
     };
     return formjson;
@@ -455,7 +480,7 @@ function populateExample() {
             examples = ["P14210-1"];
             break;
         default:
-            examples = ["B4GALT1", "G17689DH", "Homo sapiens", "P14210-1"];
+            examples = ["G17689DH", "P14210-1", "B4GALT1", "Homo sapiens"];
             exampleText += "s";
             break;
     }
@@ -535,7 +560,7 @@ function searchGlycanSimple() {
         url: getWsUrl("glycan_search_simple"),
         data: json,
         //timeout: getTimeout("search_simple_glycan"),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.error_code) {
                 displayErrorByCode(results.error_code);
@@ -589,7 +614,7 @@ function LoadDataList(id) {
         method: 'POST',
         timeout: getTimeout("list_glycan"),
         success: ajaxListSuccess,
-        error: ajaxListFailure
+        error: ajaxFailure
     };
 
     // make the server call
@@ -623,15 +648,6 @@ function ajaxListSuccess(data) {
         }
         activityTracker("user", id, "Search modification initiated");
     }
-}
-
-/// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    displayErrorByCode(err);
-    activityTracker("error", id, err + ": " + errorThrown + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
-    // $('#loading_image').fadeOut();
 }
 /* ----------------------
  End-Prepopulating search results after clicking modify button on glycan list summary section

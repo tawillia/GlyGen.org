@@ -36,13 +36,15 @@ $(document).ready(function(){
         navItemText = 'QUICK SEARCH'; 
     } else if(navItemText == 'DATA') {
         navItemText = 'DATA';   
-    } else if(navItemText == 'ABOUT') {
-        navItemText = 'ABOUT';
+    } else if(navItemText == 'SPARQL') {
+        navItemText = 'SPARQL';
     } else if(navItemText == 'RESOURCES') {
         navItemText = 'HELP';
     } else if(navItemText == 'FEEDBACK') {
         navItemText = 'HELP';
     } else if(navItemText == 'CONTACT') {
+        navItemText = 'HELP';
+    } else if(navItemText == 'ABOUT') {
         navItemText = 'HELP';
     } else if(navItemText == 'GLYGEN SETTINGS') {
         navItemText = 'MY GLYGEN';

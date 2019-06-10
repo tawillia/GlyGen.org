@@ -11,12 +11,12 @@ String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
     };
-var id = '';
+
 var page = 1;
 var sort = 'uniprot_canonical_ac';
 var dir = 'desc';
 var url = getWsUrl('loci_list') + "?action=get_user";
-var limit = 10;
+var limit = 20;
 
 /**
  * Format function to create link to the details page
@@ -31,22 +31,7 @@ function pageFormat1(value, row, index, field) {
     return "<a href='" + row.gene_link + " ' target='_blank'>" + value + "</a>"
 }
 
-/**
- * Format function of the detail table when opening each row [+]
- * @param {int} index - The row clicked
- * @param {object} row - The data object binded to the row
- * @return- detail view with IUPAC AND GLYCOCT
- */
-function detailFormat(index, row) {
-    var html = [];
-    // var glyco = row.start_pos.replace(/ /g, '\n');
-    html.push('<li class="list-group-indent">Chromosome:' + row.chromosome + '</li>');
-    html.push('<li class="list-group-indent">Start Position:' + row.start_pos + '</li>');
-    html.push('<li class="list-group-indent">End Position:' + row.end_pos + '</li>');
 
-    activityTracker("user", id, "Detail view of " + row.uniprot_canonical_ac);
-    return html.join('');
-}
 /**
  * Summary top table
  * @param {number} queryInfo [[Execution time]]
@@ -55,24 +40,17 @@ function detailFormat(index, row) {
 function buildSummary(queryInfo, question) {
     //quick search
     var summaryTemplate = $('#summary-template').html();
-    queryInfo.execution_time= moment().format('MMMM Do YYYY, h:mm:ss a');
+    queryInfo.execution_time = moment().format('MMMM Do YYYY, h:mm:ss a');
     queryInfo[question] = true;
-    // queryInfo.species = getMessageText(queryInfo.tax_id, queryInfo);
-    // queryInfo.questionText = DYNAMIC_MESSAGES[question](queryInfo);
-    // queryInfo.questionText = getMessageText(question, queryInfo);
     var summaryHtml = Mustache.render(summaryTemplate, queryInfo);
     $('#summary-table').html(summaryHtml);
 }
 
 function totalNoSearch(total_length) {
-    $('.searchresult').html( "\""  + total_length + " Proteins were found\"");
+    $('.searchresult').html("\"" + total_length + " Proteins were found\"");
 }
 
-function editSearch() {
-    var question =  getParameterByName('question');
-    window.location.replace("quick_search.html?id=" + id + '&question=' + question);
-    activityTracker("user", id, "edit search");
-}
+
 
 /**
  * Handling a succesful call to the server for list page
@@ -87,9 +65,9 @@ function ajaxListSuccess(data) {
     if (data.code) {
         console.log(data.code);
         displayErrorByCode(data.code);
-        activityTracker("error", id, "error code: " + data.code +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+        activityTracker("error", id, "error code: " + data.code + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     } else {
-        
+
         var $table = $('#gen-table');
         var items = [];
         if (data.results) {
@@ -118,17 +96,8 @@ function ajaxListSuccess(data) {
         // buildSummary(data.query);
         document.title = 'loci-list';
 
-        activityTracker("user", id, "successful response "+ question +" (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+        activityTracker("user", id, "successful response " + question + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     }
-}
-
-/// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
-    displayErrorByCode(errorMessage);
-    activityTracker("error", id, err + ": " + errorMessage + "(page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
 }
 
 /**

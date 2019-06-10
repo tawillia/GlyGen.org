@@ -13,14 +13,15 @@ String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
     };
-//var id = '';
+
 var page = 1;
 var sort = 'protein_name_long';
 var dir = 'desc'
 var url = getWsUrl('protein_list');
 var limit = 20;
 
-var id = getParameterByName('id');;
+id = getParameterByName('id');
+const globalSearchTerm = getParameterByName("gs") || "";
 
 /**
  * it creates user interface for summary
@@ -39,7 +40,7 @@ function buildSummary(queryInfo) {
     }
     var question = getParameterByName('question');
     if (question) {
-        queryInfo = {question: MESSAGES[question]};
+        queryInfo = { question: MESSAGES[question] };
     }
     queryInfo.execution_time = moment().format('MMMM Do YYYY, h:mm:ss a');
     summaryHtml = Mustache.render(summaryTemplate, queryInfo);
@@ -67,9 +68,14 @@ function editSearch() {
             newUrl = 'quick_search.html?id=' + id + '&question=QUESTION_1';
         }
         else if (question && (question === 'QUESTION_TRY2')) {
-            newUrl = 'quick_search.html?id=' + id + '&question=QUESTION_2';
+            newUrl = 'quick_search.html?id=' + id + '&question=QUESTION_2'+ '#' +question;
+
+           // window.location.replace("quick_search.html?id=" + id + '&question=' + question + '#' +question );
+   
+        } else if (globalSearchTerm) {
+            newUrl = "global_search_result.html?search_query=" + globalSearchTerm;
         }
-          else{
+        else {
             newUrl = "protein_search.html?id=" + id;
         }
 
@@ -84,7 +90,7 @@ function editSearch() {
  * @return -Details particular Protein Id
  */
 function PageFormat(value, row, index, field) {
-    return "<a href='protein_detail.html?uniprot_canonical_ac=" + value + "'>" + value + "</a>";
+    return "<a href='protein_detail.html?uniprot_canonical_ac=" + value + "&listID=" + id + "&gs=" + globalSearchTerm + "'>" + value + "</a>";
 }
 
 /**
@@ -153,16 +159,7 @@ function ajaxListSuccess(data) {
         lastSearch = data;
         activityTracker("user", id, "successful response (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     }
-}
-
-/// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    $('#loading_image').fadeOut();
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
-    displayErrorByCode(errorMessage);
-    activityTracker("error", id, err + ": " + errorMessage + " (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+    updateBreadcrumbLinks();
 }
 
 /**
@@ -201,12 +198,26 @@ $(document).ajaxStop(function () {
 function downloadPrompt() {
     var page_type = "protein_list";
     var format = $('#download_format').val();
-    var IsCompressed = $('#download_compression').is(':checked');
+    var IsCompressed = false; //$('#download_compression').is(':checked');
     downloadFromServer(id, format, IsCompressed, page_type);
+}
+
+/**
+ * this function gets the URL query values
+ * and updates the respective links on the breadcrumb fields.
+ */
+function updateBreadcrumbLinks() {
+    if (globalSearchTerm) {
+        $('#breadcrumb-search').text("General Search");
+        $('#breadcrumb-search').attr("href", "global_search_result.html?search_query=" + globalSearchTerm);
+    } else {
+        $('#breadcrumb-search').attr("href", "protein_search.html?id=" + id);
+    }
 }
 
 
 $(document).ready(function () {
     // limit = $(element).val();
     LoadDataList();
+    updateBreadcrumbLinks();
 });

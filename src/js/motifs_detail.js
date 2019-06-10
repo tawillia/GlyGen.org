@@ -19,7 +19,7 @@ String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
     };
-var id = 'glytoucan_ac';
+id = 'glytoucan_ac';
 var page = 1;
 var sort = 'glytoucan_ac';
 var dir = 'asc';
@@ -134,15 +134,6 @@ function ajaxListSuccess(data) {
     }
 }
 
-/// ajaxFailure is the callback function when ajax to GWU service fails
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
-    displayErrorByCode(errorMessage);
-    activityTracker("error", id, err + ": " + errorMessage + " (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
-    // $('#loading_image').fadeOut();
-}
 
 /**
  * LoadDataList function to configure and start the request to GWU  service
@@ -156,7 +147,7 @@ function LoadDataList() {
         method: 'GET',
         timeout: getTimeout("list_glycan"),
         success: ajaxListSuccess,
-        error: ajaxListFailure
+        error: ajaxFailure
     };
     // make the server call
     $.ajax(ajaxConfig);
@@ -201,6 +192,6 @@ $(document).ajaxStop(function () {
 function downloadPrompt() {
     var page_type = "glycan_list";
     var format = $('#download_format').val();
-    var IsCompressed = $('#download_compression').is(':checked');
+    var IsCompressed = false; //$('#download_compression').is(':checked');
     downloadFromServer(id, format, IsCompressed, page_type);
 }

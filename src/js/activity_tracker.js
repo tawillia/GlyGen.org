@@ -1,12 +1,18 @@
 /**
  * @author: Gaurav Agarwal
  * @description: assigns ID and tracks user activity.
- * @modified: Pradeep Kumar on 10 May 2018
- * @update: July 5, 2018 - Gaurav Agarwal - Anonymous user logging for those users who opt out.
- * @update: July 16, 2018 - Gaurav Agarwal - javascript errors and exception logging
  */
+// @modified: Pradeep Kumar on 10 May 2018
+// @update: July 5, 2018 - Gaurav Agarwal - Anonymous user logging for those users who opt out.
+// @update: July 16, 2018 - Gaurav Agarwal - javascript errors and exception logging
 
- 
+/**
+ * This variable is used to make sure that 
+ * the pop up error due to Javascript code error 
+ * is shown only when it's value is set true.
+ */
+var showJsError = false;
+
 /**
  * This basically checks the browser support for Web storage (i.e. localStorage)
  * and also logs the page visit activity.
@@ -157,7 +163,10 @@ window.onerror = function (msg, url, line, col, error) {
     // hide the loading gif
     $('#loading_image').fadeOut();
     activityTracker("error", getUrlVars(), "JS Error: " + msg + "\nurl: " + url + "\nline: " + line);
-    displayErrorByCode("js_error");
+    if(showJsError){
+        displayErrorByCode("js_error");
+        showJsError = false;
+    }
     var suppressErrorAlert = false;
     // If you return true, then error alerts (like in older versions of 
     // Internet Explorer) will be suppressed.

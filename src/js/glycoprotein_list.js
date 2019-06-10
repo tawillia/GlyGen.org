@@ -12,12 +12,12 @@ String.prototype.trunc = String.prototype.trunc ||
     function (n) {
         return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
     };
-var id = '';
 var page = 1;
 var sort = 'protein_name_long';
 var dir = 'desc'
 var url = getWsUrl('protein_list');
 var limit = 20;
+var globalSearchTerm = "";
 
 /**
  * it creates user interface for summary
@@ -53,10 +53,14 @@ function totalNoSearch(total_length) {
  * @function [[editSearch]] returns to search page with prefield fields
  */
 function editSearch() {
-    {
-        window.location.replace("glycoprotein_search.html?id=" + getParameterByName("id"));
-        activityTracker("user", id, "edit search");
+    var newUrl = "";
+    if (globalSearchTerm) {
+        newUrl = "global_search_result.html?search_query=" + globalSearchTerm;
+    } else {
+        newUrl = "glycoprotein_search.html?id=" + getParameterByName("id")
     }
+    window.location.replace(newUrl);
+    activityTracker("user", id, "edit search");
 }
 
 /**
@@ -65,7 +69,7 @@ function editSearch() {
  * @return - Details particular Protein Id
  */
 function PageFormat(value, row, index, field) {
-    return "<a href='glycoprotein_detail.html?uniprot_canonical_ac=" + value + "'>" + value + "</a>";
+    return "<a href='glycoprotein_detail.html?uniprot_canonical_ac=" + value + "&listID=" + id + "&gs=" + globalSearchTerm + "'>" + value + "</a>";
 }
 
 /**
@@ -123,20 +127,7 @@ function ajaxListSuccess(data) {
         lastSearch = data;
         activityTracker("user", id, "successful response (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
     }
-}
-
-/**
- * ajaxFailure is the callback function when ajax to GWU service fails
- * @param {string} jqXHR getting the appropriate error message 
- * @param {string} textStatus getting the appropriate error message 
- * @param {string} errorThrown Displays error message
- */
-function ajaxListFailure(jqXHR, textStatus, errorThrown) {
-    // getting the appropriate error message from this function in utility.js file
-    var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
-    displayErrorByCode(errorMessage);
-    activityTracker("error", id, err + ": " + errorMessage + " (page: "+ page+", sort: "+ sort+", dir: "+ dir+", limit: "+ limit +")");
+    updateBreadcrumbLinks();
 }
 
 /**
@@ -144,8 +135,8 @@ function ajaxListFailure(jqXHR, textStatus, errorThrown) {
  * @param {string} id - The protein id to load
  **/
 function LoadDataList(id) {
-    if(!id){
-        id= getParameterByName('id');
+    if (!id) {
+        id = getParameterByName('id');
     }
     var ajaxConfig = {
         dataType: "json",
@@ -153,7 +144,7 @@ function LoadDataList(id) {
         data: getListPostData(id, page, sort, dir, limit),
         method: 'POST',
         success: ajaxListSuccess,
-        error: ajaxListFailure
+        error: ajaxFailure
     };
 
     // make the server call
@@ -171,7 +162,8 @@ $(document).ajaxStop(function () {
 });
 
 $(document).ready(function () {
-    var id = getParameterByName('id');
+    id = getParameterByName('id');
+    globalSearchTerm = getParameterByName("gs") || "";
     LoadDataList(id);
     $('#gen-table').on("sort.bs.table", function (event, field, order) {
         // event.preventDefault();
@@ -193,6 +185,19 @@ $(document).ready(function () {
 function downloadPrompt() {
     var page_type = "protein_list";
     var format = $('#download_format').val();
-    var IsCompressed = $('#download_compression').is(':checked');
+    var IsCompressed = false; //$('#download_compression').is(':checked');
     downloadFromServer(id, format, IsCompressed, page_type);
+}
+
+/**
+ * this function gets the URL query values
+ * and updates the respective links on the breadcrumb fields.
+ */
+function updateBreadcrumbLinks() {
+    if (globalSearchTerm) {
+        $('#breadcrumb-search').text("General Search");
+        $('#breadcrumb-search').attr("href", "global_search_result.html?search_query=" + globalSearchTerm);
+    } else {
+        $('#breadcrumb-search').attr("href", "glycoprotein_search.html?id=" + id);
+    }
 }

@@ -24,6 +24,8 @@
     <!-- CSS for all pages-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/global_search.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 
     <!--Script for jquery-->
     <script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
@@ -84,13 +86,14 @@
                             {{#glycan}}
                             {{#all}}
                             {{#list_id}}
-                            <a href="glycan_list.html?id={{list_id}}">
-                                <h3 class="title">Glycans <span class="result-count">{{count}}</span></h3>
+                            <a class="directToListPage" href="glycan_list.html?id={{list_id}}">
+                                <h3 class="title"><span class="head-result-count">{{count}}</span> Glycans</h3>
                             </a>
                             {{/list_id}}
                             {{^list_id}}
                                 <h3 class="title">Glycans</h3>
                             {{/list_id}}
+                            <h6 class="card-subtitle mb-2 text-muted">match <span class="gg-search-term"></span></h6>
                             {{/all}}
                             {{/glycan}}
                         </div>
@@ -99,12 +102,13 @@
                                 {{#identifiers}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                        <a href="glycan_list.html?id={{list_id}}">Identifiers
+                                    in
+                                        <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Identifiers
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Identifiers
+                                        in Identifiers
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -112,12 +116,13 @@
                                 {{#subtype}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Subtype
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Subtype
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Subtype
+                                        in Subtype
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -125,12 +130,13 @@
                                 {{#enzyme}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Enzyme
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Enzyme
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Enzyme
+                                        in Enzyme
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -138,12 +144,13 @@
                                 {{#motifs}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Motifs
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Motifs
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Motifs
+                                        in Motifs
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -151,12 +158,13 @@
                                 {{#sequences}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Sequences
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Sequences
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Sequences
+                                        in Sequences
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -164,12 +172,13 @@
                                 {{#glycoproteins}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Glycoproteins
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Glycoproteins
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Glycoproteins
+                                        in Glycoproteins
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -177,12 +186,13 @@
                                 {{#type}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Type
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Type
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Type
+                                        in Type
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -190,12 +200,13 @@
                                 {{#species}}
                                 <li class="list-group-item"> 
                                     {{#list_id}}
-                                    <a href="glycan_list.html?id={{list_id}}">Species
+                                    in
+                                    <a class="directToListPage" href="glycan_list.html?id={{list_id}}">Species
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Species
+                                        in Species
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 </li>
@@ -212,13 +223,14 @@
                             {{#protein}}
                             {{#all}}
                             {{#list_id}}
-                            <a href="protein_list.html?id={{list_id}}">
-                                <h3 class="title">Proteins <span class="result-count">{{count}}</span></h3>
+                            <a class="directToListPage" href="protein_list.html?id={{list_id}}">
+                                <h3 class="title"><span class="head-result-count">{{count}}</span> Proteins</h3>
                             </a>
                             {{/list_id}}
                             {{^list_id}}
                                 <h3 class="title">Proteins</h3>
                             {{/list_id}}
+                            <h6 class="card-subtitle mb-2 text-muted">match <span class="gg-search-term"></span></h6>
                             {{/all}}
                             {{/protein}}
                         </div>
@@ -227,12 +239,13 @@
                                 <li class="list-group-item"> 
                                 {{#gene}}
                                     {{#list_id}}
-                                    <a href="protein_list.html?id={{list_id}}">Gene
+                                    in
+                                    <a class="directToListPage" href="protein_list.html?id={{list_id}}">Gene
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Gene
+                                        in Gene
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/gene}}
@@ -240,12 +253,13 @@
                                 <li class="list-group-item"> 
                                 {{#function}}
                                     {{#list_id}}
-                                    <a href="protein_list.html?id={{list_id}}">Function
+                                    in
+                                    <a class="directToListPage" href="protein_list.html?id={{list_id}}">Function
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Function
+                                        in Function
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/function}}
@@ -253,12 +267,13 @@
                                 <li class="list-group-item"> 
                                 {{#disease}}
                                     {{#list_id}}
-                                    <a href="protein_list.html?id={{list_id}}">Disease
+                                    in
+                                    <a class="directToListPage" href="protein_list.html?id={{list_id}}">Disease
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Disease
+                                        in Disease
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/disease}}
@@ -266,12 +281,13 @@
                                 <li class="list-group-item"> 
                                     {{#identifiers}}
                                         {{#list_id}}
-                                        <a href="protein_list.html?id={{list_id}}">Identifiers
+                                        in
+                                        <a class="directToListPage" href="protein_list.html?id={{list_id}}">Identifiers
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Identifiers
+                                            in Identifiers
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/identifiers}}
@@ -279,12 +295,13 @@
                                 <li class="list-group-item"> 
                                     {{#names}}
                                         {{#list_id}}
-                                        <a href="protein_list.html?id={{list_id}}">Names
+                                        in
+                                        <a class="directToListPage" href="protein_list.html?id={{list_id}}">Names
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Names
+                                            in Names
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/names}}
@@ -292,12 +309,13 @@
                                 <li class="list-group-item"> 
                                     {{#species}}
                                         {{#list_id}}
-                                        <a href="protein_list.html?id={{list_id}}">Species
+                                        in
+                                        <a class="directToListPage" href="protein_list.html?id={{list_id}}">Species
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Species
+                                            in Species
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/species}}
@@ -314,13 +332,14 @@
                             {{#protein}}
                             {{#all}}
                             {{#list_id}}
-                            <a href="protein_list.html?id={{list_id}}">
-                                <h3 class="title">Glycoproteins <span class="result-count">{{count}}</span></h3>
+                            <a class="directToListPage" href="protein_list.html?id={{list_id}}">
+                                <h3 class="title"><span class="head-result-count">{{count}}</span> Glycoproteins</h3>
                             </a>
                             {{/list_id}}
                             {{^list_id}}
                                 <h3 class="title">Glycoproteins</h3>
                             {{/list_id}}
+                            <h6 class="card-subtitle mb-2 text-muted">match <span class="gg-search-term"></span></h6>
                             {{/all}}
                             {{/protein}}
                         </div>
@@ -329,12 +348,13 @@
                                 <li class="list-group-item"> 
                                 {{#gene}}
                                     {{#list_id}}
-                                    <a href="glycoprotein_list.html?id={{list_id}}">Gene
+                                    in
+                                    <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Gene
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Gene
+                                        in Gene
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/gene}}
@@ -342,12 +362,13 @@
                                 <li class="list-group-item"> 
                                 {{#function}}
                                     {{#list_id}}
-                                    <a href="glycoprotein_list.html?id={{list_id}}">Function
+                                    in
+                                    <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Function
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Function
+                                        in Function
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/function}}
@@ -355,12 +376,13 @@
                                 <li class="list-group-item"> 
                                 {{#disease}}
                                     {{#list_id}}
-                                    <a href="glycoprotein_list.html?id={{list_id}}">Disease
+                                    in
+                                    <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Disease
                                         <span class="result-count">{{count}}</span>
                                     </a>
                                     {{/list_id}}
                                     {{^list_id}}
-                                        Disease
+                                        in Disease
                                         <span class="result-count result-count-inactive">{{count}}</span>
                                     {{/list_id}}
                                 {{/disease}}
@@ -368,12 +390,13 @@
                                 <li class="list-group-item"> 
                                     {{#identifiers}}
                                         {{#list_id}}
-                                        <a href="glycoprotein_list.html?id={{list_id}}">Identifiers
+                                        in
+                                        <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Identifiers
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Identifiers
+                                            in Identifiers
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/identifiers}}
@@ -381,12 +404,13 @@
                                 <li class="list-group-item"> 
                                     {{#names}}
                                         {{#list_id}}
-                                        <a href="glycoprotein_list.html?id={{list_id}}">Names
+                                        in
+                                        <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Names
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Names
+                                            in Names
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/names}}
@@ -394,12 +418,13 @@
                                 <li class="list-group-item"> 
                                     {{#species}}
                                         {{#list_id}}
-                                        <a href="glycoprotein_list.html?id={{list_id}}">Species
+                                        in
+                                        <a class="directToListPage" href="glycoprotein_list.html?id={{list_id}}">Species
                                             <span class="result-count">{{count}}</span>
                                         </a>
                                         {{/list_id}}
                                         {{^list_id}}
-                                            Species
+                                            in Species
                                             <span class="result-count result-count-inactive">{{count}}</span>
                                         {{/list_id}}
                                     {{/species}}
@@ -437,8 +462,10 @@
     <!-- script for getting Web Service URLs -->
     <script type="text/javascript" src="js/domain_url.js"></script>
     <script type="text/javascript" src="js/ws_url.js"></script>
+    
     <!-- script for error handling alerts -->
     <script type="text/javascript" src="libraries/alertify.js"></script>
+    <script type="text/javascript" src="libraries/contact.js"></script>
     <script src="js/popover.js"></script>
     <script src="js/text_example.js"></script>
 </body>

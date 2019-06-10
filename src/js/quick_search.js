@@ -1,6 +1,17 @@
 // @author:Rupali Mahadik.
 // @description: UO1 Version-1.1.
 
+    /** 
+    * @param {string} Alert message
+    * @return {string} Alert message in quick search for every question
+    * @author Tatiana Williamson
+    */
+function showNoResultsFound(li_element_id){
+    var element = $('#' + li_element_id);
+    var newFirstElement = '<div class="alert alert-danger"><strong>No Results Found</strong><br>Sorry, we couldn\'t find any data matching your input. Please change your search term and try again.</div>';
+    element.prepend(newFirstElement);
+}
+
 /**
  * Q.1- What are the enzymes involved in the biosynthesis of glycan X in human?
  */
@@ -20,19 +31,25 @@ $("#bioenzyme").autocomplete({
 
 function bioEnzyme() {
     var id = $("#bioenzyme").val();
-    $.ajax({
-        type: 'POST',
-        url: getWsUrl("search_bioenzyme", id),
-        error: ajaxSearchFailure,
-        success: function (results) {
-            if (results.list_id) {
-                window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_1";
+    if(id.trim() === ""){
+        showNoResultsFound("li_q1");
+    }
+    else{
+        $.ajax({
+            type: 'POST',
+            url: getWsUrl("search_bioenzyme", id),
+            error: ajaxFailure,
+            success: function (results) {
+                if (results.list_id) {
+                    window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_1";
+                }
+                else {
+                    //displayErrorByCode('no-results-found');
+                    showNoResultsFound("li_q1");
+                }
             }
-            else {
-                displayErrorByCode('no-results-found');
-            }
-        }
-    })
+        });
+    }
 }
 
 /**
@@ -57,13 +74,14 @@ function glycanSite() {
     $.ajax({
         type: 'POST',
         url: getWsUrl("search_glycansite", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_2";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q2");
             }
         }
     })
@@ -91,13 +109,14 @@ function glycanGene() {
     $.ajax({
         type: 'POST',
         url: getWsUrl("search_glycangene", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.list_id) {
                 window.location = './locus_list.html?id=' + results.list_id + "&question=QUESTION_3";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q3");
             }
         }
     })
@@ -125,13 +144,14 @@ function proteinOrthologues() {
     $.ajax({
         type: 'post',
         url: getWsUrl("search_proteinorthologues", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.list_id) {
                 window.location = './protein_orthologus.html?id=' + results.list_id + "&question=QUESTION_4";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q4");
             }
         }
     })
@@ -159,10 +179,11 @@ function proteinFunction() {
     $.ajax({
         type: 'post',
         url: getWsUrl("protein_detail", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.error_code) {
-                displayErrorByCode("Invalid ID");
+                 displayErrorByCode("Invalid ID");
+                //showNoResultsFound("li_q5");
             }
             else {
                 window.location = "protein_detail.html?uniprot_canonical_ac=" + id +'#function';
@@ -193,14 +214,15 @@ function glycanEnzyme() {
     $.ajax({
         type: 'post',
         url: getWsUrl("search_glycanenzyme", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         // data: json,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_glycan_list.html?id=' + results.list_id + "&question=QUESTION_6";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q6");
             }
         }
     })
@@ -218,6 +240,15 @@ $(document).ready(function () {
         createOption(orgElement, result.organism[0].name, result.organism[0].id);
         createOption(orgElement, result.organism[1].name, result.organism[1].id);
     });
+     /** 
+    * @param {string} No results found 
+    * @return {string} Alert message in all searches
+    * @author Tatiana Williamson
+    */
+    $(".alert").hide();
+    $(document).on('click', function(e) {
+        $(".alert").hide();
+    })
 });
 
 function createOption(ddl, text, value) {
@@ -232,14 +263,15 @@ function glycosylTransferases() {
     $.ajax({
         type: 'post',
         url: getWsUrl("search_glycosyltransferases", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         // data: json,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_7";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q7");
             }
         }
     })
@@ -271,14 +303,15 @@ function glycoHydrolases() {
     $.ajax({
         type: 'post',
         url: getWsUrl("search_glycohydrolases", id),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         // data: json,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_8";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q8");
             }
         }
     })
@@ -298,7 +331,9 @@ $(document).ready(function () {
         createOption(orgElement, result.organism[1].name, result.organism[1].id);
         var question = getParameterByName('question');
         var id = getParameterByName('id');
-        populateLastSearch(question, id);
+        if(id) {
+            populateLastSearch(question, id);
+        }
     });
 });
 
@@ -315,14 +350,15 @@ function glycoProteins() {
     $.ajax({
         type: 'post',
         url: getWsUrl("search_glycoproteins", id, id1),
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         // data: json,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_9";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q9");
             }
         }
     })
@@ -358,13 +394,14 @@ function glycosyTtransferasesDisease() {
         type: 'POST',
         url: getWsUrl("search_disease"),
         data: json,
-        error: ajaxSearchFailure,
+        error: ajaxFailure,
         success: function (results) {
             if (results.list_id) {
                 window.location = './quick_protein_list.html?id=' + results.list_id + "&question=QUESTION_10";
             }
             else {
-                displayErrorByCode('no-results-found');
+                //displayErrorByCode('no-results-found');
+                showNoResultsFound("li_q10");
             }
         }
     })
@@ -379,7 +416,7 @@ function populateLastGlycanSearch(question, id) {
         method: 'POST',
         timeout: getTimeout("list_glycan"),
         success: function (data) {
-            $('#glycanenzyme').val(data.query.uniprot_canonical_ac);
+            $('#glycanenzyme').val(data.query.uniprot_canonical_ac || "Mgat1");
         }
     });
 }

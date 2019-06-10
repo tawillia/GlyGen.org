@@ -89,3 +89,11 @@ ul#continents li a:hover span {
     color: #FFF;
     border-radius: 5px;
 }
+@media only screen and (max-width: 700px) {
+
+    ul#continents  {
+    background: url(../images/about_world_map_mobile.png) no-repeat 0 0;
+    width: auto;
+    height: 150px;
+    }
+}

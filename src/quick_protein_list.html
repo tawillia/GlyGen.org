@@ -28,8 +28,10 @@
     <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="css/list.css">
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
     
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
@@ -104,24 +106,23 @@
              <center><p>Which proteins have been shown to bear <b>{{#glytoucan_ac}}{{glytoucan_ac}}{{/glytoucan_ac}}</b>  and which site is this glycan attached to?</p>
              </center>
              {{/QUESTION_2}}
-
              {{#QUESTION_7}}
-             <center><p>What are the glycosyltransferases in {{organism.name}}</p></center>
+             <center><p>What are the glycosyltransferases in {{organism.name}}?</p></center>
              {{/QUESTION_7}}
 
              {{#QUESTION_8}}
 
-             <center> <p>What are the glycohydrolases in {{organism.name}}</p></center>
+             <center> <p>What are the glycohydrolases in {{organism.name}}?</p></center>
 
              {{/QUESTION_8}}
 
              {{#QUESTION_9}}
 
-             <center>  <p>Which proteins have been shown to bear and which site is this glycan attached to  {{organism.name}}</p></center>
+             <center>  <p> What are the reported or predicted glycosylated proteins in species ?<br><b>{{organism.name}} in {{evidence_type}}</b></p></center>
              {{/QUESTION_9}}
                 {{#QUESTION_10}}
 
-                <center>  <p>Which proteins have been shown to bear <b>{{#do_name}}{{do_name}}{{/do_name}}</b> and which site is this glycan attached to?</p></center>
+                <center>  <p>Which glycosyltransferases are known to be involved in <br><b>{{#do_name}}{{do_name}}{{/do_name}}</b></p></center>
 
                 {{/QUESTION_10}}
 
@@ -130,7 +131,7 @@
 
                     &nbsp; &nbsp;
 
-                    <button type="button" class="btn btn-primary"  onclick="editSearch();">Modify Search</button>
+                    <button type="button" class="btn btn-primary"  onclick="editSearch_quick();">Modify Search</button>
 
                     <p class="small">** To perform the same search again using the current version of the database, click <strong>“Update Results”</strong>.</p>
                 </div>
@@ -200,6 +201,7 @@
     <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
     <!-- script for getting Web Service URLs -->
     <script type="text/javascript" src="libraries/alertify.js"></script>
+    <script type="text/javascript" src="libraries/contact.js"></script>
     <!-- script for third party alert-->
     <script src="js/activity_tracker.js"></script>
     <!-- script for navaigation -->

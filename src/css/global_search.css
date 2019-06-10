@@ -23,6 +23,14 @@
     right: 0;
 }
 
+.head-result-count{
+    background-color: #2E78B7;
+    font-size: 2rem;
+    color: white !important;
+    border-radius: 3px;
+    padding: 3px;
+}
+
 a.result-count{
     text-decoration: none;
 }
@@ -36,7 +44,7 @@ a.result-count{
 }
 
 /* the count displayed beside the heading */
-.title>.result-count{
+/* .title>.result-count{
     right: 10px;
     font-size: 2rem;
-}
+} */

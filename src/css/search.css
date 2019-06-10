@@ -494,10 +494,26 @@ select {
     margin-left: 0px;
 }
 
+.ui-autocomplete {
+    padding-left: 6px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: #555;
+}
+
+.chosen-drop {
+    padding-left: 6px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: #555;
+}
+
 .chosen-container-multi .chosen-choices {
     display: block;
     height: 34px;
-    padding: 6px 12px;
+    padding: 6px 12px 0px 8px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
@@ -572,3 +588,74 @@ select {
     font-weight: bold;
     text-align: center;
 }
+
+.tooltip-custom5 {
+	font-size: 16px;
+    color: #fff;
+    background-color: #666;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: normal;
+    border: none !important;
+    box-shadow: none;
+    width: 250px;
+}
+
+.tooltip-custom {
+    border: none !important;
+    box-shadow: none;
+    width: 250px;
+    color: #fff;
+    font-size: 16px;
+    background-color: #666;
+    padding: 3px 6px;
+    border-radius: 3px; 
+    z-index: 2;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-top: 10px;   
+}
+
+.tooltip-custom:before,
+.tooltip-custom:after {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    font-family: sans-serif;
+    -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+    -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top;
+    top: 100%;
+    left: 50%;
+    pointer-events: none;
+}
+
+.tooltip-custom:before {
+    
+    z-index: 2;
+     
+}
+
+.tooltip-custom:after {
+    content: '';
+/*    border: 5px solid transparent;*/
+    border-bottom-color: #666;
+}
+
+.tooltip-custom:hover:before,
+.tooltip-custom:hover:after {
+  -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+
+tooltip-title
+popover-content
+popover-title
+data-html="true" 
+title
+data-content
+

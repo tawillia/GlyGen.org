@@ -5,7 +5,6 @@
 --------------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123338976-1"></script>
@@ -42,7 +41,9 @@
     <script src="js/modernizr.js"></script>
     <!-- CSS for alertify -->
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
@@ -67,81 +68,40 @@
 </head>
 
 <body>
-<div id="loading_image">
-    <img src="images/page_loading.gif" />
-</div>
-<script type="text/javascript" src="libraries/w3.js"></script>
-
-<div w3-include-html="header.html"></div>
-<script>
-    w3.includeHTML();
-</script>
-
-<section class="cd-faq">
-    <ul class="cd-faq-categories">
-        <li>
-            <a class="selected" href="#general">General</a>
-        </li>
-        <li>
-            <a href="#glycans">Glycans</a>
-        </li>
-        <li>
-            <a href="#publications">Publications</a>
-        </li>
-    </ul>
-    <!--  ?glytoucan_ac=G17689DH         -->
-    <!-- cd-faq-categories -->
-    <!-- main content for page -->
-    <div class="cd-faq-items motif-panel-space" id="content_detail">
-        <!-- <div id="content" class="container" "> -->
-
-
+    <div id="loading_image">
+        <img src="images/page_loading.gif" />
     </div>
-    <script id="item_template_detail" type="text/template">
+    <script type="text/javascript" src="libraries/w3.js"></script>
+
+    <div w3-include-html="header.html"></div>
+    <script>
+        w3.includeHTML();
+    </script>
+
+    <section class="cd-faq">
+        <ul class="cd-faq-categories">
+            <li>
+                <a class="selected" href="#general">General</a>
+            </li>
+            <li>
+                <a href="#glycans">Glycans</a>
+            </li>
+            <li>
+                <a href="#publications">Publications</a>
+            </li>
+        </ul>
+        <!--  ?glytoucan_ac=G17689DH         -->
+        <!-- cd-faq-categories -->
+        <!-- main content for page -->
+        <div class="cd-faq-items motif-panel-space container" id="content_detail">
+            <!-- <div id="content" class="container" "> -->
+
+
+        </div>
+        <script id="item_template_detail" type="text/template">
         <!-- Glycan ID Title -->
         <center><h2 class="page-heading motif-panel-space" style="margin-top: -5px;">Motif Details for <span>
                 {{#glytoucan}}{{glytoucan_ac}}{{/glytoucan}}</span></h2></center>
-
-        <!--&lt;!&ndash; Buttons &ndash;&gt;-->
-        <!--<div class="row">-->
-            <!--&lt;!&ndash; Go back buttons &ndash;&gt;-->
-            <!--<div class="col-lg-12m col-md-10 col-sm-6">-->
-                    <!--<button type="button" class="btn btn-primary-motif" onclick="backGlycanDetail();">Back to Glycan Details</button>-->
-
-                 <!--<button type="button" class="btn btn-primary-motif onclick="window.history.go(-3)">Back to Search</button>-->
-
-                 <!--<button type="button" class="btn btn-primary-motif onclick="window.history.go(-1)">Go Back</button>-->
-            <!--</div>-->
-
-            <!-- Download button -->
-            <!-- <div class="col-md-2 col-sm-6"> -->
-        <!--    <div class="dropdown gg-download5 text-right">
-                <button class="btn btn-link btn-link-detail dropdown-toggle" type="button"
-                        id="download" alt="Download results" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="true">
-                    <i class="glyphicon glyphicon-save"></i> DOWNLOAD
-                    <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-motif dropdown-menu-right" aria-labelledby="download">
-                    <div class="row">
-                        <div class="col-md-7"><label>Download&nbsp;format: </label></div>
-                        <div class="col-md-5"><select id='download_format'>
-                            <option value='json'>JSON</option>
-                        </select></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-7"><label>Compressed: </label></div>
-                        <div class="col-md-5"><input type='checkbox' id='download_compression'/></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9"></div>
-                        <div class="col-md-3">
-                            <button class="btn-default" onclick="downloadPrompt();">OK</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- </div> -->
         </div>
 
 
@@ -161,10 +121,11 @@
                         <div class="col-md-12 col-xs-6">
                             {{#glytoucan}}
                             <li class="list-group"><strong>GlyTouCan Accession:</strong> <a class="panelcontent"
-                                                                                            href="{{glytoucan_url}}" target="_blank">  {{glytoucan_ac}} </a></li>{{/glytoucan}}
+                             href="{{glytoucan_url}}" target="_blank">  {{glytoucan_ac}} </a>
+                            </li>{{/glytoucan}}
 
                             {{#mass}}
-                            <li class="list-group"><strong>Monoisotopic Mass:</strong> {{mass}} Da </li>{{/mass}}
+                            <li class="list-group"><strong>Chemical Mass:</strong> {{mass}} Da </li>{{/mass}}
 
                             {{#classification}}
                             <li class="list-group"><strong>Glycan Type/Subtype:</strong>
@@ -178,76 +139,77 @@
             </div>
         </ul>
     </script>
-    <div class="cd-faq-items motif-panel-space" id="content">
-        <!-- Glycans Containing this Motif-->
-        <!--        <div class="cd-faq-items">-->
-        <!-- Top pagination -->
-        <div class="row" id="paginationctrl1">
-            <div class="col-md-12 col-xs-12">
-                <form class="form-inline" onsubmit="return false;">
-                    <label>Page</label>
-                    <button type="button" class="btn btn-primary prevbutton" onclick="prev();">Prev</button>
-                    <select class="page-select form-control" onchange="xpage(this);"></select>
-                    <button type="button" class="btn btn-primary nextbutton" onclick="next();">Next</button>
-                    <label>Records per page</label>
-                    <select class="limit-select form-control" onchange="xlimit(this);">
-                        <option selected>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>70</option>
-                    </select>
-                    <label class="searchresult"></label>
-                </form>
-            </div>
-        </div>
-
-        <!-- List table-->
-        <ul id="glycans" class="cd-faq-group">
-            <li class="cd-faq-title" />
-            <div class="panel panel-default">
-                <div class="gg-panel-heading">
-                    <h4>Glycans Containing This Motif</h4>
+        <div class="cd-faq-items motif-panel-space" id="content">
+            <!-- Glycans Containing this Motif-->
+            <!--        <div class="cd-faq-items">-->
+            <!-- Top pagination -->
+            <div class="row" id="paginationctrl1">
+                <div class="col-md-12 col-xs-12">
+                    <form class="form-inline" onsubmit="return false;">
+                        <label>Page</label>
+                        <button type="button" class="btn btn-primary prevbutton" onclick="prev();">Prev</button>
+                        <select class="page-select form-control" onchange="xpage(this);"></select>
+                        <button type="button" class="btn btn-primary nextbutton" onclick="next();">Next</button>
+                        <label>Records per page</label>
+                        <select class="limit-select form-control" onchange="xlimit(this);">
+                            <option selected>20</option>
+                            <option>40</option>
+                            <option>60</option>
+                            <option>80</option>
+                        </select>
+                        <label class="searchresult"></label>
+                    </form>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <!-- table start here -->
-                        <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="glytoucan_ac" data-sort-order="asc" data-page-size="10">
-                            <thead>
-                            <tr>
-                                <th data-field="glytoucan_ac" data-formatter="pageFormat" data-sortable="true">GlyTouCan <br>Accession</th>
+            </div>
 
-                                <th data-field="glycan_image" data-formatter="imageFormat" style="width:10%">Image of <br>Glycan Structure</th>
-                            </tr>
-                            </thead>
-                        </table><!-- table container ends here -->
+            <!-- List table-->
+            <ul id="glycans" class="cd-faq-group">
+                <li class="cd-faq-title" />
+                <div class="panel panel-default">
+                    <div class="gg-panel-heading">
+                        <h4>Glycans Containing This Motif</h4>
                     </div>
-                    <!--{{^species}} No data available. {{/species}}-->
+                    <div class="panel-body">
+                        <div class="row">
+                            <!-- table start here -->
+                            <table id="gen-table" data-show-export="true" data-toggle="table" data-sort-name="glytoucan_ac" data-sort-order="asc" data-page-size="10">
+                                <thead>
+                                    <tr>
+                                        <th data-field="glytoucan_ac" data-formatter="pageFormat" data-sortable="true">GlyTouCan
+                                            <br>Accession</th>
+                                        <th data-field="glycan_image" data-formatter="imageFormat" style="width:10%">Image of
+                                            <br>Glycan Structure</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <!-- table container ends here -->
+                        </div>
+                    </div>
+                </div>
+            </ul>
+            <!-- Bottom pagination and download btn-->
+            <div class="row" style="padding-left: 1%;">
+                <div class="col-md-12 col-xs-12" id="sortbottom">
+                    <form class="form-inline" onsubmit="return false;">
+                        <label>Page</label>
+                        <button type="button previ" class="btn btn-primary prevbutton" onclick="prev();">Prev</button>
+                        <select class="page-select form-control" onchange="xpage(this);"></select>
+                        <button type="button next" class="btn btn-primary nextbutton" onclick="next();">Next</button>
+                        <label>Records per page</label>
+                        <select class="limit-select form-control" onchange="xlimit(this);">
+                            <option selected>20</option>
+                            <option>40</option>
+                            <option>60</option>
+                            <option>80</option>
+                        </select>
+                        <label class="searchresult"></label>
+                    </form>
                 </div>
             </div>
-        </ul>
-        <!-- Bottom pagination and download btn-->
-        <div class="row" style="padding-left: 1%;">
-            <div class="col-md-12 col-xs-12" id="sortbottom">
-                <form class="form-inline" onsubmit="return false;">
-                    <label>Page</label>
-                    <button type="button previ" class="btn btn-primary prevbutton" onclick="prev();">Prev</button>
-                    <select class="page-select form-control" onchange="xpage(this);"></select>
-                    <button type="button next" class="btn btn-primary nextbutton" onclick="next();">Next</button>
-                    <label>Records per page</label>
-                    <select class="limit-select form-control" onchange="xlimit(this);">
-                        <option selected>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>70</option>
-                    </select>
-                    <label class="searchresult"></label>
-                </form>
-            </div>
         </div>
-    </div>
-    <div class="cd-faq-items" id="content_publ" style="margin-bottom: 600px;">
-    </div>
-    <script id="item_template_publ" type="text/template">
+        <div class="cd-faq-items" id="content_publ" style="margin-bottom: 600px;">
+        </div>
+        <script id="item_template_publ" type="text/template">
         <!--Publications-->
         <ul id="publications" class="cd-faq-group selected">
             <li class="cd-faq-title" />
@@ -267,51 +229,53 @@
         </ul>
 
     </script>
+        </div>
+
+        <a href="#0" class="cd-close-panel">Close</a>
+    </section>
+
+
+
+    <div w3-include-html="footer.html">
     </div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
+    <!-- script for detail page -->
+    <!--    <script type="text/javascript" src="js/glycan_detail.js"></script>-->
+    <!-- script for template engine -->
+    <script type="text/javascript" src="libraries/mustache.js"></script>
+    <!-- script for webservice -->
+    <script type="text/javascript" src="js/domain_url.js"></script>
+    <script type="text/javascript" src="js/ws_url.js"></script>
+    <!-- script for navigation -->
+    <script src="js/navbar.js"></script>
+    <!-- script for side navigation -->
+    <script src="js/faq_main.js"></script>
+    <!-- script for user activity tracking and error logging -->
+    <script src="js/activity_tracker.js"></script>
+    <!-- script for error handling alerts -->
+    <script type="text/javascript" src="libraries/alertify.js"></script>
+    <script type="text/javascript" src="libraries/contact.js"></script>
+    <!-- script for error-message/header-footer js -->
+    <script src="js/utility.js"></script>
+    <!-- downloading files js -->
+    <script src="libraries/download.js"></script>
+    <!-- script for pagination page -->
+    <script type="text/javascript" src="js/pagination.js"></script>
+    <script type="text/javascript" src="js/motifs_detail.js"></script>
+    <script src="js/evidence_badge.js"></script>
 
-    <a href="#0" class="cd-close-panel">Close</a>
-</section>
-
-
-
-<div w3-include-html="footer.html">
-</div>
-<script>
-    w3.includeHTML();
-</script>
-<script type="text/javascript" src="libraries/jquery/jquery-3.1.js"></script>
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-table.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
-<!-- script for detail page -->
-<!--    <script type="text/javascript" src="js/glycan_detail.js"></script>-->
-<!-- script for template engine -->
-<script type="text/javascript" src="libraries/mustache.js"></script>
-<!-- script for webservice -->
-<script type="text/javascript" src="js/domain_url.js"></script>
-<script type="text/javascript" src="js/ws_url.js"></script>
-<!-- script for navigation -->
-<script src="js/navbar.js"></script>
-<!-- script for side navigation -->
-<script src="js/faq_main.js"></script>
-<!-- script for user activity tracking and error logging -->
-<script src="js/activity_tracker.js"></script>
-<!-- script for error handling alerts -->
-<script type="text/javascript" src="libraries/alertify.js"></script>
-<!-- script for error-message/header-footer js -->
-<script src="js/utility.js"></script>
-<!-- downloading files js -->
-<script src="libraries/download.js"></script>
-<!-- script for pagination page -->
-<script type="text/javascript" src="js/pagination.js"></script>
-<script type="text/javascript" src="js/motifs_detail.js"></script>
-
-<script type="text/javascript">
-    $(document).ajaxStop(function() {
-        // calls the sidebar function only when all ajax calls are completed
-        faqMain();
-    });
-</script>
+    <script type="text/javascript">
+        $(document).ajaxStop(function () {
+            // calls the sidebar function only when all ajax calls are completed
+            faqMain();
+        });
+    </script>
 </body>
 
 </html>

@@ -3,6 +3,9 @@
 // @update: Aug 27, 2018 - Gaurav Agarwal - function to return ajax timeout values and ajax error-failure handling functions.
 // @added: Oct 19, 2018 - Gaurav Agarwal - data download function.
 
+/** page ID, mainly used to be passed to the ajaxFailure function */
+var id = null;
+
 /**
  * function addCommas is a regular expression is used on nStr to add the commas
  * @param {integer} nstr gets divide
@@ -22,6 +25,7 @@ function addCommas(nStr) {
     return x1 + x2;
 }
 
+
 function databasecolor(name) {
     switch (name) {
         case 'GlycomeDB': return '#a06868';
@@ -35,6 +39,10 @@ function databasecolor(name) {
         case 'BioMuta': return '#7975af';
         case 'Bgee': return '#798bae';
         case 'BioXpress': return '#7f989a';
+        case 'mgi': return '#ff8080';
+        case 'hgnc': return '#518a8a';
+        case 'homologene': return '#9a039a';
+        case 'oma': return '#bbea5e';
 
     }
 }
@@ -57,7 +65,7 @@ function getErrorMessage(errorCode) {
             };
         case 'unexpected-field-in-query':
             return {
-                message: "This is unexpected field input. Please try again",
+                message: "This is an unexpected field input. Please try again",
                 title: "Unexpected Field Input Error"
             };
         case 'invalid-parameter-value-length':
@@ -179,11 +187,17 @@ function getErrorMessage(errorCode) {
  */
 function displayError(message, title) {
     var pagePath = window.location.pathname;
-    if (pagePath.substring(pagePath.lastIndexOf('/') + 1).toLocaleLowerCase().includes("list")) {
-        // for all list pages, if any error occurs, it will go back to the previous page.
-        alertify.alert(title, message, function () { window.history.back(); }).set('modal', false);;
-    } else {
-        alertify.alert(title, message).set('modal', false);
+    if (title == "No Results Found") {
+        $(".alert").show();
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
+    }
+    else {
+        if (pagePath.substring(pagePath.lastIndexOf('/') + 1).toLocaleLowerCase().includes("list")) {
+            // for all list pages, if any error occurs, it will go back to the previous page.
+            alertify.alert(title, message, function () { window.history.back(); }).set('modal', false);
+        } else {
+            alertify.alert(title, message).set('modal', false);
+        }
     }
 }
 
@@ -222,9 +236,9 @@ function getTimeout(ajaxWebService) {
         searchSimpleProtein = 60000;
 
     // list
-    var listGlycan = 5000,
-        listProtein = 5000,
-        listLocus = 5000;
+    var listGlycan = 10000,
+        listProtein = 10000,
+        listLocus = 10000;
 
     // detail
     var detailGlycan = 5000,
@@ -308,24 +322,49 @@ function getTimeout(ajaxWebService) {
  */
 function searchInitFailure(jqXHR, textStatus, errorThrown) {
     var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || errorThrown;
+    var errorCode = jqXHR.responseText ? JSON.parse(jqXHR.responseText).error_list[0].error_code : null;
+    var errorMessage = errorCode || errorThrown;
     activityTracker("error", "", err + ": " + errorMessage + ": search_init WS error");
     $('#loading_image').fadeOut();
 }
 
 /**
- * displays and logs appropriate search WS error message.
+ * Displays and logs appropriate WS error message.
+ * Common error handling method.
  * @param {*} jqXHR
  * @param {*} textStatus
  * @param {*} errorThrown
  */
-function ajaxSearchFailure(jqXHR, textStatus, errorThrown) {
+function ajaxFailure(jqXHR, textStatus, errorThrown) {
+    showJsError = true;
     // getting the appropriate error message from this function in utility.js file
     var err = decideAjaxError(jqXHR.status, textStatus);
-    var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
+    var errorCode = jqXHR.responseText ? JSON.parse(jqXHR.responseText).error_list[0].error_code : null;
+    var errorMessage = errorCode || err;
     displayErrorByCode(errorMessage);
-    activityTracker("error", null, err + ": " + errorMessage);
+    activityTracker("error", id, err + ": " + errorMessage);
     $('#loading_image').fadeOut();
+
+    // if the window.onerror is not triggered then explicitly flip the boolean variable.
+    showJsError = false;
+}
+
+/**
+ * Displays and logs appropriate WS error message.
+ * Common error handling method for LIST pages.
+ * @param {*} jqXHR
+ * @param {*} textStatus
+ * @param {*} errorThrown
+ */
+function ajaxListFailure(jqXHR, textStatus, errorThrown) {
+    showJsError = true;
+    // getting the appropriate error message from this function in utility.js file
+    var err = decideAjaxError(jqXHR.status, textStatus);
+    var errorCode = jqXHR.responseText ? JSON.parse(jqXHR.responseText).error_list[0].error_code : null;
+    var errorMessage = errorCode || err;
+    displayErrorByCode(errorMessage);
+    activityTracker("error", id, err + ": " + errorMessage + " (page: " + page + ", sort: " + sort + ", dir: " + dir + ", limit: " + limit + ")");
+    showJsError = false;
 }
 
 /**
@@ -335,15 +374,17 @@ function ajaxSearchFailure(jqXHR, textStatus, errorThrown) {
  * @return error message.
  */
 function decideAjaxError(jqStatus, textStatus) {
-    var err = '';
-    if (textStatus === 'timeout' || textStatus === 'abort' || textStatus === 'parsererror') {
-        err = textStatus;
-    }
-    else if (jqStatus === 0 || jqStatus === 404 || jqStatus === 500) {
+    var err = textStatus;
+    // if (textStatus === 'timeout' || textStatus === 'abort' || textStatus === 'parsererror') {
+    //     err = textStatus;
+    // }
+    // else 
+    if (jqStatus === 0 || jqStatus === 404 || jqStatus === 500) {
         err = jqStatus;
-    } else {
-        err = textStatus;
     }
+    // else {
+    //     err = textStatus;
+    // }
     return err;
 }
 
@@ -367,16 +408,23 @@ function downloadFromServer(id, format, compressed, type) {
     $('#loading_image').fadeIn();
 
     var mimeType = "text";
+    var ext = "";
     if (format === "csv") {
         mimeType = "text/csv";
+        ext = ".csv";
     } else if (format === "fasta") {
         mimeType = "text/plain";
+        type = "protein_sequence";
+        ext = ".fasta";
     } else if (format === "json") {
         mimeType = "application/json";
+        ext = ".json";
     } else if (format === "image") {
         mimeType = "image/png";
+        ext = ".png";
     } else if (format === "tsv") {
         mimeType = "text/tsv";
+        ext = ".tsv";
     }
 
     $.ajax({
@@ -385,17 +433,20 @@ function downloadFromServer(id, format, compressed, type) {
         url: getWsUrl('data_download') + "?query=" + JSON.stringify(download_query),
         success: function (result) {
             //uses the download.js library.
-            download(result, type + "_" + id, mimeType);        // + "." + format
+            download(result, type + "_" + id + ext, mimeType);        // + "." + format
             activityTracker("user", id, "successful download");
             $('#loading_image').fadeOut();
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            showJsError = true;
             // getting the appropriate error message from this function in utility.js file
             var err = decideAjaxError(jqXHR.status, textStatus);
-            var errorMessage = JSON.parse(jqXHR.responseText).error_list[0].error_code || err;
+            var errorCode = jqXHR.responseText ? JSON.parse(jqXHR.responseText).error_list[0].error_code : null;
+            var errorMessage = errorCode || err;
             displayErrorByCode(errorMessage);
             activityTracker("error", id, "Download error: " + errorMessage);
             $('#loading_image').fadeOut();
+            showJsError = false;
         }
     });
 }
@@ -411,8 +462,20 @@ $(document).on('click', '.gg-download', function (e) {
  * returns date string in MM/DD/YYYY format
  */
 function getDateMMDDYYYY(date) {
-    return date.slice(5, 7) + '/' + date.slice(8, 10) + '/' + date.slice(0, 4);
+    var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+    ];
+
+    var day = date.slice(8, 10);
+    var monthIndex = parseInt(date.slice(5, 7)) - 1;
+    var year = date.slice(0, 4);
+
+    return day + '/' + monthNames[monthIndex] + '/' + year;
 }
+
 
 /**
  * getParameterByName function to Extract query parameters from url
@@ -450,3 +513,28 @@ function populateFromKeyValueStore(controlId, key, prefix, suffix, contentsIndex
         $("#" + controlId).contents()[contentsIndex].data = prefix + jsonData[key].display_name + suffix;
     });
 }
+// for Data and SPARQL link in header page
+$(function () {
+    $("#a_data").attr('href', ws_base_data);
+    //$("#a_sparql").attr('href', ws_base_sparql);
+});
+
+
+// Details pages scrolling to top :
+// function scrollToPanel(hash) {
+//     //to scroll to the particular sub section.
+//     $(hash).next('.cd-faq-content').slideToggle(200).end().parent('li').toggleClass('content-visible');
+//     if ($(window).width() < 768) { //mobile view
+//         $('.cd-faq-items').scrollTop(0).addClass('slide-in').children('ul').removeClass('selected').end().children(hash).addClass('selected');
+//         $('.cd-close-panel').addClass('move-left');
+//         $('body').addClass('cd-overlay');
+//     } else {
+//         $('body,html').animate({
+//             'scrollTop': $(hash).offset().top - 19
+//         }, 200);
+//     }
+// }
+
+// if (window.location.hash) {
+//     scrollToPanel(window.location.hash);
+// }

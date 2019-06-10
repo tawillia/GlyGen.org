@@ -144,7 +144,7 @@ p {
     color: #AFD9FD !important;
 }
 
-.nav li.current a {
+.nav li.current > a {
     margin-right: -15px;
     margin-left: -15px;
 }
@@ -211,9 +211,11 @@ p {
     z-index: 9;
 }
 
+/*
 .copyrights {
     padding-bottom: 10px;
 }
+*/
 
 .grant {
     padding-bottom: 10px;
@@ -221,7 +223,11 @@ p {
 
 .policy ul li {
     display: inline;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
+}
+
+.policy-li {
+    padding: 0;
 }
 
 .logos {
@@ -229,14 +235,14 @@ p {
     padding-bottom: 10px;
 }
 
-.copyrights a,
+/*.copyrights a,*/
 .grant a,
 .policy ul li a {
     color: #AFD9FD;
     padding-bottom: 5px;
 }
 
-.copyrights a:hover,
+/*.copyrights a:hover,*/
 .grant a:hover,
 .policy ul li a:hover {
     color: #57AFFA;
@@ -554,7 +560,7 @@ label.labelContactUs {
 
 .about-block {
     padding-top: 10px;
-    ;
+
     padding-right: 80px;
     padding-left: 80px;
     padding-bottom: 10px;
@@ -911,12 +917,19 @@ ____________________________________  */
     min-width: 250px !important;
     margin-right: 3%;
     padding: 6%;
-   font-size: 10px !important;
+    font-size: 10px !important;
 /*    padding-right: 2%;*/
 }
 
 .dropdown-menu-detail {
     padding: 2%;
+}
+
+.dropdown-menu-box {
+    min-width: 220px !important;
+    padding: 15px;
+    font-size: 10px;
+    width: auto;
 }
 
 .dropdown-menu-motif {
@@ -931,18 +944,20 @@ ____________________________________  */
 }
 
 .dropdown-menu {
-  min-width: 160px;
-  margin-right: 2.2%;
+    min-width: 160px;
+    margin-right: 2.2%;
 }
 .gg-download {
-  box-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 12px;
 /*  margin-bottom: 1em;*/
 /*  margin-bottom: -30px;*/
 }
-@media (max-width: 700px) {
+@media only screen and (max-width: 700px) {
     .gg-download5 {
     padding-right: 10%;
   } 
+    
 }
 @media only screen and (min-width: 1301px) and (max-width: 1900px) {
   .gg-download5 {
@@ -1004,7 +1019,7 @@ ____________________________________  */
     } 
 }
 
-@media (max-width: 768px) {
+@media only screen and (max-width: 768px) {
     body  {
         margin-bottom: 15%;
     }
@@ -1036,7 +1051,7 @@ ____________________________________  */
     } 
 }
 
-@media (max-width: 700px) {
+@media only screen and (max-width: 700px) {
     .gg-settings {
         width: auto;
         margin: 0 auto;
@@ -1045,6 +1060,12 @@ ____________________________________  */
     }
     .btn-link-detail {
         margin-bottom: 3%;
+    }
+    .about-block {
+        padding: 10px 15px;
+    }
+    #top-heading {
+        padding: 0 15px;
     }
 }
 
@@ -1081,3 +1102,39 @@ ____________________________________  */
 @media (max-width: 320px) {
     
 }
+
+/* --- css for breadcrumb starts --- */
+/* Style the list */
+ul.gg-breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #eee;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+  
+  /* Display list items side by side */
+  ul.gg-breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+  
+  /* Add a slash symbol (/) before/behind each list item */
+  ul.gg-breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+  
+  /* Add a color to all links inside the list */
+  ul.gg-breadcrumb li a {
+    color: rgb(94, 108, 132);
+    text-decoration: none;
+  }
+  
+  /* Add a color on mouse-over */
+  ul.gg-breadcrumb li a:hover {
+    color: rgb(94, 108, 132);/*#01447e;*/
+    text-decoration: underline !important;
+  }
+  /* --- css for breadcrumb ends --- */

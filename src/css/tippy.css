@@ -22,11 +22,8 @@
 [data-tippy]:before {
     content: attr(data-tippy);
     color: #fff;
-/*    color: #2F78B7;*/
     font-size: 16px;
     background-color: #666;
-/*    background-color: #fff;*/
-/*    border: 1px solid #2F78B7;*/
     z-index: 2;
     padding: 3px 6px;
     border-radius: 3px;
@@ -37,9 +34,8 @@
 
 [data-tippy]:after {
     content: '';
-    border: 5px solid transparent;
+/*    border: 5px solid transparent;*/
     border-bottom-color: #666;
-/*    border-bottom-color: #2F78B7;*/
 }
 
 [data-tippy]:hover:before,

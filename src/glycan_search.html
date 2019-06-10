@@ -28,7 +28,7 @@
 
     <title>Glycan search - glygen</title>
     <!-- CSS for UI Typeahead -->
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
     <!--This does not work as downloaded version so UI using this as CDN for font.css-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
         crossorigin="anonymous">
@@ -37,6 +37,7 @@
     <!-- CSS for tippy tooltip -->
 <!--    <link rel="stylesheet" type="text/css" href="css/tippy.min.css">-->
     <link rel="stylesheet" type="text/css" href="css/tippy.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
         <!--detail style -->
     <link rel="stylesheet" type="text/css" href="css/detail.css">
     
@@ -47,8 +48,6 @@
     
       <!-- CSS for search page -->
     <link rel="stylesheet" type="text/css" href="css/search.css">
-<!-- List.css makes alertify pop up error message look desabled but still functional-->
-<!--    <link rel="stylesheet" type="text/css" href="css/list.css">-->
     <!-- CSS for alertify -->
     <link rel="stylesheet" type="text/css" href="css/alertify.css">
     <!-- CSS for sliderUI-->
@@ -56,6 +55,7 @@
     <!-- CSS for all pages-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/server.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/icons/favicomatic/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icons/favicomatic/apple-touch-icon-114x114.png" />
@@ -87,13 +87,7 @@
 <script src="libraries/w3.js"></script>
 <div w3-include-html="header.html"></div>
 <script>w3.includeHTML();</script>
-<style>
-    @media (min-width: 1280px) {
-  .modal-lg {
-    width: 1000px;
-  }
-}
-</style>
+
 <h2 class="page-heading" style="text-align: center"> Glycan Search </h2>
 
 <div class="container">
@@ -116,6 +110,7 @@
                         </li>
                     </ul>
                     <div class="tab-content container">
+                        <div class="alert alert-danger" style="display: none;"><strong>No Results Found</strong><br>Sorry, we couldn't find any data matching your input. Please change your search term and try again.</div>
                         <!-- Start Tab 1 Simplified search -->
                         <div class="tab-pane fade in active" id="simple_search">
                             <div class="container">
@@ -158,18 +153,18 @@
                                                 value="Search Glycan"
                                                 onclick="submitvalues()">
                                         </div>
-
                                         <!-- GlyTouCan Accession -->
                                         <div class="row">
                                             <label id="lbl_glytoucan_acc" class="control-label col-sm-4" for="glycan_id">
-                                                <span><a href="javascript://"
-                                                    title="GlyTouCan Accession"  
-                                                    data-toggle="popover"
+                                                <span><a class="link-with-tooltip" href="javascript://"
+                                                    tooltip-title="Unique accessions assigned to the registered glycan structures in GlyTouCan database. <br><br> Enter complete or partial GlyTouCan Accession of your glycan." 
+                                                    title="GlyTouCan Accession" 
+                                                    data-content="Unique accessions assigned to the registered glycan structures in GlyTouCan database. <br><br> Enter complete or partial GlyTouCan Accession of your glycan. Explore <a href='https://glytoucan.org/Structures/graphical' target='_blank'>GlyTouCan</a>"
                                                     data-placement="top"
                                                     data-trigger="click"
                                                     data-html="true" 
-                                                    data-content="Enter complete or partial GlyTouCan Accession of your glycan. Explore <a href='https://glytoucan.org/Structures/graphical' target='_blank'>GlyTouCan Accession</a>"
-                                                    data-tippy="Help">
+                                                    data-toggle="popover" 
+                                                    >
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> 
                                             </label>
@@ -196,13 +191,14 @@
                                         <div class="gg-form-group row">
                                             <div>
                                                 <label id="lbl_monoiso_mass" class="control-label col-sm-4">
-                                                    <span><a 
+                                                    <span><a class="link-with-tooltip" 
                                                         href="javascript://" 
+                                                        data-html="true" 
                                                         title="Monoisotopic Mass"
                                                         data-toggle="popover" 
                                                         data-placement="top"
-                                                        data-content="Use the sliders to select a Monoisotopic Mass range for your protein(s)"
-                                                        data-tippy="Help">
+                                                        data-content="The monoisotopic mass is the sum of the masses of the atoms in a molecule. <br><br>Use the sliders to select a Monoisotopic Mass range for your protein(s)"
+                                                        tooltip-title="The monoisotopic mass is the sum of the masses of the atoms in a molecule. <br><br>Use the sliders to select a Monoisotopic Mass range for your protein(s)">
                                                         <i class="far fa-question-circle help-sign"></i></a>
                                                     </span>
                                                 </label>
@@ -226,13 +222,13 @@
                                         <div class="gg-form-group row">
                                             <div>
                                                 <label class="control-label col-sm-4">
-                                                    <span><a 
+                                                    <span><a class="link-with-tooltip" 
                                                         href="javascript://" 
                                                         title="Number of Sugars"
                                                         data-toggle="popover" 
                                                         data-placement="top"
                                                         data-content="Use the sliders to select a Number of Sugars range for your protein(s)"
-                                                        data-tippy="Help">
+                                                        tooltip-title="Use the sliders to select a Number of Sugars range for your protein(s)">
                                                         <i class="far fa-question-circle help-sign"></i></a>
                                                     </span>Number of Sugars:
                                                 </label>
@@ -256,10 +252,11 @@
                                         <div class="gg-form-group row">
                                             <label class="control-label col-sm-4" for="species">
                                                 <span>
-                                                    <a href="javascript://" title="Organism" data-toggle="popover"
+                                                    <a class="link-with-tooltip" href="javascript://" title="Organism" data-toggle="popover"
                                                         data-placement="top" 
-                                                        data-content="Click to select an Organism that makes your glycan(s)"
-                                                        data-tippy="Help">
+                                                        data-html="true"
+                                                        data-content="An individual animal, plant, or single-celled life form. <br><br>Click to select an Organism that makes your glycan(s)."
+                                                        tooltip-title="An individual animal, plant, or single-celled life form. <br><br>Click to select an Organism that makes your glycan(s).">
                                                         <i class="far fa-question-circle help-sign"></i>
                                                     </a>
                                                 </span> Organism:</label>
@@ -273,13 +270,14 @@
                                         <!-- Glycan type-->
                                         <div class="gg-form-group row">
                                             <label class="control-label col-sm-4" for="ddl">
-                                                <span><a 
+                                                <span><a class="link-with-tooltip" 
                                                     href="javascript://" 
                                                     title="Glycan Type" 
                                                     data-toggle="popover"
+                                                    data-html="true" 
                                                     data-placement="top" 
-                                                    data-content="Click to select a Glycan Type"
-                                                    data-tippy="Help">
+                                                    data-content="The classification of glycan based on the nature of the sugar–peptide bond and the oligosaccharide attached. <br><br>Click to select a Glycan Type."
+                                                    tooltip-title="The classification of glycan based on the nature of the sugar–peptide bond and the oligosaccharide attached.<br><br>Click to select a Glycan Type.">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Glycan Type:
                                             </label>
@@ -293,13 +291,14 @@
                                         <!-- Glycan subtype-->
                                         <div id="showSubtype" class="gg-form-group row" style="display: none;">
                                             <label class="control-label col-sm-4" for="ddl2">
-                                                <span><a 
+                                                <span><a class="link-with-tooltip" 
                                                     href="javascript://" 
                                                     title="Glycan Subtype" 
                                                     data-toggle="popover"
                                                     data-placement="top" 
-                                                    data-content="Click to select a Glycan Subtype"
-                                                    data-tippy="Help">
+                                                    data-html="true"
+                                                    data-content="Subclassifcation of Glycan types. <br><br> Click to select a Glycan Subtype"
+                                                    tooltip-title="Subclassifcation of Glycan types. <br><br> Click to select a Glycan Subtype">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Glycan Subtype:
                                             </label>
@@ -312,14 +311,14 @@
                                         <!-- UniProtKB Accession-->
                                         <div class="row">
                                             <label class="control-label col-sm-4" for="protein">
-                                                <span><a href="javascript://" 
+                                                <span><a class="link-with-tooltip" href="javascript://" 
                                                     title="Glycosylated Protein"
                                                     data-toggle="popover" 
                                                     data-placement="top"
                                                     data-trigger="click"
                                                     data-html="true"
-                                                    data-content="Enter the UniProtKB Accession for a  protein that bears your glycan. Explore <a href='https://www.uniprot.org/' target='_blank'>UniProtKB</a>"
-                                                    data-tippy="Help">
+                                                    data-content="A unique identifier assigned to a isoform chosen to be the canonical sequence in UniProt database. <br><br> Enter the UniProtKB Accession for a  protein that bears your glycan. Explore <a href='https://www.uniprot.org/' target='_blank'>UniProtKB</a>"
+                                                    tooltip-title="A unique identifier assigned to a isoform chosen to be the canonical sequence in UniProt database. <br><br> Enter the UniProtKB Accession for a  protein that bears your glycan.">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Glycosylated Protein:
                                             </label>
@@ -347,14 +346,14 @@
                                         <!-- Glycan Motif -->
                                         <div class="gg-form-group row">
                                             <label class="control-label col-sm-4" for="motif">
-                                                <span><a href="javascript://" 
+                                                <span><a class="link-with-tooltip" href="javascript://" 
                                                     title="Glycan Motif" 
                                                     data-toggle="popover"
                                                     data-placement="top" 
                                                     data-trigger="click"
                                                     data-html="true"
-                                                    data-content="Enter a Glycan Motif comprising part of your glycan(s). Explore <a href='https://www.uniprot.org/help/carbohyd' target='_blank'>Glycan Motif</a>"
-                                                    data-tippy="Help">
+                                                    data-content="A “motif” refers to a substructure that appears in multiple glycans including O and N glycans.  <br><br>Enter a Glycan Motif comprising part of your glycan(s). Explore <a href='https://www.uniprot.org/help/carbohyd' target='_blank'>Glycan Motif</a>"
+                                                    tooltip-title="A “motif” refers to a substructure that appears in multiple glycans including O and N glycans.  <br><br>Enter a Glycan Motif comprising part of your glycan(s).">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Glycan Motif:
                                             </label>
@@ -382,14 +381,14 @@
                                         <!-- Biosynthetic Enzyme -->
                                         <div class="gg-form-group row">
                                             <label class="control-label col-sm-4" for="enzyme">
-                                                <span><a href="javascript://" 
+                                                <span><a class="link-with-tooltip" href="javascript://" 
                                                     title="Biosynthetic Enzyme" 
                                                     data-toggle="popover"
                                                     data-placement="top" 
                                                     data-trigger="click"
                                                     data-html="true"
-                                                    data-content="Enter the Gene Name of an enzyme that particpates in the biosynthesis of your glycan(s). Explore <a href='https://enzyme.expasy.org/' target='_blank'>Biosynthetic Enzyme</a>"
-                                                    data-tippy="Help">
+                                                    data-content="Biosynthetic enzymes are enzymes involved in metabolism pathways that convert and modify simple compounds to complex coumpounds and macromolecules. <br><br>Enter the Gene Name of an enzyme that particpates in the biosynthesis of your glycan(s). Explore <a href='https://enzyme.expasy.org/' target='_blank'>Biosynthetic Enzyme</a>"
+                                                    tooltip-title="Biosynthetic enzymes are enzymes involved in metabolism pathways that convert and modify simple compounds to complex coumpounds and macromolecules. <br><br>Enter the Gene Name of an enzyme that particpates in the biosynthesis of your glycan(s).">
                                                     <i class="far fa-question-circle help-sign"></i></a>
                                                 </span> Biosynthetic Enzyme:</label>
                                             <div class="col-sm-8">
@@ -422,6 +421,7 @@
                                                 value="Search Glycan" onclick="submitvalues()" style="float: right; margin: 0 15px 20px;">
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -546,7 +546,7 @@
 <!-- script for Bootstrap -->
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
 <!-- CSS for UI  -->
-<script type="text/javascript" src="libraries/jquery/1.10.1-jquery-ui.js"></script>
+<script type="text/javascript" src="libraries/jquery/jquery-ui.js"></script>
 <!-- script for tippy library tooltip-->
 <!--<script type="text/javascript" src="libraries/tippy.all.min.js"></script>-->
 <!-- script for range bar to work-->
@@ -570,6 +570,7 @@
 
 <!-- script for error handling alerts -->
 <script type="text/javascript" src="libraries/alertify.js"></script>
+<script type="text/javascript" src="libraries/contact.js"></script>
 <!-- script for error-message/header-footer js -->
 <script src="js/utility.js"></script>
 <!-- script for editing users search  -->
@@ -579,9 +580,23 @@
 <script src="js/text_example.js"></script>
 
 <script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-});
+//$(document).ready(function(){
+//    $('[data-toggle="tooltip"]').tooltip();   
+//});
+    
+    
+//    $('a').each(function() {
+//  $(this).popover({    
+//    content : $(this).attr("popover-content"),
+//    title : $(this).attr("popover-title")         
+//  });    
+//  $(this).tooltip({    
+//    placement : 'bottom',  
+//    content : $(this).attr("tooltip-title")
+//  });
+//    $(this).tooltip('option', 'tooltipClass', 'tooltip-custom')
+//})
+
 </script>
 
 </body>
